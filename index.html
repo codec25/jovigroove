@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090b10" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <title>JoviGroove | Rhythm Artist Portfolio</title>
+  <meta name="description" content="JoviGroove — drummer, street dance performer, and rhythm artist based in Ottawa-Gatineau." />
+  <style>
+    :root {
+      --bg: #090b10;
+      --panel: #11151d;
+      --panel-2: #171c26;
+      --text: #eef2ff;
+      --muted: #9aa4bd;
+      --line: rgba(255,255,255,0.08);
+      --gold: #f3b33d;
+      --gold-2: #ffcb6b;
+      --blue: #5aa7ff;
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(90,167,255,0.12), transparent 28%),
+        radial-gradient(circle at top left, rgba(243,179,61,0.16), transparent 24%),
+        linear-gradient(180deg, #07090d 0%, #0b0f16 100%);
+      line-height: 1.55;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .wrap { width: min(var(--max), calc(100% - 28px)); margin: 0 auto; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      background: rgba(9,11,16,0.7);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(243,179,61,0.2), rgba(90,167,255,0.18));
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--gold-2);
+      box-shadow: var(--shadow);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      padding: 11px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #111;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+    }
+
+    .menu-toggle {
+      display: none;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .hero {
+      padding: 72px 0 40px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold-2);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      border: 1px solid rgba(243,179,61,0.24);
+      border-radius: 999px;
+      background: rgba(243,179,61,0.08);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5.6rem);
+      line-height: 0.95;
+      margin: 0 0 18px;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 620px;
+      margin: 0 0 26px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .btn {
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-weight: 800;
+      border: 1px solid transparent;
+      transition: 0.22s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #101114;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.03);
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 640px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.35rem;
+      color: var(--gold-2);
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 580px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(17,21,29,0.12), rgba(17,21,29,0.92)),
+        url('drum.jpg') center/cover no-repeat;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: auto 18px 18px 18px;
+      background: rgba(9,11,16,0.72);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 22px;
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-overlay h3 {
+      margin: 0 0 8px;
+      font-size: 1.25rem;
+    }
+
+    .hero-overlay p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    section {
+      padding: 34px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 620px;
+    }
+
+    .about-card,
+    .service-card,
+    .media-card,
+    .testimonial,
+    .booking-card,
+    .contact-card,
+    .cta-band {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .about-card {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 26px;
+      overflow: hidden;
+    }
+
+    .about-image {
+      min-height: 380px;
+      background: linear-gradient(180deg, rgba(8,10,14,0.25), rgba(8,10,14,0.55)), url('drum.jpg') center/cover no-repeat;
+    }
+
+    .about-copy {
+      padding: 28px;
+    }
+
+    .about-copy h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+
+    .about-copy p { color: var(--muted); }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .chip {
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      color: #dfe7ff;
+      font-size: 0.92rem;
+    }
+
+    .services-grid,
+    .media-grid,
+    .testimonials-grid,
+    .footer-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .services-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .service-card {
+      padding: 22px;
+    }
+
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, rgba(243,179,61,0.18), rgba(90,167,255,0.18));
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--gold-2);
+      font-weight: 900;
+    }
+
+    .service-card h3 { margin: 0 0 8px; }
+    .service-card p { margin: 0 0 12px; color: var(--muted); }
+    .service-card ul {
+      padding-left: 18px;
+      margin: 0;
+      color: #d7def4;
+    }
+
+    .service-card li + li { margin-top: 8px; }
+
+    .media-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .media-card {
+      overflow: hidden;
+    }
+
+    .media-thumb {
+      aspect-ratio: 16 / 10;
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55)),
+        url('drum.jpg') center/cover no-repeat;
+    }
+
+    .media-card:nth-child(2) .media-thumb {
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55)),
+        url('hiphop-session.jpg') center/cover no-repeat;
+    }
+
+    .media-card:nth-child(3) .media-thumb {
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55)),
+        url('drum.jpg') center/cover no-repeat;
+    }
+
+    .media-copy {
+      padding: 18px;
+    }
+
+    .media-copy h3 {
+      margin: 0 0 6px;
+      font-size: 1.08rem;
+    }
+
+    .media-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .media-copy .btn {
+      margin-top: 14px;
+    }
+
+    .class-spotlight {
+      padding: 0;
+    }
+
+    .class-spotlight-card {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(243,179,61,0.10), rgba(90,167,255,0.08));
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .class-spotlight-image {
+      min-height: 520px;
+      background: linear-gradient(180deg, rgba(8,10,14,0.15), rgba(8,10,14,0.55)), url('hiphop-session.jpg') center/cover no-repeat;
+    }
+
+    .class-spotlight-copy {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .spotlight-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold-2);
+      border: 1px solid rgba(243,179,61,0.22);
+      background: rgba(243,179,61,0.08);
+      margin-bottom: 16px;
+    }
+
+    .class-spotlight-copy h2 {
+      margin: 0 0 10px;
+      font-size: clamp(2.1rem, 4vw, 3.7rem);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+    }
+
+    .class-spotlight-copy p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 560px;
+    }
+
+    .spotlight-points {
+      display: grid;
+      gap: 12px;
+      margin: 10px 0 22px;
+    }
+
+    .spotlight-points div {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      color: #dfe7ff;
+    }
+
+    .spotlight-points strong {
+      color: var(--gold-2);
+    }
+
+    .spotlight-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .testimonials-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .testimonial {
+      padding: 22px;
+    }
+
+    .testimonial p {
+      margin: 0 0 16px;
+      color: #dfe5f8;
+    }
+
+    .testimonial strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .testimonial span { color: var(--muted); font-size: 0.92rem; }
+
+    .booking-card {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .booking-copy {
+      padding: 28px;
+      border-right: 1px solid var(--line);
+    }
+
+    .booking-copy h3 {
+      margin-top: 0;
+      font-size: 1.6rem;
+    }
+
+    .booking-copy p,
+    .booking-copy li { color: var(--muted); }
+
+    .booking-copy ul {
+      margin: 18px 0 0;
+      padding-left: 18px;
+    }
+
+    .booking-form {
+      padding: 28px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      font-weight: 700;
+      color: #d6def6;
+      font-size: 0.92rem;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 13px 14px;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: rgba(243,179,61,0.6);
+      box-shadow: 0 0 0 3px rgba(243,179,61,0.12);
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    .cta-band {
+      padding: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .cta-band h3 {
+      margin: 0 0 6px;
+      font-size: 1.4rem;
+    }
+
+    .cta-band p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .contact-card {
+      padding: 24px;
+    }
+
+    .pricing-grid,
+    .social-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .price-card,
+    .social-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .price-card {
+      padding: 24px;
+    }
+
+    .price-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .price-amount {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: var(--gold-2);
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    .price-card p {
+      color: var(--muted);
+      margin: 0 0 14px;
+    }
+
+    .price-card ul {
+      margin: 0 0 18px;
+      padding-left: 18px;
+      color: #dfe7ff;
+    }
+
+    .price-card ul li + li {
+      margin-top: 8px;
+    }
+
+    .social-card {
+      padding: 0;
+    }
+
+    .social-preview {
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 1.15rem;
+      color: #fff;
+      background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.55)), url('drum.jpg') center/cover no-repeat;
+    }
+
+    .social-card:nth-child(2) .social-preview {
+      background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.55)), url('hiphop-session.jpg') center/cover no-repeat;
+    }
+
+    .social-card:nth-child(3) .social-preview {
+      background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.55)), url('drum.jpg') center/cover no-repeat;
+    }
+
+    .social-copy {
+      padding: 18px;
+    }
+
+    .social-copy h3 {
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+    }
+
+    .social-copy p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    .footer-grid {
+      grid-template-columns: 1.1fr 0.9fr 0.9fr;
+      align-items: start;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .contact-item {
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+    }
+
+    .contact-item small {
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    footer {
+      padding: 12px 0 38px;
+    }
+
+    .footer-bottom {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 0.92rem;
+    }
+
+    .floating-book-btn {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 120;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #101114;
+      font-weight: 900;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .floating-book-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 44px rgba(0,0,0,0.42);
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .about-card,
+      .booking-card,
+      .footer-grid,
+      .services-grid,
+      .media-grid,
+      .testimonials-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-card,
+      .about-image { min-height: 420px; }
+
+      .booking-copy { border-right: 0; border-bottom: 1px solid var(--line); }
+    }
+
+    @media (max-width: 900px) {
+      .class-spotlight-card {
+        grid-template-columns: 1fr;
+      }
+
+      .class-spotlight-image {
+        min-height: 360px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav-inner,
+      .section-head,
+      .cta-band,
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-inner {
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .nav-top {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav-links {
+        display: none;
+        width: 100%;
+        gap: 10px;
+        padding-top: 10px;
+      }
+
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .nav-links .nav-cta {
+        text-align: center;
+      }
+
+      .hero-grid,
+      .about-card,
+      .services-grid,
+      .media-grid,
+      .testimonials-grid,
+      .booking-card,
+      .footer-grid,
+      .hero-stats,
+      .form-grid,
+      .pricing-grid,
+      .social-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 40px;
+      }
+
+      .hero-card { min-height: 430px; }
+      .about-image { min-height: 300px; }
+      .container, .wrap { width: min(var(--max), calc(100% - 20px)); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <div class="nav-top">
+        <a href="#top" class="brand">
+          <span class="brand-badge">JG</span>
+          <span>JoviGroove</span>
+        </a>
+        <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">Menu</button>
+      </div>
+      <div class="nav-links" id="mainNav">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#media">Media</a>
+        <a href="#booking">Booking</a>
+        <a href="#contact" class="nav-cta">Book Jovi</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">Rhythm Artist • Drummer • Street Dance Performer</div>
+          <h1>JOVI<span style="color: var(--gold-2);">GROOVE</span></h1>
+          <p>
+            Live rhythm. Movement. Energy. JoviGroove is a performance-driven artist brand built for
+            drum lessons, dance workshops, live sessions, and unforgettable stage presence in the
+            Ottawa–Gatineau area and beyond.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#booking">Book a Session</a>
+            <a class="btn btn-primary" href="https://codec25.github.io/PsalmistVibeSpace/rhythm_practice.html" target="_blank">Rudiment Drill</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>Drums</strong>
+              <span>Private lessons, live rhythm, groove training</span>
+            </div>
+            <div class="stat">
+              <strong>Dance</strong>
+              <span>Hip-hop, popping, freestyle movement and workshops</span>
+            </div>
+            <div class="stat">
+              <strong>Events</strong>
+              <span>Collaborations, sessions, stage appearances, community work</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-card" aria-label="JoviGroove visual banner">
+          <div class="hero-overlay">
+            <h3>Watch Performances</h3>
+            <p>
+              Click here to watch JoviGroove live on drums and see the rhythm in action.
+            </p>
+            <a class="btn btn-primary" href="#media">Watch Performances</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>About JoviGroove</h2>
+          </div>
+          <p>
+            This section should make people feel your identity fast: a skilled rhythm artist with stage
+            energy, teaching ability, and a real creative presence.
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-image" aria-hidden="true"></div>
+          <div class="about-copy">
+            <h3>Rhythm that moves people</h3>
+            <p>
+              JoviGroove is the artist portfolio of Jovi — a drummer, street dance performer, and rhythm
+              creative based in the Ottawa–Gatineau region. From live playing to workshops and creative
+              collaborations, the mission is simple: bring movement, groove, precision, and life to every room.
+            </p>
+            <p>
+              Whether performing on stage, teaching students, or building strong artistic experiences, Jovi
+              brings a mix of musicality, discipline, and expressive energy that people remember.
+            </p>
+            <div class="chips">
+              <span class="chip">Ottawa / Gatineau</span>
+              <span class="chip">Bilingual EN / FR</span>
+              <span class="chip">Drum Lessons</span>
+              <span class="chip">Dance Workshops</span>
+              <span class="chip">Live Sessions</span>
+              <span class="chip">Creative Collaborations</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>What Jovi Offers</h2>
+          </div>
+          <p>
+            Keep these offers clean and direct. People should know in seconds how they can hire you.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="service-icon">01</div>
+            <h3>Private Drum Lessons</h3>
+            <p>One-on-one coaching focused on groove, timing, expression, and musical confidence.</p>
+            <ul>
+              <li>Beginner to intermediate friendly</li>
+              <li>Technique, timing, fills, and pocket</li>
+              <li>In-person or custom format</li>
+            </ul>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">02</div>
+            <h3>Dance Workshops</h3>
+            <p>High-energy sessions in hip-hop, popping, freestyle, rhythm drills, and performance movement.</p>
+            <ul>
+              <li>Community classes and groups</li>
+              <li>Foundations + performance feel</li>
+              <li>Events, schools, and creatives</li>
+            </ul>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">03</div>
+            <h3>Live Sessions</h3>
+            <p>Reliable drumming support for concerts, churches, showcases, and collaborative music settings.</p>
+            <ul>
+              <li>Live groove and stage support</li>
+              <li>Professional rhythm presence</li>
+              <li>Flexible event discussions</li>
+            </ul>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">04</div>
+            <h3>Creative Collaborations</h3>
+            <p>Open to rhythm-based projects, artistic concepts, performance partnerships, and culture events.</p>
+            <ul>
+              <li>Artists and organizers welcome</li>
+              <li>Community and brand activations</li>
+              <li>Built around movement and impact</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="class-spotlight">
+      <div class="wrap">
+        <div class="class-spotlight-card">
+          <div class="class-spotlight-image" aria-label="Saturday hip-hop classes poster"></div>
+          <div class="class-spotlight-copy">
+            <div class="spotlight-tag">Featured Class</div>
+            <h2>Hip-Hop Saturdays<br><span style="color: var(--gold-2);">Spring 2026</span></h2>
+            <p>
+              A weekly hip-hop groove session with Jovi built to help people move with rhythm, confidence, swag, and real musical feel.
+            </p>
+            <div class="spotlight-points"></div>
+            <p style="margin: 0 0 20px; color: var(--muted); font-size: 0.98rem;">
+              Hosted with <strong style="color: var(--gold-2);">Golden Flame</strong> — a local studio offering hip-hop and a variety of social dance classes.
+              <a href="https://www.goldenflamedance.ca" target="_blank" style="color: var(--gold-2); font-weight: 800;">Visit goldenflamedance.ca</a>
+            </p>
+            <div class="spotlight-actions">
+              <a class="btn btn-primary" href="https://checkout.square.site/merchant/MLR5QT525GNDC/checkout/U4YNDJ72FO7AH6XC7J6VWNOJ?src=sheet" target="_blank">Reserve Your Spot</a>
+              <a class="btn btn-secondary" href="#contact">Ask a Question</a>
+              <a class="btn btn-secondary" href="#booking">Book Private Session</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="media">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Featured Performances</h2>
+          </div>
+          <p>
+            Replace these cards with your real YouTube videos, Instagram reels, or embedded clips. This is where people believe the brand.
+          </p>
+        </div>
+
+        <div class="media-grid">
+          <article class="media-card">
+            <div class="media-thumb">Performance Reel</div>
+            <div class="media-copy">
+              <h3>Stage Energy Reel</h3>
+              <p>A short highlight video showing your strongest drumming, movement, and artist identity.</p>
+            </div>
+          </article>
+
+          <article class="media-card">
+            <a href="https://checkout.square.site/merchant/MLR5QT525GNDC/checkout/U4YNDJ72FO7AH6XC7J6VWNOJ?src=sheet" target="_blank"><div class="media-thumb" style="background:url('hiphop-session.jpg') center/cover no-repeat, linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55));">Saturday Hip‑Hop Session</div></a>
+            <div class="media-copy">
+              <h3>Saturday Hip‑Hop Classes</h3>
+              <p>Weekly hip‑hop groove session with Jovi. Every Saturday — Spring 2026.</p>
+              <a class="btn btn-primary" href="https://checkout.square.site/merchant/MLR5QT525GNDC/checkout/U4YNDJ72FO7AH6XC7J6VWNOJ?src=sheet" target="_blank">Reserve Your Spot</a>
+            </div>
+          </article>
+
+          <article class="media-card">
+            <div class="media-thumb">Live Session</div>
+            <div class="media-copy">
+              <h3>Drum Performance</h3>
+              <p>Use one real clip that proves you can hold a room, support artists, and create movement.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>What People Feel</h2>
+          </div>
+          <p>
+            Add real testimonials later from students, organizers, churches, collaborators, or event leaders.
+          </p>
+        </div>
+
+        <div class="testimonials-grid">
+          <article class="testimonial">
+            <p>“Jovi brings real energy. The rhythm is strong, the presence is strong, and people feel it immediately.”</p>
+            <strong>Event Organizer</strong>
+            <span>Live Performance Booking</span>
+          </article>
+
+          <article class="testimonial">
+            <p>“The lessons are clear, musical, and practical. You can tell he cares about growth, not just showing off.”</p>
+            <strong>Student / Parent</strong>
+            <span>Private Drum Coaching</span>
+          </article>
+
+          <article class="testimonial">
+            <p>“Whether on drums or in movement, Jovi carries rhythm in a way that makes people pay attention.”</p>
+            <strong>Creative Collaborator</strong>
+            <span>Workshop / Showcase</span>
+          </article>
+        </div>
+
+        <div class="cta-band">
+          <div>
+            <h3>Turn your Instagram traffic into real bookings</h3>
+            <p>Use your reels to attract attention, then send people here so they can trust you, watch you, and book you.</p>
+          </div>
+          <a href="#booking" class="btn btn-primary">Start Booking</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="booking">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Book JoviGroove</h2>
+          </div>
+          <p>
+            This layout is built to look legit even before you connect Formspree or your backend. It already gives you the right structure.
+          </p>
+        </div>
+
+        <div class="booking-card">
+          <div class="booking-copy">
+            <h3>Let’s build the right rhythm experience</h3>
+            <p>
+              Use this booking section for private lessons, dance workshops, live sessions, performance collaborations,
+              or artist inquiries. Keep the form simple so people actually complete it.
+            </p>
+            <ul>
+              <li>Fast for clients to fill out</li>
+              <li>Clear enough for serious bookings</li>
+              <li>Easy to connect to Formspree, Netlify Forms, or EmailJS</li>
+            </ul>
+          </div>
+
+          <form class="booking-form">
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" type="text" placeholder="Your full name" />
+              </div>
+
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" type="email" placeholder="your@email.com" />
+              </div>
+
+              <div class="field">
+                <label for="service">Service</label>
+                <select id="service">
+                  <option>Private Drum Lesson</option>
+                  <option>Dance Workshop</option>
+                  <option>Live Session</option>
+                  <option>Creative Collaboration</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="city">City / Area</label>
+                <input id="city" type="text" placeholder="Ottawa, Gatineau, or other" />
+              </div>
+
+              <div class="field full">
+                <label for="message">Tell me what you need</label>
+                <textarea id="message" placeholder="Lesson goals, event details, dates, collaboration idea, or workshop request"></textarea>
+              </div>
+            </div>
+            <a href="#contact" class="btn btn-primary">Send Booking Request</a>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Drum Lesson Pricing</h2>
+          </div>
+          <p>
+            Keep your rates simple, visible, and easy to understand so serious students can move fast.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="price-card">
+            <div class="price-label">30 Minutes</div>
+            <div class="price-amount">$28</div>
+            <p>Quick focused session for groove, timing, and foundational progress.</p>
+            <ul>
+              <li>Great for beginners</li>
+              <li>Technique and timing focus</li>
+              <li>Easy weekly commitment</li>
+            </ul>
+            <a class="btn btn-primary" href="#booking">Book 30 Min</a>
+          </article>
+
+          <article class="price-card">
+            <div class="price-label">45 Minutes</div>
+            <div class="price-amount">$40.31</div>
+            <p>Balanced session length for solid learning, groove work, and practical development.</p>
+            <ul>
+              <li>Most versatile option</li>
+              <li>Technique + musical application</li>
+              <li>Better room for questions</li>
+            </ul>
+            <a class="btn btn-primary" href="#booking">Book 45 Min</a>
+          </article>
+
+          <article class="price-card">
+            <div class="price-label">60 Minutes</div>
+            <div class="price-amount">$53</div>
+            <p>Full deep-dive lesson for students who want more structure, reps, and coaching time.</p>
+            <ul>
+              <li>Best for dedicated students</li>
+              <li>More drills and application</li>
+              <li>Ideal for faster progress</li>
+            </ul>
+            <a class="btn btn-primary" href="#booking">Book 60 Min</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="social">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Instagram Highlights</h2>
+          </div>
+          <p>
+            Use this section to send people toward your strongest clips, class posts, and artist moments.
+          </p>
+        </div>
+
+        <div class="social-grid">
+          <article class="social-card">
+            <div class="social-preview">Drum Reel</div>
+            <div class="social-copy">
+              <h3>Performance Clip</h3>
+              <p>Show your pocket, fills, control, and stage energy in a short high-impact reel.</p>
+              <a class="btn btn-secondary" href="https://www.instagram.com/sir_jovi/" target="_blank">Open Instagram</a>
+            </div>
+          </article>
+
+          <article class="social-card">
+            <div class="social-preview">Hip-Hop Saturdays</div>
+            <div class="social-copy">
+              <h3>Class Promotion</h3>
+              <p>Push your Saturday class flyer, rehearsal moments, and student energy here.</p>
+              <a class="btn btn-primary" href="https://checkout.square.site/merchant/MLR5QT525GNDC/checkout/U4YNDJ72FO7AH6XC7J6VWNOJ?src=sheet" target="_blank">Reserve Your Spot</a>
+            </div>
+          </article>
+
+          <article class="social-card">
+            <div class="social-preview">Artist Brand</div>
+            <div class="social-copy">
+              <h3>Follow JoviGroove</h3>
+              <p>Let visitors move from your site back to your Instagram so your brand keeps growing.</p>
+              <a class="btn btn-secondary" href="https://www.instagram.com/sir_jovi/" target="_blank">Follow on Instagram</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Contact & Links</h2>
+          </div>
+          <p>
+            This is where your visitors find your email, city, Instagram, and strongest artist links without confusion.
+          </p>
+        </div>
+
+        <div class="contact-card footer-grid">
+          <div>
+            <h3 style="margin-top:0;">JoviGroove</h3>
+            <p style="color: var(--muted); margin-top: 0;">
+              Rhythm artist portfolio for drumming, movement, live sessions, workshops, and creative collaborations.
+            </p>
+          </div>
+
+          <div>
+            <h3 style="margin-top:0;">Direct</h3>
+            <div class="contact-list">
+              <div class="contact-item">
+                <small>Email</small>
+                <a href="mailto:moise.sahouo@gmail.com">moise.sahouo@gmail.com</a>
+              </div>
+              <div class="contact-item">
+                <small>Based in</small>
+                <span>Ottawa / Gatineau</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 style="margin-top:0;">Social</h3>
+            <div class="contact-list">
+              <div class="contact-item">
+                <small>Instagram</small>
+                <span>@jovigroove</span>
+              </div>
+              <div class="contact-item">
+                <small>YouTube / Reel Link</small>
+                <span>Add your performance links here</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a class="floating-book-btn" href="https://checkout.square.site/merchant/MLR5QT525GNDC/checkout/U4YNDJ72FO7AH6XC7J6VWNOJ?src=sheet" target="_blank">🕺 Book Dance Class</a>
+
+  <footer>
+    <div class="wrap footer-bottom">
+      <span>© 2026 JoviGroove. All rights reserved.</span>
+      <span>Website coded with AI by Moise T. Sahouo.</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var menuToggle = document.getElementById("menuToggle");
+      var mainNav = document.getElementById("mainNav");
+
+      if (menuToggle && mainNav) {
+        menuToggle.addEventListener("click", function () {
+          var isOpen = mainNav.classList.toggle("open");
+          menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+      }
+
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("service-worker.js");
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

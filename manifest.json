@@ -1,0 +1,19 @@
+{
+  "name": "JoviGroove",
+  "short_name": "JoviGroove",
+  "description": "Rhythm artist portfolio for drumming, dance, and live sessions.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#090b10",
+  "theme_color": "#090b10",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
