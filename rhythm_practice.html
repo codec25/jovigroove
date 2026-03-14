@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>PRACTICE_DRILLS // Neural_Ninja_v15</title>
+    <style>
+        :root { 
+            --bg: #030508; --blue: #4facfe; --gold: #ffcc00; 
+            --green: #00ff88; --border: #1e2544; --red: #ff4b2b;
+        }
+        body { 
+            margin: 0; background: var(--bg); color: #fff; font-family: 'Orbitron', 'Arial Black', 'Segoe UI', sans-serif; 
+            display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+            background-image: radial-gradient(circle at center, #0b1426 0%, #030508 100%);
+            touch-action: none; -webkit-user-select: none; user-select: none;
+        }
+
+        .hud-top {
+            display: flex; justify-content: space-between; align-items: center; padding: 10px 15px;
+            font-size: 0.6rem; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.8);
+            z-index: 100; position: relative;
+        }
+
+        .btn-hub {
+            padding: 4px 8px; border: 1px solid var(--blue); color: var(--blue);
+            background: transparent; font-family: inherit; font-size: 0.5rem;
+            cursor: pointer; text-decoration: none; border-radius: 3px;
+        }
+        .btn-hub:hover { background: rgba(79, 172, 254, 0.2); }
+
+        #progress-container {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: rgba(255,255,255,0.1);
+        }
+        #progress-fill {
+            width: 0%; height: 100%; background: var(--green); box-shadow: 0 0 10px var(--green);
+            transition: width 0.3s ease;
+        }
+        
+        .metronome-light { 
+            width: 14px; height: 14px; border-radius: 50%; 
+            background: var(--blue); box-shadow: 0 0 10px var(--blue);
+            opacity: 0.2; transition: opacity 0.05s, transform 0.05s;
+        }
+        .metronome-light.pulse { opacity: 1; transform: scale(1.2); }
+
+        /* NEW THEORY PANEL */
+        .theory-panel {
+            background: rgba(79, 172, 254, 0.1);
+            border: 1px solid var(--blue);
+            padding: 8px 15px;
+            margin: 5px 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .theory-label { color: var(--gold); font-size: 0.6rem; font-weight: 900; }
+        .theory-text { color: #fff; font-size: 0.7rem; font-style: italic; }
+
+        .main-stage { flex-grow: 1; display: flex; flex-direction: column; align-items: center; position: relative; padding: 5px; }
+
+        .controls-row { 
+            display: flex; gap: 5px; width: 100%; overflow-x: auto; padding: 5px 0;
+            scrollbar-width: none; z-index: 50;
+        }
+        .controls-row::-webkit-scrollbar { display: none; }
+        
+        .config-box { 
+            flex: 0 0 125px; background: rgba(255,255,255,0.05); padding: 5px; 
+            border: 1px solid var(--border); border-radius: 4px; text-align: center;
+        }
+        .config-box label { font-size: 0.4rem; color: var(--blue); font-weight: 900; display: block; margin-bottom: 2px; }
+        
+        select, button.ui-btn { 
+            background: #000; color: #fff; border: 1px solid var(--border); 
+            font-size: 0.5rem; width: 100%; height: 22px; font-family: inherit; margin-top: 2px;
+        }
+        input[type=range] { width: 100%; height: 12px; accent-color: var(--blue); }
+        
+        button.ui-btn.active { color: var(--green); border-color: var(--green); box-shadow: 0 0 5px var(--green); }
+        button.ui-btn.challenge-active { color: var(--red); border-color: var(--red); box-shadow: 0 0 5px var(--red); }
+        button.ui-btn.learning { background: var(--red); animation: blink 0.5s infinite; }
+
+        @keyframes blink { 50% { opacity: 0.5; } }
+
+        .lane-container { 
+            display: flex; gap: 10px; flex-grow: 1; width: 100%; max-width: 600px;
+            position: relative; margin: 10px 0;
+        }
+        
+        .lane { 
+            flex: 1; height: 100%; background: rgba(255,255,255,0.02); 
+            border: 1px solid var(--border); position: relative; overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .hit-zone {
+            position: absolute; bottom: 0; width: 100%; height: 140px; 
+            background: rgba(79, 172, 254, 0.05); border-top: 2px solid rgba(79, 172, 254, 0.3);
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 2rem; font-weight: 900; color: rgba(79, 172, 254, 0.3);
+            pointer-events: auto; z-index: 10;
+        }
+        
+        .hit-zone::after {
+            content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 3px;
+            background: var(--blue); box-shadow: 0 0 15px var(--blue); transform: translateY(-50%);
+        }
+
+        .hit-zone.active { background: var(--blue); color: #000; }
+
+        .note {
+            position: absolute; width: 90%; left: 5%; height: 20px; 
+            border-radius: 4px; z-index: 5;
+        }
+        .note-L { background: var(--blue); box-shadow: 0 0 15px var(--blue); }
+        .note-R { background: var(--gold); box-shadow: 0 0 15px var(--gold); }
+        .note-ghost { opacity: 0.35; box-shadow: none !important; border: 1px dashed #fff; }
+
+        .feedback {
+            position: absolute; top: 30%; width: 100%; text-align: center;
+            font-size: 0.8rem; font-weight: 900; z-index: 20; pointer-events: none;
+            animation: feedUp 0.4s ease-out forwards;
+        }
+        @keyframes feedUp { 0% { opacity: 1; transform: scale(1.5); } 100% { opacity: 0; transform: translateY(-50px); } }
+
+        .btn-start {
+            width: 100%; height: 70px; background: var(--blue); border: none; 
+            font-family: inherit; font-weight: 900; font-size: 1.2rem; color: #000;
+            clip-path: polygon(0 20%, 5% 0, 95% 0, 100% 20%, 100% 80%, 95% 100%, 5% 100%, 0 80%);
+            margin-bottom: 20px; cursor: pointer;
+        }
+        .btn-start.running { background: var(--red); color: #fff; }
+
+        #speed-alert {
+            position: absolute; top: 25%; color: var(--gold); font-weight: 900; font-size: 2rem;
+            text-shadow: 0 0 20px var(--gold); display: none; z-index: 200; pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hud-top">
+        <a href="index.html" class="btn-hub">RETURN_HOME</a>
+        <div id="acc-display" style="color:var(--gold)">ACC: 100%</div>
+        <div id="metronome-ui" class="metronome-light"></div>
+        <div id="record-display" onclick="clearRecord()" style="font-size:0.5rem; color:var(--blue); cursor:pointer; text-decoration:underline;">BEST: --</div>
+        <div id="streak-display">STREAK: 0</div>
+        <div id="progress-container"><div id="progress-fill"></div></div>
+    </div>
+
+    <div class="theory-panel">
+        <div class="theory-label" id="theory-title">THEORY: READY</div>
+        <div class="theory-text" id="theory-desc">Select a Subdivision or Rudiment to start training.</div>
+    </div>
+
+    <div class="main-stage">
+        <div id="speed-alert">SPEED UP!</div>
+        <div class="controls-row">
+            <div class="config-box"><label>1. SUBDIVISIONS</label>
+                <select id="theoryType" onchange="setPracticeMode('theory')">
+                    <option value="none">-- SELECT --</option>
+                    <option value="quarter">Quarters (1n)</option>
+                    <option value="eighth">Eighths (2n)</option>
+                    <option value="triplet">Triplets (3n)</option>
+                    <option value="sixteenth">Sixteenths (4n)</option>
+                </select>
+            </div>
+
+            <div class="config-box"><label>2. 40 RUDIMENTS</label>
+                <select id="patternType" onchange="setPracticeMode('rudiment')">
+                    <option value="random">RANDOM</option>
+                    <optgroup label="Essential Rolls">
+                        <option value="single_stroke_roll">Single Stroke Roll</option>
+                        <option value="double_stroke_roll">Double Stroke Roll</option>
+                        <option value="multiple_bounce_roll">Multiple Bounce Roll</option>
+                        <option value="triple_stroke_roll">Triple Stroke Roll</option>
+                    </optgroup>
+                    <optgroup label="Diddle Rudiments">
+                        <option value="single_paradiddle">Single Paradiddle</option>
+                        <option value="double_paradiddle">Double Paradiddle</option>
+                        <option value="triple_paradiddle">Triple Paradiddle</option>
+                        <option value="paradiddle_diddle">Paradiddle-Diddle</option>
+                    </optgroup>
+                    <optgroup label="Short Rolls">
+                        <option value="five_stroke_roll">5 Stroke Roll</option>
+                        <option value="six_stroke_roll">6 Stroke Roll</option>
+                        <option value="seven_stroke_roll">7 Stroke Roll</option>
+                        <option value="nine_stroke_roll">9 Stroke Roll</option>
+                        <option value="ten_stroke_roll">10 Stroke Roll</option>
+                        <option value="eleven_stroke_roll">11 Stroke Roll</option>
+                        <option value="thirteen_stroke_roll">13 Stroke Roll</option>
+                        <option value="fifteen_stroke_roll">15 Stroke Roll</option>
+                        <option value="seventeen_stroke_roll">17 Stroke Roll</option>
+                    </optgroup>
+                    <optgroup label="Flam Rudiments">
+                        <option value="flam">Flam</option>
+                        <option value="flam_accent">Flam Accent</option>
+                        <option value="flam_tap">Flam Tap</option>
+                        <option value="flamicue">Flamacue</option>
+                        <option value="flam_paradiddle">Flam Paradiddle</option>
+                        <option value="flam_drag">Flam Drag</option>
+                    </optgroup>
+                    <optgroup label="Drag Rudiments">
+                        <option value="drag">Drag</option>
+                        <option value="single_drag_tap">Single Drag Tap</option>
+                        <option value="double_drag_tap">Double Drag Tap</option>
+                        <option value="lesson_25">Lesson 25</option>
+                        <option value="single_dragadiddle">Single Dragadiddle</option>
+                        <option value="drag_paradiddle_1">Drag Paradiddle #1</option>
+                        <option value="drag_paradiddle_2">Drag Paradiddle #2</option>
+                        <option value="single_ratamacue">Single Ratamacue</option>
+                        <option value="double_ratamacue">Double Ratamacue</option>
+                        <option value="triple_ratamacue">Triple Ratamacue</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="config-box"><label>BPM: <span id="bpmVal">100</span></label>
+                <input type="range" id="bpmSlider" min="40" max="240" value="100" oninput="updateBPM()">
+            </div>
+            <div class="config-box"><label>METRONOME</label>
+                <input type="range" id="metroVol" min="0" max="100" value="50">
+                <select id="metroType">
+                    <option value="tick">TICK</option>
+                    <option value="wood">WOOD</option>
+                    <option value="bell">BELL</option>
+                </select>
+                <button onclick="toggleMetronomeAudio()" id="metro-btn" class="ui-btn">OFF</button>
+            </div>
+            <div class="config-box"><label>SNARE / HITS</label>
+                <input type="range" id="snareVol" min="0" max="100" value="70">
+                <button onclick="toggleGhost()" id="ghost-btn" class="ui-btn">GHOST: OFF</button>
+                <button onclick="toggleChallenge()" id="challenge-btn" class="ui-btn">SURVIVAL: OFF</button>
+                <button onclick="startMidiLearn()" id="midi-btn" class="ui-btn">MIDI LEARN: OFF</button>
+            </div>
+        </div>
+
+        <div class="lane-container" id="lane-wrapper"></div>
+
+        <button class="btn-start" id="start-btn" onclick="toggleGame()">START_DRILL</button>
+    </div>
+
+    <script>
+        let isPlaying = false, metroAudio = false, challengeMode = false, ghostMode = false, audioCtx, gameLoop;
+        let notes = [], masterInterval, patternStep = 0, lastTime = 0;
+        let hits = 0, totalHits = 0, streak = 0, missCount = 0;
+        let activePracticeMode = 'rudiment';
+
+        // MIDI STATE
+        let midiLearnState = 0; 
+        let midiPadL = null, midiPadR = null;
+
+        const THEORY_DATA = {
+            quarter: { title: "QUARTER NOTES", desc: "Count: 1, 2, 3, 4. One hit per beat.", pat: ['R','L','R','L'], factor: 1 },
+            eighth: { title: "EIGHTH NOTES", desc: "Count: 1 & 2 & 3 & 4 &. Two hits per beat.", pat: ['R','L','R','L','R','L','R','L'], factor: 2 },
+            triplet: { title: "TRIPLETS", desc: "Count: 1-trip-let. Three hits per beat.", pat: ['R','L','R','L','R','L'], factor: 3 },
+            sixteenth: { title: "SIXTEENTHS", desc: "Count: 1-e-&-a. Four hits per beat.", pat: ['R','L','R','L','R','L','R','L'], factor: 4 }
+        };
+
+        const RUDIMENTS = {
+            single_stroke_roll: ['R','L'],
+            double_stroke_roll: ['R','R','L','L'],
+            triple_stroke_roll: ['R','R','R','L','L','L'],
+            multiple_bounce_roll: ['R','L','R','L'],
+            single_paradiddle: ['R','L','R','R','L','R','L','L'],
+            double_paradiddle: ['R','L','R','L','R','R','L','R','L','R','L','L'],
+            triple_paradiddle: ['R','L','R','L','R','L','R','R','L','R','L','R','L','R','L','L'],
+            paradiddle_diddle: ['R','L','R','R','L','L'],
+            five_stroke_roll: ['R','R','L','L','R','_'],
+            six_stroke_roll: ['R','L','L','R','R','L'],
+            seven_stroke_roll: ['R','R','L','L','R','R','L'],
+            nine_stroke_roll: ['R','R','L','L','R','R','L','L','R'],
+            ten_stroke_roll: ['R','R','L','L','R','R','L','L','R','L'],
+            eleven_stroke_roll: ['R','R','L','L','R','R','L','L','R','R','L'],
+            thirteen_stroke_roll: ['R','R','L','L','R','R','L','L','R','R','L','L','R'],
+            fifteen_stroke_roll: ['R','R','L','L','R','R','L','L','R','R','L','L','R','R','L'],
+            seventeen_stroke_roll: ['R','R','L','L','R','R','L','L','R','R','L','L','R','R','L','L','R'],
+            flam: ['L','R'],
+            flam_accent: ['L','R','L','R','R','L','R','L'],
+            flam_tap: ['R','R','L','L'],
+            flamicue: ['L','R','L','R','L','R'],
+            flam_paradiddle: ['L','R','L','R','R','R','L','R','L','L'],
+            flam_drag: ['L','R','L','L','R','L','R','R'],
+            drag: ['L','L','R'],
+            single_drag_tap: ['L','L','R','L','R','R','L','R'],
+            double_drag_tap: ['L','L','R','L','L','R','L','R','R','L','R','R','L','R'],
+            lesson_25: ['L','L','R','L','R'],
+            single_dragadiddle: ['R','R','L','R','L','L','R','L'],
+            drag_paradiddle_1: ['R','L','L','R','R','L','R','R','L','L'],
+            drag_paradiddle_2: ['R','L','R','L','L','R','R','L','R','L','R','R','L','L'],
+            single_ratamacue: ['L','L','R','L','R','L'],
+            double_ratamacue: ['L','L','R','L','L','R','L','R','L'],
+            triple_ratamacue: ['L','L','R','L','L','R','L','L','R','L','R','L']
+        };
+
+        function setPracticeMode(mode) {
+            activePracticeMode = mode;
+            patternStep = 0;
+            if (mode === 'theory') {
+                const data = THEORY_DATA[document.getElementById('theoryType').value];
+                if (!data) return;
+                document.getElementById('theory-title').innerText = "THEORY: " + data.title;
+                document.getElementById('theory-desc').innerText = data.desc;
+                document.getElementById('patternType').value = 'random'; 
+            } else {
+                document.getElementById('theoryType').value = 'none';
+                document.getElementById('theory-title').innerText = "RUDIMENT TRAINING";
+                document.getElementById('theory-desc').innerText = "Focus on sticking accuracy and grip pressure.";
+            }
+            if(isPlaying) { toggleGame(); toggleGame(); }
+        }
+
+        function loadRecord() {
+            const best = localStorage.getItem('ninja_drill_record');
+            document.getElementById('record-display').innerText = best ? `BEST: ${best} BPM` : "BEST: --";
+        }
+        
+        function clearRecord() {
+            if(confirm("Wipe high score record?")) {
+                localStorage.removeItem('ninja_drill_record');
+                loadRecord();
+            }
+        }
+        loadRecord();
+
+        function initLanes() {
+            const wrapper = document.getElementById('lane-wrapper');
+            wrapper.innerHTML = '';
+            ['LEFT PAD "D"', 'RIGHT PAD "J"'].forEach((key, i) => {
+                const lane = document.createElement('div'); lane.className = 'lane';
+                const zone = document.createElement('div'); zone.className = 'hit-zone';
+                zone.id = `zone-${i}`; zone.innerText = key;
+                zone.addEventListener('touchstart', (e) => { e.preventDefault(); triggerHit(i); });
+                lane.appendChild(zone);
+                wrapper.appendChild(lane);
+            });
+        }
+        initLanes();
+
+        if (navigator.requestMIDIAccess) {
+            navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
+        }
+
+        function onMIDISuccess(midiAccess) {
+            const inputs = midiAccess.inputs.values();
+            for (let input of inputs) { input.onmidimessage = getMIDIMessage; }
+        }
+
+        function onMIDIFailure() { document.getElementById('midi-btn').innerText = "MIDI: UNSUPPORTED"; }
+
+        function startMidiLearn() {
+            midiLearnState = 1;
+            const btn = document.getElementById('midi-btn');
+            btn.classList.add('learning');
+            btn.innerText = "HIT LEFT PAD...";
+        }
+
+        function getMIDIMessage(message) {
+            const [command, note, velocity] = message.data;
+            if (command === 144 && velocity > 0) {
+                if (midiLearnState === 1) { midiPadL = note; midiLearnState = 2; document.getElementById('midi-btn').innerText = "HIT RIGHT PAD..."; }
+                else if (midiLearnState === 2) { midiPadR = note; midiLearnState = 0; const btn = document.getElementById('midi-btn'); btn.classList.remove('learning'); btn.classList.add('active'); btn.innerText = "MIDI: ACTIVE"; }
+                else { if (note === midiPadL) triggerHit(0); if (note === midiPadR) triggerHit(1); }
+            }
+        }
+
+        function toggleMetronomeAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            metroAudio = !metroAudio;
+            document.getElementById('metro-btn').classList.toggle('active', metroAudio);
+            document.getElementById('metro-btn').innerText = metroAudio ? "ON" : "OFF";
+        }
+
+        function toggleChallenge() {
+            challengeMode = !challengeMode;
+            document.getElementById('challenge-btn').classList.toggle('challenge-active', challengeMode);
+            document.getElementById('challenge-btn').innerText = challengeMode ? "SURVIVAL: ON" : "SURVIVAL: OFF";
+        }
+
+        function toggleGhost() {
+            ghostMode = !ghostMode;
+            document.getElementById('ghost-btn').classList.toggle('active', ghostMode);
+            document.getElementById('ghost-btn').innerText = ghostMode ? "GHOST: ON" : "GHOST: OFF";
+        }
+
+        function updateBPM() {
+            document.getElementById('bpmVal').innerText = document.getElementById('bpmSlider').value;
+            if (isPlaying) { clearInterval(masterInterval); startMasterClock(); }
+        }
+
+        function playTick(isMain) {
+            if (!metroAudio || !audioCtx) return;
+            const vol = document.getElementById('metroVol').value / 100;
+            const type = document.getElementById('metroType').value;
+            const osc = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            let freq = isMain ? 880 : 440, decay = 0.05;
+            if (type === 'wood') { freq = isMain ? 500 : 350; decay = 0.08; }
+            if (type === 'bell') { freq = isMain ? 1200 : 800; decay = 0.15; }
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            g.gain.setValueAtTime(vol * 0.15, audioCtx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + decay);
+            osc.connect(g); g.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + decay);
+        }
+
+        function playSnare(isPerfect, isGhost) {
+            if (!audioCtx) return;
+            const baseVol = document.getElementById('snareVol').value / 100;
+            const vol = isGhost ? baseVol * 0.3 : baseVol;
+            const noiseBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.1, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < noiseBuffer.length; i++) output[i] = Math.random() * 2 - 1;
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = noiseBuffer;
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass'; filter.frequency.value = isPerfect ? 2000 : 1200;
+            const env = audioCtx.createGain();
+            env.gain.setValueAtTime(vol * 0.4, audioCtx.currentTime);
+            env.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            noise.connect(filter); filter.connect(env); env.connect(audioCtx.destination);
+            noise.start(); noise.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function startMasterClock() {
+            const bpm = document.getElementById('bpmSlider').value;
+            let intervalTime = 60000 / bpm;
+            
+            if (activePracticeMode === 'theory') {
+                const data = THEORY_DATA[document.getElementById('theoryType').value];
+                if (data) intervalTime = intervalTime / data.factor;
+            }
+
+            masterInterval = setInterval(() => {
+                spawnNoteSync();
+                const isDownbeat = (patternStep % (activePracticeMode === 'theory' ? THEORY_DATA[document.getElementById('theoryType').value].factor : 4) === 1);
+                const light = document.getElementById('metronome-ui');
+                light.classList.add('pulse');
+                playTick(isDownbeat);
+                setTimeout(() => light.classList.remove('pulse'), 100);
+            }, intervalTime);
+        }
+
+        function spawnNoteSync() {
+            let pat;
+            if (activePracticeMode === 'theory') {
+                pat = THEORY_DATA[document.getElementById('theoryType').value].pat;
+            } else {
+                const type = document.getElementById('patternType').value;
+                pat = type === 'random' ? ['R','L'] : RUDIMENTS[type];
+            }
+
+            const hand = pat[patternStep % pat.length];
+            if (hand === '_') { patternStep++; return; } 
+            const laneIdx = hand === 'L' ? 0 : 1;
+            patternStep++;
+
+            const isGhost = ghostMode && Math.random() > 0.7;
+            const noteEl = document.createElement('div'); 
+            noteEl.className = `note note-${hand} ${isGhost ? 'note-ghost' : ''}`;
+            noteEl.style.top = '-20px';
+            document.querySelectorAll('.lane')[laneIdx].appendChild(noteEl);
+            notes.push({ el: noteEl, key: laneIdx, top: -20, isGhost: isGhost });
+        }
+
+        function triggerHit(key) {
+            if (!isPlaying) return;
+            const zone = document.getElementById(`zone-${key}`);
+            zone.classList.add('active');
+            setTimeout(() => zone.classList.remove('active'), 80);
+            
+            const laneHeight = document.getElementById('lane-wrapper').offsetHeight;
+            const targetCenter = laneHeight - 70; 
+            const hitIdx = notes.findIndex(n => n.key === key && Math.abs((n.top + 10) - targetCenter) < 80);
+            
+            totalHits++;
+            if (hitIdx !== -1) {
+                hits++; streak++; missCount = 0;
+                const isPerfect = Math.abs((notes[hitIdx].top + 10) - targetCenter) < 25;
+                playSnare(isPerfect, notes[hitIdx].isGhost);
+                showFeedback(key, isPerfect ? "PERFECT" : "GOOD", isPerfect ? "var(--green)" : "var(--gold)");
+                notes[hitIdx].el.remove();
+                notes.splice(hitIdx, 1);
+                if (streak > 0 && streak % 15 === 0) autoSpeedUp();
+            } else { handleMiss(key); }
+            updateHUD();
+        }
+
+        function autoSpeedUp() {
+            const slider = document.getElementById('bpmSlider');
+            const newBpm = Math.min(240, parseInt(slider.value) + 5);
+            slider.value = newBpm;
+            updateBPM();
+            checkNewRecord(newBpm);
+            const alertBox = document.getElementById('speed-alert');
+            alertBox.style.display = 'block'; setTimeout(() => alertBox.style.display = 'none', 800);
+        }
+
+        function updateProgressBar() {
+            const fill = document.getElementById('progress-fill');
+            fill.style.width = (streak % 15) * 6.6 + '%';
+        }
+
+        function checkNewRecord(bpm) {
+            const current = parseInt(localStorage.getItem('ninja_drill_record')) || 0;
+            if (bpm > current) { localStorage.setItem('ninja_drill_record', bpm); loadRecord(); }
+        }
+
+        function handleMiss(key) {
+            streak = 0; missCount++;
+            showFeedback(key, "MISS", "var(--red)");
+            if (challengeMode && missCount >= 3) { alert("CHALLENGE FAILED!"); toggleGame(); }
+        }
+
+        function updateHUD() {
+            const acc = totalHits > 0 ? Math.floor((hits/totalHits)*100) : 100;
+            document.getElementById('acc-display').innerText = `ACC: ${acc}%`;
+            document.getElementById('streak-display').innerText = `STREAK: ${streak}`;
+            updateProgressBar();
+        }
+
+        function showFeedback(key, text, color) {
+            const zone = document.getElementById(`zone-${key}`);
+            const fb = document.createElement('div');
+            fb.className = 'feedback'; fb.style.color = color; fb.innerText = text;
+            zone.appendChild(fb); setTimeout(() => fb.remove(), 400);
+        }
+
+        function updateNotes(dt) {
+            const wrapper = document.getElementById('lane-wrapper');
+            const laneHeight = wrapper.offsetHeight;
+            const bpm = document.getElementById('bpmSlider').value;
+            const speed = (laneHeight / (120000 / bpm)) * dt;
+            for (let i = notes.length - 1; i >= 0; i--) {
+                notes[i].top += speed;
+                notes[i].el.style.top = notes[i].top + 'px';
+                if (notes[i].top > laneHeight) { totalHits++; handleMiss(notes[i].key); notes[i].el.remove(); notes.splice(i, 1); updateHUD(); }
+            }
+        }
+
+        function gameTick(t) {
+            if(!isPlaying) return;
+            const dt = t - (lastTime || t); lastTime = t;
+            updateNotes(dt);
+            gameLoop = requestAnimationFrame(gameTick);
+        }
+
+        function toggleGame() {
+            isPlaying = !isPlaying; lastTime = 0;
+            const btn = document.getElementById('start-btn');
+            btn.innerText = isPlaying ? "STOP_DRILL" : "START_DRILL";
+            btn.classList.toggle('running', isPlaying);
+            if (isPlaying) {
+                if (audioCtx) audioCtx.resume();
+                notes.forEach(n => n.el.remove()); notes = [];
+                hits = 0; totalHits = 0; streak = 0; patternStep = 0;
+                updateHUD(); startMasterClock(); gameTick(performance.now());
+            } else { clearInterval(masterInterval); cancelAnimationFrame(gameLoop); }
+        }
+
+        function resetPattern() { patternStep = 0; }
+        document.addEventListener('keydown', e => {
+            if (e.code === 'Space') { e.preventDefault(); toggleGame(); }
+            if (e.key.toLowerCase() === 'd') triggerHit(0);
+            if (e.key.toLowerCase() === 'j') triggerHit(1);
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js');
+            });
+        }
+    </script>
+</body>
+</html>

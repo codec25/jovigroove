@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE LAST HONOR | PRODUCTION HUB</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-glow: rgba(212, 175, 55, 0.5);
+            --bg: #050507;
+            --card-bg: rgba(20, 20, 25, 0.85);
+            --border: rgba(212, 175, 55, 0.25);
+            --danger: #ff3e3e;
+            --success: #00ff88;
+            --text-main: #f0f0f0;
+            --text-dim: #999;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+            overflow: hidden;
+        }
+
+        .page-shell {
+            width: min(1280px, 100%);
+            position: relative;
+        }
+
+        .return-btn {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            z-index: 20;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(10, 10, 15, 0.92);
+            color: var(--gold);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-decoration: none;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .return-btn:hover {
+            background: rgba(20, 20, 25, 0.96);
+        }
+
+        /* Desktop-first layout */
+        .container {
+            width: min(1180px, 100%);
+            min-height: min(860px, calc(100vh - 48px));
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 100px rgba(0,0,0,1), 0 0 30px var(--gold-glow);
+        }
+
+        /* Scanning Animation Overlay */
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            z-index: 10;
+            animation: scan 6s linear infinite;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+        header {
+            padding: 45px 20px 15px;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(212, 175, 55, 0.15), transparent);
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 900;
+            letter-spacing: 10px;
+            color: var(--gold);
+            text-shadow: 0 0 15px var(--gold-glow);
+            margin: 0;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            margin-top: 15px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        #progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--gold);
+            box-shadow: 0 0 15px var(--gold);
+            transition: 0.6s cubic-bezier(0.2, 0, 0.2, 1);
+        }
+
+        /* Navigation */
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(10, 10, 15, 0.9);
+            border-bottom: 1px solid var(--border);
+            z-index: 5;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            padding: 15px 5px;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--gold);
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 28px 72px;
+        }
+
+        .content-tab { display: none; }
+        .content-tab.active { display: block; }
+        .content-tab.active.track-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        /* Cinematic Cards */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px;
+        }
+
+        .card.done {
+            border-color: var(--success);
+            background: rgba(0, 255, 136, 0.03);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .tag {
+            font-size: 0.6rem;
+            background: var(--gold);
+            color: #000;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .action-btn {
+            background: none;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-size: 0.65rem;
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .done .action-btn {
+            background: var(--success);
+            border-color: var(--success);
+            color: #000;
+        }
+
+        .h-title { font-size: 1.05rem; font-weight: bold; margin: 0; color: #fff; }
+        .p-desc { font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; margin-top: 5px; }
+
+        /* Script/VO Block */
+        .script-box {
+            background: rgba(255,255,255,0.03);
+            border-left: 3px solid var(--gold);
+            padding: 12px;
+            border-radius: 0 10px 10px 0;
+            font-size: 0.85rem;
+            color: #fff;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        /* Move List */
+        .move-step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            align-items: center;
+        }
+        .num { color: var(--gold); font-weight: 900; font-size: 1rem; }
+
+        ::-webkit-scrollbar { width: 0; }
+
+        @media (max-width: 900px) {
+            body {
+                padding: 0;
+                overflow: auto;
+            }
+
+            .page-shell {
+                width: 100%;
+            }
+
+            .return-btn {
+                top: 12px;
+                left: 12px;
+                font-size: 0.72rem;
+                padding: 8px 12px;
+            }
+
+            .container {
+                width: 100%;
+                min-height: 100vh;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+
+            .scroll-area {
+                padding: 18px 16px 64px;
+            }
+
+            .content-tab.active.track-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding-top: 60px;
+            }
+
+            .logo {
+                font-size: 1.35rem;
+                letter-spacing: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-shell">
+        <a href="index.html" class="return-btn">← Return Home</a>
+        <div class="container">
+        <header>
+            <h1 class="logo">HONOR</h1>
+            <div class="progress-bar-bg"><div id="progress-fill"></div></div>
+            <div id="stats" style="font-size: 0.6rem; color: var(--text-dim); margin-top: 10px; letter-spacing: 2px;">0/4 SCENES FILMED</div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="showTab('track', this)">TRACKER</button>
+            <button class="tab-btn" onclick="showTab('script', this)">SCRIPT</button>
+            <button class="tab-btn" onclick="showTab('moves', this)">MOVES</button>
+        </nav>
+
+        <div class="scroll-area">
+            
+            <div id="track" class="content-tab active track-grid">
+                <div class="card" id="c1">
+                    <div class="card-top">
+                        <span class="tag">Scene 01</span>
+                        <button class="action-btn" onclick="toggleScene('c1')">MARK READY</button>
+                    </div>
+                    <div class="h-title">The Bankruptcy Reveal</div>
+                    <div class="p-desc">P1 slams hand on papers. Reveal "Potential Bankruptcy" stamp. P2 reacts with shock.</div>
+                </div>
+
+                <div class="card" id="c2">
+                    <div class="card-top">
+                        <span class="tag">Scene 02</span>
+                        <button class="action-btn" onclick="toggleScene('c2')">MARK READY</button>
+                    </div>
+                    <div class="h-title">P3's Extortion</div>
+                    <div class="p-desc">Mid-shot. P3 leans into P2's ear. "What is your silence worth?"</div>
+                </div>
+
+                <div class="card" id="c3">
+                    <div class="card-top">
+                        <span class="tag">Scene 03</span>
+                        <button class="action-btn" onclick="toggleScene('c3')">MARK READY</button>
+                    </div>
+                    <div class="h-title">The Silent Counter</div>
+                    <div class="p-desc">Martial Arts Move. P1 catches P3 wrist. 180° spin to knee slam.</div>
+                </div>
+
+                <div class="card" id="c4">
+                    <div class="card-top">
+                        <span class="tag">Scene 04</span>
+                        <button class="action-btn" onclick="toggleScene('c4')">MARK READY</button>
+                    </div>
+                    <div class="h-title">The Final Escape</div>
+                    <div class="p-desc">P1 delivers "Traitor" line to camera. Sprints into dark. P4 appears in door.</div>
+                </div>
+            </div>
+
+            <div id="script" class="content-tab">
+                <div class="card">
+                    <span class="tag" style="background:var(--danger)">P3 Dialogue</span>
+                    <div class="script-box">"Is it nerves... or the <strong>potential bankruptcy</strong>? I heard it all, P2. What is your silence worth?"</div>
+                </div>
+                
+                <div class="card">
+                    <span class="tag">P1 Voiceover (VO)</span>
+                    <div class="script-box">"They see a refined heir. They forgot that to protect a crown, you must first know how to break a hand."</div>
+                </div>
+
+                <div class="card">
+                    <span class="tag" style="background:#fff; color:#000">Closing Hook</span>
+                    <div class="script-box">"By sunrise, they'll call me a traitor. By sunset... they'll realize I'm the only one who can save us."</div>
+                </div>
+            </div>
+
+            <div id="moves" class="content-tab">
+                <div class="card">
+                    <div class="h-title" style="color:var(--gold); margin-bottom:15px">REVERSE WRIST-LOCK</div>
+                    <div class="move-step"><span class="num">01</span><div class="p-desc">P3 grabs P1 shoulder. P1 stays still.</div></div>
+                    <div class="move-step"><span class="num">02</span><div class="p-desc">P1 pins P3's hand down with their palm.</div></div>
+                    <div class="move-step"><span class="num">03</span><div class="p-desc">P1 steps forward, spinning 180° away.</div></div>
+                    <div class="move-step"><span class="num">04</span><div class="p-desc">P3 drops to one knee to avoid the twist.</div></div>
+                </div>
+                
+                <div class="card">
+                    <div class="h-title">Music & Visuals</div>
+                    <div class="p-desc">• <strong>Intro:</strong> Dark Bass Ambient<br>• <strong>Fight:</strong> Industrial Glitch Beats<br>• <strong>Outro:</strong> High-Pitch Synth Pad</div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer style="text-align:center; padding:15px; font-size:0.55rem; color:#444; letter-spacing:3px;">
+            SECURE ACCESS // DIRECTORS ONLY // 2026
+        </footer>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId, button) {
+            document.querySelectorAll('.content-tab').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            const panel = document.getElementById(tabId);
+            panel.classList.add('active');
+            button.classList.add('active');
+        }
+
+        let completed = 0;
+        const total = 4;
+
+        function toggleScene(id) {
+            const card = document.getElementById(id);
+            const btn = card.querySelector('.action-btn');
+            
+            card.classList.toggle('done');
+            
+            if (card.classList.contains('done')) {
+                btn.innerText = "FILMED";
+                completed++;
+            } else {
+                btn.innerText = "MARK READY";
+                completed--;
+            }
+            
+            const progress = (completed / total) * 100;
+            document.getElementById('progress-fill').style.width = progress + "%";
+            document.getElementById('stats').innerText = `${completed}/${total} SCENES FILMED`;
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js');
+            });
+        }
+    </script>
+</body>
+</html>

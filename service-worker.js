@@ -1,9 +1,11 @@
-const CACHE_NAME = "jovigroove-v1";
+const CACHE_NAME = "jovigroove-v2";
 const OFFLINE_URL = "offline.html";
 
 const ASSETS_TO_CACHE = [
   "./",
   "index.html",
+  "series.html",
+  "rhythm_practice.html",
   OFFLINE_URL,
   "manifest.json",
   "icon.svg",
@@ -52,7 +54,7 @@ self.addEventListener("fetch", (event) => {
           if (event.request.mode === "navigate") {
             return caches.match(OFFLINE_URL);
           }
-          return caches.match("index.html");
+          return caches.match(event.request).then((asset) => asset || caches.match("index.html"));
         });
     })
   );
