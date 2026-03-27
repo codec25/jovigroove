@@ -224,31 +224,99 @@
       border-radius: 28px;
       overflow: hidden;
       border: 1px solid var(--line);
-      background:
-        linear-gradient(180deg, rgba(17,21,29,0.12), rgba(17,21,29,0.92)),
-        url('drum.jpg') center/cover no-repeat;
+      background: linear-gradient(180deg, rgba(17,21,29,0.12), rgba(17,21,29,0.92));
       box-shadow: var(--shadow);
+    }
+
+    .hero-video,
+    .media-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .media-video {
+      object-fit: contain;
+      background: #000;
+    }
+
+    .video-shell {
+      position: relative;
+      overflow: hidden;
+      background: #040507;
+    }
+
+    .hero-card.overlay-hidden .hero-overlay {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+    }
+
+    .hero-overlay-toggle {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 3;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(9,11,16,0.72);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+      cursor: pointer;
     }
 
     .hero-overlay {
       position: absolute;
-      inset: auto 18px 18px 18px;
+      top: 18px;
+      left: 18px;
+      right: auto;
+      bottom: auto;
+      max-width: min(320px, calc(100% - 36px));
       background: rgba(9,11,16,0.72);
       border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 22px;
-      padding: 18px;
+      border-radius: 18px;
+      padding: 14px 16px;
       backdrop-filter: blur(10px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
     }
 
     .hero-overlay h3 {
       margin: 0 0 8px;
-      font-size: 1.25rem;
+      font-size: 1.05rem;
     }
 
     .hero-overlay p {
       margin: 0;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--muted);
+    }
+
+    .hero-overlay strong {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold-2);
+    }
+
+    .hero-overlay strong::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--gold-2);
+      box-shadow: 0 0 0 6px rgba(255,203,107,0.14);
     }
 
     section {
@@ -297,7 +365,7 @@
 
     .about-image {
       min-height: 380px;
-      background: linear-gradient(180deg, rgba(8,10,14,0.25), rgba(8,10,14,0.55)), url('drum.jpg') center/cover no-repeat;
+      background: linear-gradient(180deg, rgba(8,10,14,0.18), rgba(8,10,14,0.42)), url('atpark.PNG') center/cover no-repeat;
     }
 
     .about-copy {
@@ -367,29 +435,56 @@
     .service-card li + li { margin-top: 8px; }
 
     .media-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1.08fr 1fr 1fr;
+      align-items: stretch;
     }
 
     .media-card {
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02)),
+        radial-gradient(circle at top, rgba(243,179,61,0.08), transparent 45%);
     }
 
     .media-thumb {
-      aspect-ratio: 16 / 10;
-      display: grid;
-      place-items: center;
+      position: relative;
+      aspect-ratio: 16 / 11;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
       font-size: 1.1rem;
       font-weight: 800;
       color: #fff;
       background:
-        linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55)),
+        linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.62)),
         url('drum.jpg') center/cover no-repeat;
     }
 
     .media-card:nth-child(2) .media-thumb {
+      aspect-ratio: 4 / 3;
       background:
         linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55)),
         url('hiphop-session.jpg') center/cover no-repeat;
+    }
+
+    .media-video-shell {
+      width: calc(100% - 28px);
+      aspect-ratio: 4 / 5;
+      min-height: 0;
+      margin: 14px auto 0;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.06), transparent 40%),
+        #06080c;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+    }
+
+    .media-card:first-child .media-copy {
+      padding-top: 18px;
     }
 
     .media-card:nth-child(3) .media-thumb {
@@ -399,22 +494,65 @@
     }
 
     .media-copy {
-      padding: 18px;
+      padding: 22px 20px 24px;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .media-copy h3 {
-      margin: 0 0 6px;
-      font-size: 1.08rem;
+      margin: 0;
+      font-size: 1.14rem;
     }
 
     .media-copy p {
       margin: 0;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.98rem;
     }
 
     .media-copy .btn {
-      margin-top: 14px;
+      margin-top: auto;
+      width: fit-content;
+    }
+
+    .media-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(9,11,16,0.72);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #f7f8ff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .media-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .media-meta span {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: #dfe7ff;
+      font-size: 0.82rem;
+      line-height: 1;
+    }
+
+    .media-note {
+      color: #dfe7ff;
+      font-size: 0.92rem;
+      font-weight: 700;
     }
 
     .class-spotlight {
@@ -565,6 +703,44 @@
       font-weight: 700;
       color: #d6def6;
       font-size: 0.92rem;
+    }
+
+    .video-shell:fullscreen,
+    .video-shell:-webkit-full-screen {
+      width: 100vw;
+      height: 100vh;
+      max-width: none;
+      border-radius: 0;
+      background: #000;
+      display: grid;
+      place-items: center;
+    }
+
+    .video-shell:fullscreen::after,
+    .video-shell:-webkit-full-screen::after {
+      display: none;
+    }
+
+    .video-shell:fullscreen .hero-video,
+    .video-shell:fullscreen .media-video,
+    .video-shell:-webkit-full-screen .hero-video,
+    .video-shell:-webkit-full-screen .media-video {
+      position: static;
+      inset: auto;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      object-fit: contain;
+      object-position: center;
+      background: #000;
+    }
+
+    .video-shell:fullscreen .hero-overlay,
+    .video-shell:-webkit-full-screen .hero-overlay,
+    .video-shell:fullscreen .hero-overlay-toggle,
+    .video-shell:-webkit-full-screen .hero-overlay-toggle {
+      display: none;
     }
 
     .field input,
@@ -778,6 +954,7 @@
       .about-image { min-height: 420px; }
 
       .booking-copy { border-right: 0; border-bottom: 1px solid var(--line); }
+
     }
 
     @media (max-width: 900px) {
@@ -856,6 +1033,15 @@
       .hero-card { min-height: 430px; }
       .about-image { min-height: 300px; }
       .container, .wrap { width: min(var(--max), calc(100% - 20px)); }
+
+      .hero-overlay-toggle {
+        top: 14px;
+        right: 14px;
+      }
+
+      .media-video-shell {
+        width: min(100% - 24px, 340px);
+      }
     }
   </style>
 </head>
@@ -910,13 +1096,27 @@
             </div>
           </div>
         </div>
-        <div class="hero-card" aria-label="JoviGroove visual banner">
+        <div class="hero-card video-shell" id="heroCard" aria-label="JoviGroove visual banner">
+          <video
+            class="hero-video"
+            id="heroVideo"
+            controls
+            muted
+            playsinline
+            preload="auto"
+            poster="perf.png"
+          >
+            <source src="freest.mp4" type="video/mp4" />
+          </video>
+          <button class="hero-overlay-toggle" id="heroOverlayToggle" type="button" aria-pressed="false">
+            Hide Info
+          </button>
           <div class="hero-overlay">
+            <strong>Featured Video</strong>
             <h3>Watch Performances</h3>
             <p>
-              Click here to watch JoviGroove live on drums and see the rhythm in action.
+              Use the video controls to play JoviGroove live on drums.
             </p>
-            <a class="btn btn-primary" href="#media">Watch Performances</a>
           </div>
         </div>
       </div>
@@ -1050,33 +1250,64 @@
             <h2>Featured Performances</h2>
           </div>
           <p>
-            Replace these cards with your real YouTube videos, Instagram reels, or embedded clips. This is where people believe the brand.
+            A tighter snapshot of movement, rhythm, and live presence. Each card now supports the same visual rhythm so the section feels cleaner and more intentional.
           </p>
         </div>
 
         <div class="media-grid">
           <article class="media-card">
-            <div class="media-thumb">Performance Reel</div>
+            <div class="media-thumb media-video-shell video-shell">
+              <video
+                class="media-video"
+                id="stageEnergyVideo"
+                controls
+                muted
+                playsinline
+                preload="metadata"
+                poster="highreel.png"
+              >
+                <source src="withbkick.mp4" type="video/mp4" />
+              </video>
+            </div>
             <div class="media-copy">
+              <div class="media-meta">
+                <span>Performance Reel</span>
+                <span>12 sec clip</span>
+              </div>
               <h3>Stage Energy Reel</h3>
-              <p>A short highlight video showing your strongest drumming, movement, and artist identity.</p>
+              <p>A focused highlight clip that introduces your movement quality, timing, and artist presence without crowding the layout.</p>
             </div>
           </article>
 
           <article class="media-card">
-            <a href="https://checkout.square.site/merchant/MLR5QT525GNDC/checkout/U4YNDJ72FO7AH6XC7J6VWNOJ?src=sheet" target="_blank"><div class="media-thumb" style="background:url('hiphop-session.jpg') center/cover no-repeat, linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55));">Saturday Hip‑Hop Session</div></a>
+            <a href="https://checkout.square.site/merchant/MLR5QT525GNDC/checkout/U4YNDJ72FO7AH6XC7J6VWNOJ?src=sheet" target="_blank">
+              <div class="media-thumb" style="background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.62)), url('hiphop-session.jpg') center/cover no-repeat;">
+                <span class="media-label">Featured Class</span>
+              </div>
+            </a>
             <div class="media-copy">
+              <div class="media-meta">
+                <span>Every Saturday</span>
+                <span>Spring 2026</span>
+              </div>
               <h3>Saturday Hip‑Hop Classes</h3>
-              <p>Weekly hip‑hop groove session with Jovi. Every Saturday — Spring 2026.</p>
+              <p>Weekly groove training built around rhythm, confidence, and musical movement in a format that matches the rest of the section.</p>
               <a class="btn btn-primary" href="https://checkout.square.site/merchant/MLR5QT525GNDC/checkout/U4YNDJ72FO7AH6XC7J6VWNOJ?src=sheet" target="_blank">Reserve Your Spot</a>
             </div>
           </article>
 
           <article class="media-card">
-            <div class="media-thumb">Live Session</div>
+            <div class="media-thumb">
+              <span class="media-label">Live Session</span>
+            </div>
             <div class="media-copy">
+              <div class="media-meta">
+                <span>Drums</span>
+                <span>Stage Support</span>
+              </div>
               <h3>Drum Performance</h3>
-              <p>Use one real clip that proves you can hold a room, support artists, and create movement.</p>
+              <p>One solid live clip is enough here. Keep it simple and let the performance prove musical control, pocket, and crowd connection.</p>
+              <div class="media-note">Best used for a clean full-band or live-event moment.</div>
             </div>
           </article>
         </div>
@@ -1344,11 +1575,21 @@
     (function () {
       var menuToggle = document.getElementById("menuToggle");
       var mainNav = document.getElementById("mainNav");
+      var heroCard = document.getElementById("heroCard");
+      var heroOverlayToggle = document.getElementById("heroOverlayToggle");
 
       if (menuToggle && mainNav) {
         menuToggle.addEventListener("click", function () {
           var isOpen = mainNav.classList.toggle("open");
           menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+      }
+
+      if (heroCard && heroOverlayToggle) {
+        heroOverlayToggle.addEventListener("click", function () {
+          var isHidden = heroCard.classList.toggle("overlay-hidden");
+          heroOverlayToggle.textContent = isHidden ? "Show Info" : "Hide Info";
+          heroOverlayToggle.setAttribute("aria-pressed", isHidden ? "true" : "false");
         });
       }
 
