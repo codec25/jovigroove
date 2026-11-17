@@ -5,8 +5,8 @@ A mobile-first, offline-capable, multi-year Christian journal and personal plann
 ## Structure
 - `index.html` — semantic views, forms, dialogs and navigation (no inline app CSS/JS).
 - `app.css` — all main layouts, journal styles and mobile responsive rules.
-- `app.js` — main agenda date navigation, daily/weekly/monthly content, family, gifts, reminders, activity sessions and saved progress.
-- `journal-controller.js` — resilient journal dialogs and immediate local field saves, including iPhone keyboard behavior.
+- `app.js` — main agenda date navigation, daily/weekly/monthly content, family, gifts, reminders, activity sessions and saved progress. **Only writer** for `data-day` inputs in the main agenda.
+- `journal-controller.js` — **only journal UI controller**: opens/closes four writing dialogs, handles full-screen editing, previews and iPhone keyboard behavior. It does **not** write main agenda data; `app.js` does.
 - `growth-controller.js` — five-domain whole-life growth journal.
 - `presets-controller.js` — reusable activities with categories and dance styles, remembered preferred start/end times, duration selection, same-day overlap checks and quick scheduling.
 - `planning-controller.js` — edit, copy, delete scheduled activities; duplicate days or full Monday–Sunday weeks without deleting source plans. Copies by default preserve existing destination writing and merge unique schedule/task lines.
@@ -25,6 +25,8 @@ The JSON backup includes all three content stores. PDF is a printable/shareable 
 ## Ownership / avoiding collisions
 - A new planner feature should use existing controllers when possible, not introduce a second action handler for the same button.
 - Only `pdf-export.js` owns `#print-agenda`, `#share-agenda` and `#daily-pdf-share`. Old print/report builders were removed.
+- Journal cards and modal controls are handled only by `journal-controller.js`. Do not duplicate their click/close/input handlers in `app.js`. The `kingdom:dayChanged` event keeps journal previews in sync when a day is changed programmatically.
+- `app.js` is the sole writer of `[data-day]` fields. Avoid introducing a second localStorage writer for the same input; independent growth and preset storage keys are intentionally separate.
 - `presets-controller.js` dispatches `kingdom:presetScheduled` to synchronize its scheduled entry with the in-memory `app.js` state; do not write an activity to localStorage alone and expect the main data object to update.
 - Use unique HTML IDs. Saved field identifiers such as `data-single="vision"` are independent of element IDs.
 - Use local dates (`YYYY-MM-DD`), not UTC conversions, for agenda-day selection.
