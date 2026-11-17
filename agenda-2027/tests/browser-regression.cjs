@@ -32,6 +32,24 @@ async function main(){
    assert(await page.locator('#dayheading').innerText().then(x=>x.includes(String(Number(today.slice(8))))));
    assert.equal(await page.locator('.journal-tile').count(),4);
  });
+ await test('Today home stylesheet loads and renders as a real card',async()=>{
+   const styles=await page.evaluate(()=>{
+     const home=document.querySelector('#today-home');
+     const title=document.querySelector('#today-home-title');
+     const btn=document.querySelector('#today-plan');
+     const css=getComputedStyle(home);
+     const head=getComputedStyle(title);
+     const action=getComputedStyle(btn);
+     const sheet=[...document.querySelectorAll('link[rel=stylesheet]')].map(x=>x.getAttribute('href'));
+     const rect=home.getBoundingClientRect();
+     return {stylesheets:sheet,bg:css.backgroundColor,radius:css.borderRadius,padding:css.padding,headerFont:head.fontFamily,buttonBg:action.backgroundColor,width:rect.width};
+   });
+   assert(styles.stylesheets.some(x=>x.includes('app.css?v=36')),'Outdated CSS version requested: '+JSON.stringify(styles.stylesheets));
+   assert.equal(styles.bg,'rgb(255, 254, 251)','Today home stylesheet missing: '+JSON.stringify(styles));
+   assert.notEqual(styles.radius,'0px','Today home card border radius missing');
+   assert(styles.width>280,'Today card collapsed on mobile');
+   assert.notEqual(styles.buttonBg,'rgb(239, 239, 239)','Plan action still has browser default styling');
+ });
  await test('Journal opens, saves once and keeps unrelated fields',async()=>{
    await page.locator('[data-journal-open="faith"]').click();
    assert.equal(await page.locator('#journal-faith').evaluate(e=>e.open),true);
