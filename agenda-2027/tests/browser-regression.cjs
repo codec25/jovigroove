@@ -116,6 +116,56 @@ async function main(){
    await page.locator('#today-home-return').click();
    assert.equal(await page.locator('#datepick').inputValue(),today);
  });
+ await test('Daily teaching appears on assigned date and opens the complete authored text',async()=>{
+   await page.locator('[data-tab="daily"]').evaluate(e=>e.click());
+   const assigned='2026-11-17';
+   await page.locator('#datepick').fill(assigned);
+   await page.locator('#datepick').dispatchEvent('change');
+   assert.equal(await page.locator('#daily-teaching-available').isVisible(),true);
+   assert.equal(await page.locator('#daily-teaching-card-title').innerText(),'Know the God You Trust');
+   await page.locator('#daily-teaching-open').click();
+   assert.equal(await page.locator('#daily-teaching-dialog').evaluate(e=>e.open),true);
+   const content=await page.locator('#daily-teaching-content').innerText();
+   assert.match(content,/Mark 1:40–42/);
+   assert.match(content,/First John 4:16/);
+   assert.match(content,/Hebrews 4:16/);
+   assert.match(content,/Philippians 4:6–7/);
+   assert.match(content,/Father, help me know and rely on Your love/);
+   await page.locator('#daily-teaching-done').click();
+   assert.equal(await page.locator('#daily-teaching-dialog').evaluate(e=>e.open),false);
+ });
+ await test('Calendar marks teaching dates and selected day controls teaching',async()=>{
+   await page.locator('[data-tab="monthly"]').evaluate(e=>e.click());
+   await page.locator('#calendar-year').fill('2026');
+   await page.locator('#calendar-year').dispatchEvent('change');
+   await page.locator('#monthpick').selectOption('10');
+   assert(await page.locator('#calendar button.cal-day.has-teaching').count()>0,'No marked calendar teaching date');
+   await page.locator('#calendar button.cal-day.has-teaching').first().click();
+   assert.equal(await page.locator('#datepick').inputValue(),'2026-11-17');
+   assert.equal(await page.locator('#daily-teaching-available').isVisible(),true);
+   await page.locator('#next').click();
+   assert.equal(await page.locator('#daily-teaching-missing').isVisible(),true);
+   await page.locator('#daily-teaching-create').click();
+   await page.locator('#daily-teaching-title').fill('Tomorrow’s teaching');
+   await page.locator('#daily-teaching-body').fill('A locally saved teaching for another day.');
+   await page.locator('#daily-teaching-save').click();
+   assert.equal(await page.locator('#daily-teaching-dialog-title').innerText(),'Tomorrow’s teaching');
+   await page.locator('#daily-teaching-done').click();
+   await page.reload({waitUntil:'load'});
+   await page.locator('#datepick').fill('2026-11-18');
+   await page.locator('#datepick').dispatchEvent('change');
+   assert.equal(await page.locator('#daily-teaching-card-title').innerText(),'Tomorrow’s teaching');
+   await page.locator('#datepick').fill(today);
+   await page.locator('#datepick').dispatchEvent('change');
+ });
+ await test('Daily agenda is ordered before the optional journal',async()=>{
+   await page.locator('[data-tab="daily"]').evaluate(e=>e.click());
+   const order=await page.evaluate(()=>['.agenda-datebar','.today-home','.daily-teaching-card','.agenda-utilities','.agenda-book'].map(q=>{
+    const el=document.querySelector('#daily > '+q);return {q,order:Number(getComputedStyle(el).order),top:el.getBoundingClientRect().top}
+   }));
+   for(let i=1;i<order.length;i++)assert(order[i].order>order[i-1].order,'Agenda sections out of order '+JSON.stringify(order));
+   assert(order[0].top<order[1].top&&order[1].top<order[2].top,'Agenda should appear before teaching and journal');
+ });
  await test('Family Space groceries, editing, shopping and separate storage',async()=>{
    await page.locator('[data-tab="family-space"]').evaluate(e=>e.click());
    assert.equal(await page.locator('#family-space').evaluate(e=>e.classList.contains('active')),true);
