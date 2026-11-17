@@ -1,0 +1,11 @@
+/* Kingdom Atmosphere Agenda · bilingual controls */
+.ka-language-toggle{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;min-width:46px;min-height:35px;padding:6px 12px;border:1px solid #d6c28a;border-radius:999px;background:transparent;color:#f0d28a;font-size:12px;font-weight:800;letter-spacing:.08em;cursor:pointer}
+.ka-language-toggle:focus-visible{outline:3px solid #dba72d;outline-offset:3px}
+.ka-language-header{margin-left:auto}
+.daily-teaching-card-top .ka-language-teaching{color:#19513a;border-color:#a9c9b0;background:#f3f8ef;margin-left:auto;font-size:12px}
+.teaching-translation-fields{display:grid;gap:8px;margin-top:20px;padding:16px;border:1px solid #e0e8df;border-radius:12px;background:#f7f9f4}
+.teaching-translation-heading{font-size:11px;font-weight:800;letter-spacing:.07em;color:#365a42}
+.teaching-translation-fields textarea{min-height:150px}
+.teaching-translation-fields .hint{margin:2px 0}
+@media(max-width:560px){.ka-language-header{min-width:43px;padding:6px 8px}.daily-teaching-card-top{flex-wrap:wrap;gap:8px}.daily-teaching-card-top .ka-language-teaching{margin-left:auto}.teaching-translation-fields{padding:12px}}
+@media print{.ka-language-toggle{display:none!important}}
