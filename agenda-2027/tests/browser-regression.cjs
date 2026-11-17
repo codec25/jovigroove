@@ -45,6 +45,19 @@ async function main(){
    assert.equal(record.daynotes,'Browser regression note');
    assert.match(await page.locator('#digest-count').innerText(),/2 of 4/);
  });
+ await test('Saved writing appears in searchable history and reopens the right day',async()=>{
+   await page.locator('#journal-history-open').click();
+   assert.equal(await page.locator('#notes').evaluate(e=>e.classList.contains('active')),true);
+   await page.locator('#journal-history-search').fill('Browser regression note');
+   await page.locator('#journal-history-type').selectOption('notes');
+   assert.equal(await page.locator('#journal-history-list [data-history-date]').count(),1);
+   assert.match(await page.locator('#journal-history-list [data-history-date]').first().innerText(),/Browser regression note/);
+   await page.locator('#journal-history-list [data-history-date]').first().click();
+   assert.equal(await page.locator('#datepick').inputValue(),today);
+   assert.equal(await page.locator('#journal-notes').evaluate(e=>e.open),true);
+   assert.equal(await page.locator('#daynotes').inputValue(),'Browser regression note');
+   await page.locator('#journal-notes .journal-done').click();
+ });
  await test('Navigation and journal entries survive reload',async()=>{
    await page.locator('#next').click();
    assert.equal(await page.locator('#datepick').inputValue(),tomorrow);
