@@ -38,7 +38,7 @@ window.KingdomAgendaVerses=VERSES;
 var data={days:{},months:{},family:[],gifts:[],single:{},activities:[],sessions:[],reminders:[],weeks:{},linkedGoals:[],linkedOutcomes:[],linkedActions:[]};try{var loaded=JSON.parse(localStorage.getItem(KEY)||'null');if(loaded&&typeof loaded==='object'){data.days=loaded.days||{};data.months=loaded.months||{};data.family=Array.isArray(loaded.family)?loaded.family:[];data.gifts=Array.isArray(loaded.gifts)?loaded.gifts:[];data.single=loaded.single||{};data.weeks=loaded.weeks||{};data.activities=Array.isArray(loaded.activities)?loaded.activities:[];data.sessions=Array.isArray(loaded.sessions)?loaded.sessions:[];data.reminders=Array.isArray(loaded.reminders)?loaded.reminders:[];data.linkedGoals=Array.isArray(loaded.linkedGoals)?loaded.linkedGoals:[];data.linkedOutcomes=Array.isArray(loaded.linkedOutcomes)?loaded.linkedOutcomes:[];data.linkedActions=Array.isArray(loaded.linkedActions)?loaded.linkedActions:[]}}catch(e){}
 var startupNow=new Date(),selected=startupNow.getFullYear()+'-'+String(startupNow.getMonth()+1).padStart(2,'0')+'-'+String(startupNow.getDate()).padStart(2,'0'),month=startupNow.getMonth(),calendarYear=startupNow.getFullYear();var $=function(id){return document.getElementById(id)};function save(){try{localStorage.setItem(KEY,JSON.stringify(data));$('status').textContent='Saved on this device';}catch(e){$('status').textContent='Storage unavailable. Export your entries to avoid losing them.'}}
 function isoDate(s){return new Date(s+'T12:00:00')}function dayIndex(s){return Math.floor(Date.UTC(+s.slice(0,4),+s.slice(5,7)-1,+s.slice(8,10))/86400000)}function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function setDay(s){if(!/^\d{4}-\d{2}-\d{2}$/.test(s)||!Number.isFinite(isoDate(s).getTime()))return;selected=s;$('datepick').value=s;var d=isoDate(s);$('dayheading').textContent=d.toLocaleDateString('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});var verse=VERSES[((dayIndex(s)%VERSES.length)+VERSES.length)%VERSES.length];$('versetext').textContent='“'+verse[1]+'”';$('verseref').textContent=verse[0]+' · KJV';var entry=data.days[selected]||{};document.querySelectorAll('[data-day]').forEach(function(el){el.value=entry[el.dataset.day]||''})}
+function setDay(s){if(!/^\d{4}-\d{2}-\d{2}$/.test(s)||!Number.isFinite(isoDate(s).getTime()))return;selected=s;$('datepick').value=s;var d=isoDate(s);$('dayheading').textContent=d.toLocaleDateString('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});var verse=VERSES[((dayIndex(s)%VERSES.length)+VERSES.length)%VERSES.length];$('versetext').textContent='“'+verse[1]+'”';$('verseref').textContent=verse[0]+' · KJV';var entry=data.days[selected]||{};document.querySelectorAll('[data-day]').forEach(function(el){el.value=entry[el.dataset.day]||''});document.dispatchEvent(new CustomEvent('kingdom:dayChanged',{detail:{date:selected}}))}
 document.querySelectorAll('[data-day]').forEach(function(el){el.addEventListener('input',function(){if(!data.days[selected])data.days[selected]={};data.days[selected][el.dataset.day]=el.value;save()})});
 $('datepick').addEventListener('change',function(){setDay(this.value)});$('prev').onclick=function(){var n=new Date(isoDate(selected));n.setDate(n.getDate()-1);setDay(n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0'))};$('next').onclick=function(){var n=new Date(isoDate(selected));n.setDate(n.getDate()+1);setDay(n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0'))};
 MONTHS.forEach(function(m,i){var op=document.createElement('option');op.value=i;op.textContent=m;$('monthpick').appendChild(op)});$('monthpick').onchange=function(){setMonth(+this.value)};
@@ -262,58 +262,7 @@ setInterval(checkRealDay,60000);
 })();
 
 
-/* Premium journal pages: auto-saving, live digest, comfortable full-screen writing */
-(function(){
-var journalSections=['intent','notes','faith','evening'],lastTrigger=null;
-var fields={intent:['focus','oneaction','priorities'],notes:['daynotes'],faith:['reflection','prayer','gratitude'],evening:['review']};
-function preview(text,fallback){var str=String(text||'').trim().replace(/\s+/g,' ');return str?str.slice(0,110):fallback}
-function hasWriting(entry,key){return fields[key].some(function(id){return String(entry[id]||'').trim().length>0})}
-function updateJournalTiles(){
-var entry=data.days[selected]||{};
-$('preview-intent').textContent=preview(entry.oneaction||entry.focus||entry.priorities,'What matters most to you today?');
-$('preview-notes').textContent=preview(entry.daynotes,'A private space to write freely.');
-$('preview-faith').textContent=preview(entry.reflection||entry.prayer||entry.gratitude,'Reflect on the Word and your day.');
-$('preview-evening').textContent=preview(entry.review,'Record progress, lessons and growth.');
-var count=journalSections.filter(function(key){return hasWriting(entry,key)}).length;
-$('digest-count').textContent=count+' of 4 pages written';
-$('digest-caption').textContent=count===0?'A fresh page, ready for your thoughts.':count===4?'Your thoughts, priorities and reflections are recorded.':count+' section'+(count===1?' has':'s have')+' your writing.';
-journalSections.forEach(function(key){var tile=document.querySelector('[data-journal-open="'+key+'"]');if(tile){tile.classList.toggle('is-written',hasWriting(entry,key));tile.setAttribute('aria-label',tile.querySelector('strong').textContent+(hasWriting(entry,key)?', has writing':', not started'))}});
-}
-function resizeWriting(el){
-if(el.tagName!=='TEXTAREA')return;
-el.style.height='auto';
-var max=window.innerHeight*0.65;
-el.style.height=Math.max(105,Math.min(el.scrollHeight+4,max))+'px';
-el.style.overflowY=el.scrollHeight>max?'auto':'hidden';
-}
-function openJournal(name,trigger){
-var panel=$('journal-'+name);if(!panel||typeof panel.showModal!=='function')return;
-lastTrigger=trigger||null;panel.showModal();
-panel.querySelectorAll('textarea').forEach(resizeWriting);
-var first=panel.querySelector('input,textarea');if(first)requestAnimationFrame(function(){first.focus({preventScroll:true})});
-}
-document.querySelectorAll('[data-journal-open]').forEach(function(btn){btn.addEventListener('click',function(){openJournal(btn.dataset.journalOpen,btn)})});
-journalSections.forEach(function(name){
-var panel=$('journal-'+name);
-panel.querySelectorAll('.journal-close,.journal-done').forEach(function(b){b.onclick=function(){panel.close()}});
-panel.addEventListener('click',function(e){if(e.target===panel)panel.close()});
-panel.addEventListener('close',function(){
-panel.classList.remove('focus-writing');var expand=panel.querySelector('.journal-expand');if(expand){expand.setAttribute('aria-pressed','false');expand.textContent='⤢'}
-updateJournalTiles();if(lastTrigger&&lastTrigger.isConnected)lastTrigger.focus({preventScroll:true});
-});
-var expand=panel.querySelector('.journal-expand');
-if(expand)expand.onclick=function(){var on=panel.classList.toggle('focus-writing');expand.setAttribute('aria-pressed',String(on));expand.textContent=on?'⤡':'⤢';expand.setAttribute('aria-label',on?'Exit full-screen writing':'Expand writing space');panel.querySelectorAll('textarea').forEach(resizeWriting)};
-});
-document.querySelectorAll('.agenda-dialog [data-day]').forEach(function(el){
-el.addEventListener('input',function(){
-resizeWriting(el);updateJournalTiles();
-var status=el.closest('.agenda-dialog').querySelector('.journal-save-status');if(status)status.textContent='Saved on this device';
-});
-});
-var earlierSetDay=setDay;setDay=function(day){earlierSetDay(day);updateJournalTiles();document.querySelectorAll('.agenda-dialog textarea').forEach(resizeWriting)};
-window.addEventListener('resize',function(){document.querySelectorAll('.agenda-dialog[open] textarea').forEach(resizeWriting)});
-updateJournalTiles();
-})();
+/* Journal presentation is owned by journal-controller.js; app.js owns [data-day] persistence. */
 
 if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost'))navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(e){console.warn('Offline installation unavailable',e)});
 var installPrompt;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();installPrompt=e;var b=document.getElementById('install-btn');if(b)b.style.display='inline-block'});document.getElementById('install-btn').addEventListener('click',function(){if(installPrompt){installPrompt.prompt();installPrompt=null;this.style.display='none'}});
