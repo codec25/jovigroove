@@ -401,7 +401,7 @@ body.journal-fallback-active::before{content:"";position:fixed;inset:0;z-index:9
 <div class="toolbar no-print" role="navigation" aria-label="Agenda sections">
 <button data-tab="daily" class="active">Today</button><button data-tab="weekly">Week</button><button data-tab="vision">Vision</button><button data-tab="monthly">Calendar</button><button data-tab="activities">Activities</button><button data-tab="reminders">Reminders</button><button data-tab="family">Family</button><button data-tab="gifts">Gifts</button><button data-tab="notes">Journal</button><button data-tab="settings">Settings</button>
 </div>
-<details class="install-tip no-print" id="install-guide"><summary>Install this agenda for offline use <span>↗</span></summary><p>On iPhone: open in Safari → Share → Add to Home Screen. On Android: browser menu → Install app. Open while connected once, then use it offline.</p><button type="button" id="install-btn" class="btn light" style="display:none">Install app</button><p class="hint">Your entries are stored on this device. Export a backup regularly.</p></details><div id="status" class="hint" aria-live="polite">Your edits are saved privately in this browser on this device.</div>
+<details class="install-tip no-print" id="install-guide"><summary>Install this agenda for offline use <span>↗</span></summary><p>On iPhone: open in Safari → Share → Add to Home Screen. On Android: browser menu → Install app. Open while connected once, then use it offline.</p><button type="button" id="install-btn" class="btn light" style="display:none">Install app</button><p class="hint">Your entries are stored on this device. Export a backup regularly.</p></details><div id="status" class="hint" aria-live="polite">Agenda v15 · Loading your local date…</div>
 <section id="vision" class="pane">
 <div class="card">
 <div class="section-label">THE FOUNDATION / DIRECTION BEFORE ACTIVITY</div><h2>My purpose & vision</h2>
@@ -416,7 +416,7 @@ body.journal-fallback-active::before{content:"";position:fixed;inset:0;z-index:9
 </div></section>
 <section id="weekly" class="pane">
 <div class="card"><div class="section-label">WEEKLY PRACTICE / INTENTIONAL PROGRESS</div><h2>Design the week</h2>
-<div class="controls no-print"><button class="btn light" id="weekprev">← Previous</button><label class="control-label" for="weekdate">Week of</label><input type="date" id="weekdate" value="2027-01-01"><button class="btn light" id="weeknext">Next →</button></div>
+<div class="controls no-print"><button class="btn light" id="weekprev">← Previous</button><label class="control-label" for="weekdate">Week of</label><input type="date" id="weekdate"><button class="btn light" id="weeknext">Next →</button></div>
 <p class="hint" id="weekrange"></p><div class="connected-panel weekly-review"><div class="connect-top"><strong>Weekly reality check</strong><small>Planned vs completed</small></div><div class="review-grid"><div><b id="review-outcomes">0/0</b><small>Outcomes</small></div><div><b id="review-actions">0/0</b><small>Actions</small></div><div><b id="review-minutes">0m</b><small>Tracked</small></div><div><b id="review-linked">0m</b><small>Linked time</small></div></div><div id="review-insights" class="hint"></div><div id="review-pending"></div><button type="button" id="carry-week" class="btn light">Carry unfinished outcomes to next week</button><p class="hint">Time recorded is not the same as tasks completed. Carrying outcomes requires your approval.</p></div>
 <div class="connected-panel" id="week-connect"><div class="connect-top"><strong>Measurable weekly outcomes</strong><small>Choose the annual goal each outcome supports</small></div><div class="connect-input"><input type="text" id="outcome-name" placeholder="What result will I complete this week?"><select id="outcome-goal" aria-label="Connected yearly goal"><option value="">General progress</option></select><button type="button" class="btn" id="outcome-add">Add outcome</button></div><div class="connected-list" id="outcome-list"></div></div>
 <label class="field" for="weekmission">My mission this week</label><textarea id="weekmission" data-week="mission" class="short" placeholder="What result would make this week meaningful?"></textarea>
@@ -428,10 +428,10 @@ body.journal-fallback-active::before{content:"";position:fixed;inset:0;z-index:9
 </div></section>
 <section id="daily" class="pane active">
 <div class="agenda-page-head no-print"><span class="section-label">MY DAILY AGENDA</span><span>FAITH · LIFE · GROWTH</span></div>
-<div class="controls no-print agenda-datebar"><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Date</label><input type="date" id="datepick" value="2027-01-01"><button id="next" class="btn light" aria-label="Next day">→</button><button class="btn" data-print="daily">Print page</button></div>
+<div class="controls no-print agenda-datebar"><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Date</label><input type="date" id="datepick" aria-label="Selected agenda date"><button id="next" class="btn light" aria-label="Next day">→</button><button class="btn" data-print="daily">Print page</button></div>
 <div class="agenda-book">
 <div class="card agenda-paper">
-<div class="agenda-heading"><div class="section-label">YOUR PERSONAL JOURNAL</div><h2 id="dayheading">Friday, January 1, 2027</h2><p>One day at a time, with intention, faith and room to grow.</p></div>
+<div class="agenda-heading"><div class="section-label">YOUR PERSONAL JOURNAL</div><h2 id="dayheading">Opening today’s page…</h2><p>One day at a time, with intention, faith and room to grow.</p></div>
 <div class="verse"><p id="versetext"></p><small id="verseref"></small></div>
 <div class="journal-intro no-print"><span>YOUR DAILY PAGES</span><span>Tap a section to write <span aria-hidden="true">↗</span></span></div>
 <div class="journal-digest no-print" id="journal-digest" aria-live="polite"><span id="digest-caption">A fresh page, ready for your thoughts.</span><strong id="digest-count">0 of 4 pages written</strong></div><div class="journal-tiles no-print">
