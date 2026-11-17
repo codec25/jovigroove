@@ -63,6 +63,24 @@ function editStart(type,item){
  $('family-space').scrollIntoView({behavior:'smooth',block:'start'});
  $(input).focus({preventScroll:true});
 }
+/* Reuse a previous family item without modifying or duplicating it until Save. */
+function reuseItem(type,item){
+ cancelEdit();
+ if(type==='groceries'){
+  $('family-grocery-name').value=item.name||'';$('family-grocery-quantity').value=item.qty||'';
+ }else if(type==='tasks'){
+  $('family-task-name').value=item.name||'';$('family-task-assignee').value=item.assignee||'';
+  $('family-task-date').value=localDay();$('family-task-repeat').value=item.repeat||'none';
+ }else if(type==='events'){
+  $('family-event-name').value=item.name||'';$('family-event-date').value=localDay();
+  $('family-event-time').value=item.time||'';$('family-event-repeat').value=item.repeat||'none';
+ }else if(type==='moments'){
+  $('family-moment-kind').value=item.kind||'appreciation';$('family-moment-text').value=item.text||'';
+ }
+ const input={groceries:'family-grocery-name',tasks:'family-task-name',events:'family-event-name',moments:'family-moment-text'}[type];
+ const el=$(input);
+ el.scrollIntoView({behavior:'smooth',block:'center'});el.focus({preventScroll:true});
+}
 function cancelEdit(){
  editing=null;
  for(const type of TYPES){
@@ -97,7 +115,7 @@ function renderGroceries(){
  bar.style.width=progress+'%';bar.parentElement.setAttribute('aria-valuenow',String(progress));
  for(const x of entries){
   const row=card('groceries',x,x.name,x.qty||'No quantity set',[
-   {text:'Edit',act:()=>editStart('groceries',x)},
+   {text:'Edit',act:()=>editStart('groceries',x)},{text:'Reuse',act:()=>reuseItem('groceries',x)},
    {text:'Delete',act:()=>{if(confirm('Remove '+x.name+' from this list?'))remove('groceries',x.id)}}
   ],x.done);
   const check=make('input');check.type='checkbox';check.checked=!!x.done;check.setAttribute('aria-label','Purchased '+x.name);
@@ -171,7 +189,7 @@ function renderTasks(){
  for(const x of entries){
   const detail=[x.assignee?'For '+x.assignee:'Unassigned',x.date||'No due date',x.repeat==='weekly'?'Weekly':x.repeat==='daily'?'Daily':'',x.lastCompleted===localDay()?'✓ Completed today':''].filter(Boolean).join(' · ');
   const row=card('tasks',x,x.name,detail,[
-   {text:'Edit',act:()=>editStart('tasks',x)},{text:'Delete',act:()=>{if(confirm('Remove this responsibility?'))remove('tasks',x.id)}}
+   {text:'Edit',act:()=>editStart('tasks',x)},{text:'Copy',act:()=>reuseItem('tasks',x)},{text:'Delete',act:()=>{if(confirm('Remove this responsibility?'))remove('tasks',x.id)}}
   ],x.done);
   const check=make('input');check.type='checkbox';check.checked=!!x.done;check.setAttribute('aria-label','Complete '+x.name);check.addEventListener('change',()=>taskToggle(x));row.insertBefore(check,row.firstChild);list.appendChild(row)
  }
@@ -199,7 +217,7 @@ function renderEvents(){
  for(const {x,when} of events){
   const date=validDate(when)?dateObj(when).toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'}):'Date not set';
   const detail=[date,x.time||'',x.repeat==='yearly'?'Repeats yearly':''].filter(Boolean).join(' · ');
-  const row=card('events',x,x.name,detail,[{text:'Edit',act:()=>editStart('events',x)},{text:'Delete',act:()=>{if(confirm('Remove this family event?'))remove('events',x.id)}}],false);list.appendChild(row)
+  const row=card('events',x,x.name,detail,[{text:'Edit',act:()=>editStart('events',x)},{text:'Copy',act:()=>reuseItem('events',x)},{text:'Delete',act:()=>{if(confirm('Remove this family event?'))remove('events',x.id)}}],false);list.appendChild(row)
  }
  if(!events.length)list.appendChild(make('p','family-empty','Create a family gathering, birthday or other important moment.'));
 }
@@ -214,7 +232,7 @@ function renderMoments(){
  const name={appreciation:'Appreciation',prayer:'Family prayer',checkin:'Check-in',together:'Quality time'};
  for(const x of active('moments').sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0))){
   const date=new Date(x.updatedAt||Date.now()).toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
-  const row=card('moments',x,name[x.kind]||'Family moment',date,[{text:'Edit',act:()=>editStart('moments',x)},{text:'Delete',act:()=>{if(confirm('Remove this family moment?'))remove('moments',x.id)}}],false);
+  const row=card('moments',x,name[x.kind]||'Family moment',date,[{text:'Edit',act:()=>editStart('moments',x)},{text:'Reuse',act:()=>reuseItem('moments',x)},{text:'Delete',act:()=>{if(confirm('Remove this family moment?'))remove('moments',x.id)}}],false);
   row.querySelector('.family-item-copy').appendChild(make('p','family-moment-content',x.text));
   list.appendChild(row)
  }
