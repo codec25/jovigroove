@@ -136,11 +136,23 @@ function h(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&
 function normalized(s){return String(s||'').trim().toLowerCase().replace(/\s+/g,' ')}
 function duration(name){var k=normalized(name),xs=data.sessions.filter(function(x){return normalized(x.name)===k&&Number(x.minutes)>0}).slice(-12);if(!xs.length)return null;return {average:Math.round(xs.reduce(function(a,x){return a+Number(x.minutes)},0)/xs.length),count:xs.length}}
 function allActivityNames(){var entries=new Set((data.activities||[]).map(function(x){return x.name}));data.sessions.forEach(function(x){entries.add(x.name)});return Array.from(entries).filter(Boolean)}
+var sessionEditIndex=-1;
+$('session-edit-save').onclick=function(){
+var x=data.sessions[sessionEditIndex],name=$('session-edit-name').value.trim(),minutes=Number($('session-edit-minutes').value);
+if(!x)return;
+if(!name||!Number.isFinite(minutes)||minutes<1||minutes>1440){alert('Enter an activity name and a duration between 1 and 1440 minutes.');return}
+x.name=name;x.minutes=Math.round(minutes);save();sessionEditIndex=-1;$('session-editor').hidden=true;redrawActivities();
+};
+$('session-edit-cancel').onclick=function(){sessionEditIndex=-1;$('session-editor').hidden=true};
 function redrawActivities(){
 var name=$('activity-name').value.trim(),estimate=duration(name);$('activity-estimate').textContent=name?(estimate?'Based on '+estimate.count+' recorded session'+(estimate.count>1?'s':'')+': typically '+estimate.average+' min.':'No sessions yet. Complete one to start learning.'):'Enter an activity to see its suggested duration.';
 $('activity-library').innerHTML='';allActivityNames().forEach(function(n){var x=duration(n),el=document.createElement('div');el.className='smart-item';el.innerHTML='<div><b>'+h(n)+'</b><small>'+(x?x.average+' min average · '+x.count+' completed':'No recorded sessions')+'</small></div><button type="button">Use again</button>';el.querySelector('button').onclick=function(){$('activity-name').value=n;$('activity-minutes').value=x?x.average:30;redrawActivities()};$('activity-library').appendChild(el)});
 if(!allActivityNames().length)$('activity-library').innerHTML='<p class="hint">No activities yet. Start a session above.</p>';
-$('activity-history').innerHTML='';data.sessions.slice(-8).reverse().forEach(function(x){var el=document.createElement('div');el.className='smart-item';el.innerHTML='<div><b>'+h(x.name)+'</b><small>'+Math.round(x.minutes)+' min · '+new Date(x.finished).toLocaleDateString()+'</small></div><button type="button">Copy</button>';el.querySelector('button').onclick=function(){copyActivity(x.name,Math.round(x.minutes))};$('activity-history').appendChild(el)});
+$('activity-history').innerHTML='';data.sessions.slice(-8).reverse().forEach(function(x){var el=document.createElement('div');el.className='smart-item';el.innerHTML='<div><b>'+h(x.name)+'</b><small>'+Math.round(x.minutes)+' min · '+new Date(x.finished).toLocaleDateString()+'</small></div><button type="button" data-session-copy>Copy</button><button type="button" data-session-edit>Edit</button><button type="button" data-session-delete>Delete</button>';
+el.querySelector('[data-session-copy]').onclick=function(){copyActivity(x.name,Math.round(x.minutes))};
+el.querySelector('[data-session-edit]').onclick=function(){sessionEditIndex=data.sessions.indexOf(x);$('session-edit-name').value=x.name;$('session-edit-minutes').value=Math.round(x.minutes);$('session-editor').hidden=false;$('session-editor').scrollIntoView({behavior:'smooth',block:'nearest'})};
+el.querySelector('[data-session-delete]').onclick=function(){if(!confirm('Delete this recorded session? This also changes its learned average duration.'))return;var at=data.sessions.indexOf(x);if(at<0)return;data.sessions.splice(at,1);save();redrawActivities();$('session-editor').hidden=true;sessionEditIndex=-1};
+$('activity-history').appendChild(el)});
 if(!data.sessions.length)$('activity-history').innerHTML='<p class="hint">Your completed sessions appear here.</p>';
 activeSession=data.activeSession||null;$('activity-stop').disabled=!activeSession;
 $('activity-running').textContent=activeSession?'Tracking '+activeSession.name+' since '+new Date(activeSession.started).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+'. Return here to finish.':'';
