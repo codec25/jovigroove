@@ -69,6 +69,45 @@ async function main(){
    assert.equal(await page.locator('#daynotes').inputValue(),'Browser regression note');
    await page.locator('#journal-notes .journal-done').click();
  });
+ await test('Family Space groceries, editing, shopping and separate storage',async()=>{
+   await page.locator('[data-tab="family-space"]').evaluate(e=>e.click());
+   assert.equal(await page.locator('#family-space').evaluate(e=>e.classList.contains('active')),true);
+   await page.locator('#family-grocery-name').fill('Milk');
+   await page.locator('#family-grocery-quantity').fill('2 L');
+   await page.locator('#family-grocery-form button[type=submit]').click();
+   assert.equal(await page.locator('#family-grocery-list article').count(),1);
+   await page.locator('#family-grocery-list article').getByRole('button',{name:'Edit'}).click();
+   await page.locator('#family-grocery-quantity').fill('3 L');
+   await page.locator('#family-grocery-form button[type=submit]').click();
+   await page.locator('#family-grocery-list input[type=checkbox]').check();
+   assert.match(await page.locator('#family-grocery-progress').innerText(),/1 of 1/);
+   const data=await page.evaluate(()=>JSON.parse(localStorage.getItem('ka-family-space-v1')));
+   assert.equal(data.groceries[0].qty,'3 L');assert.equal(data.groceries[0].done,true);
+   const agenda=await page.evaluate(()=>JSON.parse(localStorage.getItem('ka-2027-agenda-v1')));
+   assert.equal(agenda.days[today].daynotes,'Browser regression note');
+   assert.match(await page.evaluate(()=>window.KingdomFamilySpace.getGroceryText()),/Milk/);
+ });
+ await test('Family responsibilities, calendar, moments and offline persistence',async()=>{
+   await page.locator('[data-family-tab="tasks"]').click();
+   await page.locator('#family-task-name').fill('Take out recycling');
+   await page.locator('#family-task-assignee').fill('Family member');
+   await page.locator('#family-task-form button[type=submit]').click();
+   assert.equal(await page.locator('#family-task-list article').count(),1);
+   await page.locator('[data-family-tab="calendar"]').click();
+   await page.locator('#family-event-name').fill('Family game night');
+   await page.locator('#family-event-date').fill(tomorrow);
+   await page.locator('#family-event-form button[type=submit]').click();
+   assert.match(await page.locator('#family-event-list').innerText(),/Family game night/);
+   await page.locator('[data-family-tab="moments"]').click();
+   await page.locator('#family-moment-text').fill('Pray and encourage each other this week');
+   await page.locator('#family-moment-form button[type=submit]').click();
+   assert.match(await page.locator('#family-moment-list').innerText(),/Pray and encourage/);
+   await page.reload({waitUntil:'load'});
+   await page.locator('[data-tab="family-space"]').evaluate(e=>e.click());
+   assert.equal(await page.locator('#family-grocery-list article').count(),1);
+   await page.locator('[data-family-tab="calendar"]').click();
+   assert.match(await page.locator('#family-event-list').innerText(),/Family game night/);
+ });
  await test('Growth modal fits mobile and autosaves',async()=>{
    await page.locator('#growth-open').click();
    assert.equal(await page.locator('#growth-dialog').evaluate(e=>e.open),true);
