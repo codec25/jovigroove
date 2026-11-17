@@ -50,7 +50,26 @@ async function main(){
    assert(styles.width>280,'Today card collapsed on mobile');
    assert.notEqual(styles.buttonBg,'rgb(239, 239, 239)','Plan action still has browser default styling');
  });
+ await test('Today is one concise workspace, with journal and deep tools closed by default',async()=>{
+   const before=await page.evaluate(()=>{
+     const journal=document.querySelector('#today-journal'),tools=document.querySelector('#today-tools');
+     const home=document.querySelector('#today-home').getBoundingClientRect();
+     const teaching=document.querySelector('#daily-teaching-card').getBoundingClientRect();
+     return {journalOpen:journal.open,toolsOpen:tools.open,homeY:home.y,teachingY:teaching.y,
+       journalVisible:journal.querySelector('.agenda-paper').getBoundingClientRect().height,
+       deepToolsVisible:tools.querySelector('.agenda-utilities').getBoundingClientRect().height};
+   });
+   assert.equal(before.journalOpen,false);
+   assert.equal(before.toolsOpen,false);
+   assert.equal(before.journalVisible,0,'Full journal should not duplicate Today on entry');
+   assert.equal(before.deepToolsVisible,0,'Advanced tools should not occupy Today by default');
+   assert(before.homeY<before.teachingY);
+   await page.locator('#today-open-journal').click();
+   assert.equal(await page.locator('#journal-notes').evaluate(e=>e.open),true);
+   await page.locator('#journal-notes .journal-done').click();
+ });
  await test('Journal opens, saves once and keeps unrelated fields',async()=>{
+   await page.locator('#today-journal > summary').click();
    await page.locator('[data-journal-open="faith"]').click();
    assert.equal(await page.locator('#journal-faith').evaluate(e=>e.open),true);
    await page.locator('#prayer').fill('Preserve prayer');
@@ -64,6 +83,7 @@ async function main(){
    assert.match(await page.locator('#digest-count').innerText(),/2 of 4/);
  });
  await test('Saved writing appears in searchable history and reopens the right day',async()=>{
+   await page.locator('#today-journal').evaluate(e=>e.open=true);
    await page.locator('#journal-history-open').click();
    assert.equal(await page.locator('#notes').evaluate(e=>e.classList.contains('active')),true);
    await page.locator('#journal-history-search').fill('Browser regression note');
@@ -83,6 +103,7 @@ async function main(){
    assert.equal(await page.locator('#datepick').inputValue(),today);
    await page.reload({waitUntil:'load'});
    await page.waitForTimeout(350);
+   await page.locator('#today-journal').evaluate(e=>e.open=true);
    await page.locator('[data-journal-open="notes"]').click();
    assert.equal(await page.locator('#daynotes').inputValue(),'Browser regression note');
    await page.locator('#journal-notes .journal-done').click();
@@ -131,6 +152,7 @@ async function main(){
  });
  await test('Journal dialog fits a short desktop viewport and keeps Done visible',async()=>{
    await page.setViewportSize({width:1366,height:768});
+   await page.locator('#today-journal').evaluate(e=>e.open=true);
    await page.locator('[data-journal-open="intent"]').click();
    const result=await page.locator('#journal-intent').evaluate(el=>{
     const bounds=el.getBoundingClientRect(),footer=el.querySelector('.journal-dialog-footer').getBoundingClientRect();
@@ -145,6 +167,7 @@ async function main(){
  await test('All journal modes remain usable on short desktop and mobile screens',async()=>{
    for(const viewport of [{width:1280,height:700},{width:390,height:700}]){
      await page.setViewportSize(viewport);
+     await page.locator('#today-journal').evaluate(e=>e.open=true);
      for(const mode of ['intent','notes','faith','evening']){
        await page.locator('[data-journal-open="'+mode+'"]').click();
        const layout=await page.locator('#journal-'+mode).evaluate(el=>{
@@ -327,6 +350,7 @@ async function main(){
    await page.locator('#edit-activity-save').click();
    assert((await page.evaluate(d=>JSON.parse(localStorage.getItem('ka-2027-agenda-v1')).days[d].schedule,today)).includes('Hip-Hop technique'));
    await page.locator('[data-tab="daily"]').evaluate(e=>e.click());
+   await page.locator('#today-tools').evaluate(e=>e.open=true);
    await page.locator('#planning-copy').evaluate(e=>e.open=true);
    await page.locator('#plan-source-date').fill(today);
    await page.locator('#plan-target-date').fill(tomorrow);
