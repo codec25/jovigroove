@@ -62,6 +62,60 @@ if(card){card.classList.toggle('is-written',filled);card.setAttribute('aria-labe
 });
 if($('digest-count'))$('digest-count').textContent=count+' of 4 pages written';
 if($('digest-caption'))$('digest-caption').textContent=count===0?'A fresh page, ready for your thoughts.':count===4?'Your thoughts, priorities and reflections are recorded.':count+' section'+(count===1?' has':'s have')+' your writing.';
+if($('notes')&&$('notes').classList.contains('active'))renderHistory();
+}
+
+/* The existing Journal workspace is the archive of daily writing.
+   Entries are read directly from the same saved days; no second copy or storage key. */
+var HISTORY_LABELS={intent:'Intentions & priorities',notes:'Notes & thoughts',faith:'Faith & prayer',evening:'Evening reflection'};
+function renderHistory(){
+ var list=$('journal-history-list'),total=$('journal-history-total');
+ if(!list)return;
+ var query=String($('journal-history-search')&&$('journal-history-search').value||'').trim().toLowerCase();
+ var type=$('journal-history-type')&&$('journal-history-type').value||'all';
+ var days=read().days||{},items=[];
+ Object.keys(days).sort().reverse().forEach(function(d){
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return;
+  var record=days[d]||{};
+  Object.keys(FIELDS).forEach(function(section){
+   if(type!=='all'&&type!==section)return;
+   var parts=FIELDS[section].map(function(field){return String(record[field]||'').trim()}).filter(Boolean);
+   if(!parts.length)return;
+   var full=parts.join(' · ');
+   if(query&&!((d+' '+HISTORY_LABELS[section]+' '+full).toLowerCase().includes(query)))return;
+   items.push({date:d,section:section,content:full});
+  });
+ });
+ if(total)total.textContent=items.length+' saved '+(items.length===1?'entry':'entries');
+ list.replaceChildren();
+ if(!items.length){
+  var empty=document.createElement('p');empty.className='journal-history-empty';
+  empty.textContent=query?'No writing matches this search.':'No saved writing yet. Start with a journal page on Today.';
+  list.appendChild(empty);return
+ }
+ items.slice(0,80).forEach(function(item){
+  var button=document.createElement('button');button.type='button';button.className='journal-history-item';
+  button.dataset.historyDate=item.date;button.dataset.historySection=item.section;
+  var top=document.createElement('span');top.className='journal-history-item-head';
+  var name=document.createElement('strong');name.textContent=HISTORY_LABELS[item.section];
+  var date=document.createElement('small');date.textContent=new Date(item.date+'T12:00:00').toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
+  top.appendChild(name);top.appendChild(date);
+  var preview=document.createElement('span');preview.className='journal-history-excerpt';
+  preview.textContent=item.content.length>190?item.content.slice(0,187)+'…':item.content;
+  var action=document.createElement('span');action.className='journal-history-continue';action.textContent='Continue writing ↗';
+  button.appendChild(top);button.appendChild(preview);button.appendChild(action);list.appendChild(button);
+ });
+ if(items.length>80){
+  var more=document.createElement('p');more.className='hint';more.textContent='Showing 80 entries. Search to find older writing.';list.appendChild(more)
+ }
+}
+function openHistoryEntry(day,section){
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(day)||!FIELDS[section])return;
+ var daily=document.querySelector('[data-tab="daily"]'),picker=$('datepick');
+ if(daily)daily.click();
+ if(picker){picker.value=day;picker.dispatchEvent(new Event('change',{bubbles:true}))}
+ var tile=document.querySelector('[data-journal-open="'+section+'"]');
+ if(tile)tile.click();
 }
 function openPanel(name,trigger){
 var panel=$('journal-'+name);if(!panel||!FIELDS[name])return;
@@ -106,6 +160,10 @@ function toggleWritingFocus(button){
 }
 // Capturing click events makes the action reliable even if another script fails during initialization.
 document.addEventListener('click',function(e){
+var openArchive=e.target.closest('#journal-history-open');
+if(openArchive){e.preventDefault();e.stopImmediatePropagation();var tab=document.querySelector('[data-tab="notes"]');if(tab)tab.click();renderHistory();return}
+var historyEntry=e.target.closest('[data-history-date][data-history-section]');
+if(historyEntry){e.preventDefault();e.stopImmediatePropagation();openHistoryEntry(historyEntry.dataset.historyDate,historyEntry.dataset.historySection);return}
 var tile=e.target.closest('[data-journal-open]');
 if(tile){e.preventDefault();e.stopImmediatePropagation();openPanel(tile.dataset.journalOpen,tile);return}
 var expand=e.target.closest('.agenda-dialog .journal-expand');
@@ -114,6 +172,7 @@ var close=e.target.closest('.agenda-dialog .journal-close,.agenda-dialog .journa
 if(close){e.preventDefault();e.stopImmediatePropagation();closePanel(close.closest('dialog'))}
 },true);
 document.addEventListener('input',function(e){
+ if(e.target.id==='journal-history-search'){renderHistory();return}
  if(!e.target.matches('.agenda-dialog [data-day]'))return;
  resizeWriting(e.target);
  // The app.js input handler saves the data when this event bubbles.
@@ -123,9 +182,9 @@ document.addEventListener('focusin',function(e){if(e.target.matches('.agenda-dia
 document.addEventListener('focusout',function(e){if(e.target.matches('.agenda-dialog input,.agenda-dialog textarea'))setTimeout(updateKeyboardLayout,120)},true);
 if(window.visualViewport){window.visualViewport.addEventListener('resize',function(){updateKeyboardLayout();if(document.activeElement)keepFieldVisible(document.activeElement)});window.visualViewport.addEventListener('scroll',updateKeyboardLayout)}
 window.addEventListener('orientationchange',function(){setTimeout(updateKeyboardLayout,200)});
-document.addEventListener('change',function(e){if(e.target.id==='datepick')setTimeout(refresh,0)},true);
+document.addEventListener('change',function(e){if(e.target.id==='journal-history-type')renderHistory();if(e.target.id==='datepick')setTimeout(refresh,0)},true);
 document.addEventListener('kingdom:dayChanged',function(){setTimeout(refresh,0)});
-document.addEventListener('DOMContentLoaded',function(){refresh();document.querySelectorAll('.agenda-dialog').forEach(function(el){el.addEventListener('close',function(){if(activePanel===el){activePanel=null;el.classList.remove('journal-keyboard-open')}refresh()})})});
+document.addEventListener('DOMContentLoaded',function(){refresh();renderHistory();document.querySelectorAll('.agenda-dialog').forEach(function(el){el.addEventListener('close',function(){if(activePanel===el){activePanel=null;el.classList.remove('journal-keyboard-open')}refresh()})})});
 window.addEventListener('pageshow',refresh);
 window.addEventListener('resize',function(){document.querySelectorAll('.agenda-dialog[open] textarea').forEach(resizeWriting)});
 window.KingdomJournalSelfTest=function(){var result={cards:0,dialogs:0,fields:0,modalSupported:typeof HTMLDialogElement!=='undefined'&&typeof HTMLDialogElement.prototype.showModal==='function'};Object.keys(FIELDS).forEach(function(name){if(document.querySelector('[data-journal-open="'+name+'"]'))result.cards++;if($('journal-'+name))result.dialogs++;FIELDS[name].forEach(function(key){if($(key))result.fields++})});return result};
