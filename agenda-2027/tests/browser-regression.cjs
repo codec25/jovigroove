@@ -21,7 +21,7 @@ async function main(){
  const exceptions=[],failures=[];
  page.on('pageerror',e=>exceptions.push(String(e.stack||e)));
  page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)failures.push(r.status()+' '+r.url())});
- async function test(label,fn){try{await fn();console.log('PASS '+label)}catch(e){console.error('FAIL '+label+'\n'+String(e.stack||e));throw e}}
+ async function test(label,fn){console.log('START '+label);try{await Promise.race([fn(),new Promise((_,reject)=>setTimeout(()=>reject(new Error('Timed out at '+label)),20000))]);console.log('PASS '+label)}catch(e){console.error('FAIL '+label+'\n'+String(e.stack||e));throw e}}
  try{
  await page.goto(base,{waitUntil:'load',timeout:30000});
  await page.waitForTimeout(450);
@@ -126,4 +126,5 @@ async function main(){
  console.log('PASS No uncaught browser errors or missing assets');
  } finally {await context.close();await browser.close()}
 }
-main().catch(e=>{console.error(e);process.exitCode=1});
+setTimeout(()=>{console.error('FATAL: browser regression exceeded 110 seconds');process.exit(1)},110000).unref();
+main().catch(e=>{console.error(e);process.exit(1)});
