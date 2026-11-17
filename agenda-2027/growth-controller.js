@@ -33,7 +33,11 @@ save(db);renderPreview();renderWeek();
 function renderPreview(){
 var data=load(),items=data.days&&data.days[day()]||{};
 var planned=0,done=0;CATEGORIES.forEach(function(x){var a=items[x.id];if(a&&String(a.action||'').trim()){planned++;if(a.done)done++}});
-var node=$('growth-preview');if(node)node.textContent=planned?done+' of '+planned+' chosen actions completed today.':'Choose one small action for today.';
+var node=$('growth-preview');if(node){
+var nudges=['Find a quiet moment to reconnect with God.','Protect your peace: reflect before reacting.','Consider calling someone you care about today.','Take one small step toward becoming who you want to be.','Review one spending decision with intention.'];
+var idx=day().split('-').reduce(function(n,x){return n+Number(x)},0)%nudges.length;
+node.textContent=planned?done+' of '+planned+' chosen actions completed today.':nudges[idx];
+}
 }
 function renderWeek(){
 var node=$('growth-week-summary');if(!node)return;
