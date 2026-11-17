@@ -19,7 +19,7 @@ var yr=document.getElementById('yearpick');if(yr&&yr.dataset.manualDate!=='yes')
 var calYear=document.getElementById('calendar-year');if(calYear&&!calYear.dataset.manualDate)calYear.value=+dateParts[0];
 var indicator=document.getElementById('today-indicator');if(indicator)indicator.textContent='Today · '+d.toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
 var status=document.getElementById('status');
-if(status)status.textContent='Agenda v15 · Today is '+d.toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'})+' · Saved on this device';
+if(status)status.textContent='Today is '+d.toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'})+' · Saved on this device';
 }
 renderLiveDate();
 document.addEventListener('DOMContentLoaded',function(){var p=document.getElementById('datepick');if(p&&(!p.value||p.value==='2027-01-01'))renderLiveDate()});
