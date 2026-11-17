@@ -450,6 +450,7 @@ body.preset-print-mode{background:white!important}
 #preset-print-report .print-block{margin:13pt 0}#preset-print-report pre{white-space:pre-wrap;overflow-wrap:anywhere;font:11pt/1.5 Georgia,serif}
 #preset-print-report .print-muted{color:#697c6c}
 }
+.daily-pdf-share{display:inline-flex;align-items:center;gap:6px;background:#f7f7ef;color:#365a42;border:1px solid #dfe7da;border-radius:99px;padding:8px 12px;font:650 11px/1.2 system-ui,sans-serif;letter-spacing:0;text-transform:none;white-space:nowrap}.daily-pdf-share span{font-size:15px;color:#a18142}.daily-pdf-share:active{background:#e5eddf}@media print{.daily-pdf-share{display:none!important}}
 </style></head>
 <body>
 <header><div class="hero-inner"><div class="hero-top"><div class="brand"><img class="brand-logo" src="./kingdom-atmosphere-wordmark-gold.webp" alt="Kingdom Atmosphere" width="188" height="65"></div><span class="edition">YOUR PERSONAL PLANNER</span></div><div class="hero-copy"><div class="hero-eyebrow">FAITH × INTENTION × DISCIPLINE</div><h1>A year of <em>purpose.</em></h1><p>Your personal space to plan wisely, take meaningful action, and grow in what matters.</p></div><div class="hero-bottom"><span>ALL YEARS / ONE AGENDA</span><span>PLAN · GROW · SERVE</span></div></div></header>
@@ -484,7 +485,7 @@ body.preset-print-mode{background:white!important}
 <label class="field" for="weekreview">Weekly review: wins, lessons, and adjustments</label><textarea id="weekreview" data-week="review" placeholder="What worked? What must change next week?"></textarea>
 </div></section>
 <section id="daily" class="pane active">
-<div class="agenda-page-head no-print"><span class="section-label">MY DAILY AGENDA</span><span>FAITH · LIFE · GROWTH</span></div>
+<div class="agenda-page-head no-print"><span class="section-label">MY DAILY AGENDA</span><button type="button" class="daily-pdf-share" id="daily-pdf-share" aria-label="Share today as a PDF"><span aria-hidden="true">↗</span> Share PDF</button></div>
 <div class="controls no-print agenda-datebar"><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Date</label><input type="date" id="datepick" aria-label="Selected agenda date"><button id="next" class="btn light" aria-label="Next day">→</button><button class="btn" data-print="daily">Print page</button></div>
 <div class="agenda-book">
 <div class="card agenda-paper">
