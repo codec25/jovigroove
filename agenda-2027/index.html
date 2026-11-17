@@ -36,6 +36,37 @@
 <label class="field" for="weekreview">Weekly review: wins, lessons, and adjustments</label><textarea id="weekreview" data-week="review" placeholder="What worked? What must change next week?"></textarea>
 </div></section>
 <section id="daily" class="pane active">
+<section id="today-home" class="today-home no-print" aria-labelledby="today-home-title">
+  <div class="today-home-top">
+    <div><span class="section-label">YOUR DAY · AT A GLANCE</span><h2 id="today-home-title">Today, with purpose.</h2><p id="today-home-date">Your day is ready when you are.</p></div>
+    <button type="button" id="today-home-return" class="today-return" hidden>Back to today</button>
+  </div>
+  <div id="today-home-empty" class="today-home-empty">
+    <div class="today-empty-mark" aria-hidden="true">✦</div>
+    <h3>A fresh day. Make it yours.</h3>
+    <p>Start with one important action. You can add appointments and tasks right here—no setup required.</p>
+    <button id="today-plan" type="button" class="today-primary-action">Plan my day <span aria-hidden="true">↗</span></button>
+  </div>
+  <div id="today-home-ready" class="today-home-ready" hidden>
+    <div class="today-ready-main">
+      <span class="today-kicker">YOUR MAIN FOCUS</span>
+      <h3 id="today-main-focus">Your most important action</h3>
+      <button type="button" id="today-edit-focus">Edit my focus ↗</button>
+    </div>
+    <div id="today-next-block" class="today-next-block" hidden>
+      <span class="today-kicker">UP NEXT</span><strong id="today-next-title"></strong><small id="today-next-time"></small>
+    </div>
+  </div>
+  <div class="today-overview-grid" id="today-overview-grid">
+    <div class="today-overview-column"><div class="today-overview-heading"><strong>Schedule</strong><span id="today-schedule-count">0 planned</span></div><div id="today-schedule-list" class="today-overview-lines"></div></div>
+    <div class="today-overview-column"><div class="today-overview-heading"><strong>To-dos</strong><span id="today-task-count">0 tasks</span></div><div id="today-task-list" class="today-overview-lines"></div></div>
+  </div>
+  <div class="today-home-actions">
+    <button id="today-add-task" type="button" class="today-add-action"><span aria-hidden="true">＋</span> Add task</button>
+    <button id="today-add-appointment" type="button" class="today-add-action"><span aria-hidden="true">＋</span> Appointment</button>
+    <button id="today-prepare" type="button" class="today-secondary-action">Plan / edit day ↗</button>
+  </div>
+</section>
 <div class="agenda-page-head no-print"><span class="section-label">MY DAILY AGENDA</span><button type="button" class="daily-pdf-share" id="daily-pdf-share" aria-label="Preview and share today as a PDF"><span aria-hidden="true">↗</span> Share PDF</button></div>
 <div class="controls no-print agenda-datebar"><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Date</label><input type="date" id="datepick" aria-label="Selected agenda date"><button id="next" class="btn light" aria-label="Next day">→</button></div>
 <div class="agenda-book">
@@ -267,5 +298,6 @@
 <script src="./pdf-export.js"></script>
 <script src="./growth-controller.js?v=27"></script>
 <script src="./family-space.js"></script>
+<script src="./today-home.js"></script>
 <script src="./journal-controller.js"></script>
 <script src="./app.js"></script></body></html>
