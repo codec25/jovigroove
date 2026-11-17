@@ -147,9 +147,9 @@ function addChore(chore){
  }
  const date=$('family-task-date').value||localDay(),assignee=$('family-task-assignee').value.trim();
  // The selected task's repeat setting takes priority; otherwise use the template suggestion.
- const repeat=$('family-task-repeat').value!=='none'?'weekly':chore.frequency==='weekly'?'weekly':'none';
+ const repeat=$('family-task-repeat').value!=='none'?$('family-task-repeat').value:chore.frequency;
  add('tasks',{name:chore.name,assignee,date,repeat,category:chore.category,done:false,completedCount:0});
- $('family-chore-feedback').textContent='Added '+chore.name+'.'+(repeat==='weekly'?' Repeats weekly.':'')+' Assign or edit it below.';
+ $('family-chore-feedback').textContent='Added '+chore.name+'.'+(repeat==='weekly'?' Repeats weekly.':repeat==='daily'?' Repeats daily.':'')+' Assign or edit it below.';
 }
 
 function taskSubmit(e){
@@ -159,8 +159,8 @@ function taskSubmit(e){
  cancelEdit();
 }
 function taskToggle(x){
- if(x.repeat==='weekly'&&!x.done){
-  const date=validDate(x.date)?dateObj(x.date):dateObj(localDay());date.setDate(date.getDate()+7);
+ if((x.repeat==='weekly'||x.repeat==='daily')&&!x.done){
+  const date=validDate(x.date)?dateObj(x.date):dateObj(localDay());date.setDate(date.getDate()+(x.repeat==='daily'?1:7));
   const next=date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');
   update('tasks',x.id,{date:next,completedCount:(Number(x.completedCount)||0)+1,lastCompleted:localDay(),done:false});
  }else update('tasks',x.id,{done:!x.done});
@@ -169,7 +169,7 @@ function renderTasks(){
  const list=$('family-task-list');list.replaceChildren();
  const entries=active('tasks').sort((a,b)=>Number(a.done)-Number(b.done)||String(a.date||'9999').localeCompare(String(b.date||'9999')));
  for(const x of entries){
-  const detail=[x.assignee?'For '+x.assignee:'Unassigned',x.date||'No due date',x.repeat==='weekly'?'Weekly':''].filter(Boolean).join(' · ');
+  const detail=[x.assignee?'For '+x.assignee:'Unassigned',x.date||'No due date',x.repeat==='weekly'?'Weekly':x.repeat==='daily'?'Daily':''].filter(Boolean).join(' · ');
   const row=card('tasks',x,x.name,detail,[
    {text:'Edit',act:()=>editStart('tasks',x)},{text:'Delete',act:()=>{if(confirm('Remove this responsibility?'))remove('tasks',x.id)}}
   ],x.done);
