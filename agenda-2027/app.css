@@ -740,12 +740,50 @@ dialog.growth-dialog.growth-keyboard{
 @media print{.today-home{display:none!important}}
 
 
-/* Direct agenda order: date > today's plan > teaching > practical planning > optional journal. */
+/* Today workspace is the only default daily view. The journal and deep tools remain
+   in the DOM but are collapsed until explicitly opened. */
 #daily.pane.active{display:flex;flex-direction:column;min-width:0}
 #daily>.agenda-page-head{order:0}
 #daily>.agenda-datebar{order:1}
 #daily>.today-home{order:2}
 #daily>.daily-teaching-card{order:3}
+#daily>#today-journal{order:4}
+#daily>#today-tools{order:5}
+#daily>.mobile-quickbar{order:6;display:none}
+#daily>.year-context{order:7;display:none}
+#daily>.agenda-dialog{order:8}
+.today-workspace-disclosure{width:100%;max-width:850px;margin:0 auto 10px;border:1px solid #e5e9df;background:#fffefb;border-radius:12px;overflow:hidden;color:#274c37}
+.today-workspace-disclosure>summary{list-style:none;display:flex;gap:12px;align-items:center;cursor:pointer;min-height:62px;padding:12px 16px}
+.today-workspace-disclosure>summary::-webkit-details-marker{display:none}
+.today-disclosure-icon{width:35px;height:35px;display:grid;place-items:center;border-radius:10px;background:#f1f4ed;color:#50735a;flex:0 0 35px;font-size:17px}
+.today-workspace-disclosure>summary>span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:3px}
+.today-workspace-disclosure>summary strong{font-size:13px;color:#224d34;font-weight:700}
+.today-workspace-disclosure>summary small{font-size:11px;color:#809082;line-height:1.4}
+.today-disclosure-chevron{font-size:21px;color:#829480;transition:transform .18s}
+.today-workspace-disclosure[open] .today-disclosure-chevron{transform:rotate(180deg)}
+.today-workspace-disclosure[open]>summary{border-bottom:1px solid #ebeee5}
+#today-journal .agenda-book{width:100%;max-width:none;margin:0}
+#today-journal .agenda-paper{border:0;border-radius:0;box-shadow:none;margin:0;padding:17px 21px}
+#today-journal .agenda-heading{margin:0 0 12px}
+#today-journal .agenda-heading h2{font-size:clamp(22px,3vw,28px)}
+#today-journal .agenda-paper .verse{margin:12px 0 17px;padding:11px}
+.today-tools-inner{padding:10px 16px 14px}
+.today-tools-inner .preset-day-shortcut,.today-tools-inner .planning-copy,.today-tools-inner .agenda-utilities{max-width:none;margin:10px 0;width:100%}
+.today-journal-action{background:#fff!important;color:#315a40!important;border:1px solid #dbe5d9!important}
+.today-home-actions .today-journal-action{min-height:40px;border-radius:9px;padding:10px 13px;font-size:11px;font-weight:700}
+#today-home{max-width:850px;width:100%;margin-left:auto;margin-right:auto}
+#daily>.daily-teaching-card{width:100%;max-width:850px;margin-left:auto;margin-right:auto}
+@media(max-width:760px){
+ #today-journal .agenda-paper{padding:12px}
+ .today-tools-inner{padding:8px 10px 12px}
+ .today-home-actions button{flex:1 1 calc(50% - 5px)}
+ .today-workspace-disclosure>summary{padding:12px;min-height:60px}
+}
+@media print{#daily.pane.active{display:block}#daily>.mobile-quickbar,#daily>.year-context{display:none!important}
+ #today-journal{display:block!important;border:0;overflow:visible}#today-journal>.agenda-book{display:block!important}
+ #today-tools{display:block!important;border:0;overflow:visible}#today-tools .today-tools-inner{display:block!important}
+ .today-workspace-disclosure>summary{display:none!important}}
+.daily-teaching-card{order:3}
 #daily>.preset-day-shortcut{order:4}
 #daily>.planning-copy{order:5}
 #daily>.agenda-utilities{order:6}
@@ -790,7 +828,7 @@ dialog.growth-dialog.growth-keyboard{
 .cal-day.has-teaching{position:relative}
 .cal-teaching-mark{position:absolute;right:5px;top:3px;color:#b58d41;font-size:11px;pointer-events:none}
 @media(max-width:760px){
- #daily>.agenda-book .agenda-paper{padding:16px 12px}
+ #today-journal .agenda-paper{padding:12px}
  .daily-teaching-card{padding:14px 15px}
  .daily-teaching-card h3{font-size:21px}
  .daily-teaching-card-top{align-items:start}
