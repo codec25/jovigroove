@@ -44,16 +44,26 @@
     <button type="button" id="today-home-return" class="today-return" hidden>Back to today</button>
   </div>
   <div id="today-home-empty" class="today-home-empty">
-    <div class="today-empty-mark" aria-hidden="true">✦</div>
-    <h3>A fresh day. Make it yours.</h3>
-    <p>Start with one important action. You can add appointments and tasks right here—no setup required.</p>
-    <button id="today-plan" type="button" class="today-primary-action">Plan my day <span aria-hidden="true">↗</span></button>
+    <h3>Ready to plan your day?</h3>
+    <p>Start with one priority, or add tasks and appointments below.</p>
+    <button id="today-plan" type="button" class="today-primary-action" aria-expanded="false" aria-controls="today-plan-editor">Plan my day <span aria-hidden="true">↗</span></button>
   </div>
+  <form id="today-plan-editor" class="today-plan-editor" hidden aria-label="Prepare your day">
+    <div class="today-plan-editor-head"><strong>Prepare this day</strong><span>Saved on this device</span></div>
+    <label for="today-plan-main">Most important action</label>
+    <input type="text" id="today-plan-main" placeholder="One meaningful action to complete…" autocomplete="off">
+    <label for="today-plan-priorities">My priorities</label>
+    <textarea id="today-plan-priorities" rows="3" placeholder="Write your priorities, one per line…"></textarea>
+    <label for="today-plan-intention">My intention (optional)</label>
+    <input type="text" id="today-plan-intention" placeholder="How I want to approach today…" autocomplete="off">
+    <div class="today-plan-editor-buttons"><button type="button" id="today-plan-cancel">Cancel</button><button type="submit" id="today-plan-save">Save my plan</button></div>
+    <p id="today-plan-message" role="status" aria-live="polite"></p>
+  </form>
   <div id="today-home-ready" class="today-home-ready" hidden>
     <div class="today-ready-main">
       <span class="today-kicker">YOUR MAIN FOCUS</span>
       <h3 id="today-main-focus">Your most important action</h3>
-      <button type="button" id="today-edit-focus">Edit my focus ↗</button>
+      <button type="button" id="today-edit-focus" aria-controls="today-plan-editor" aria-expanded="false">Edit my plan ↗</button>
     </div>
     <div id="today-next-block" class="today-next-block" hidden>
       <span class="today-kicker">UP NEXT</span><strong id="today-next-title"></strong><small id="today-next-time"></small>
@@ -66,7 +76,7 @@
   <div class="today-home-actions">
     <button id="today-add-task" type="button" class="today-add-action"><span aria-hidden="true">＋</span> Add task</button>
     <button id="today-add-appointment" type="button" class="today-add-action"><span aria-hidden="true">＋</span> Appointment</button>
-    <button id="today-prepare" type="button" class="today-secondary-action">Plan / edit day ↗</button>
+    <button id="today-prepare" type="button" class="today-secondary-action" aria-controls="today-plan-editor" aria-expanded="false">Plan / edit day ↗</button>
   </div>
 </section>
 <section class="daily-teaching-card no-print" id="daily-teaching-card" aria-labelledby="daily-teaching-card-title">
