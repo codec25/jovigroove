@@ -84,6 +84,16 @@ var extras=el('section');extras.className='print-page';addHeading(extras,'h2','F
 (d.agenda.gifts||[]).forEach(function(x){field(extras,'Gift',x.recipient+' · '+x.idea+' · Budget '+x.budget)});
 (d.presets.presets||[]).forEach(function(x){field(extras,'Activity preset',x.category+' / '+x.style+' · '+x.name+' · '+x.minutes+' minutes')});
 root.appendChild(extras);
+var goals=el('section');goals.className='print-page';addHeading(goals,'h2','Goals, planned outcomes and completed actions');
+(d.agenda.linkedGoals||[]).forEach(function(x){field(goals,'Annual goal'+(x.done?' (complete)':''),x.year+' · '+x.name)});
+(d.agenda.linkedOutcomes||[]).forEach(function(x){field(goals,'Weekly outcome'+(x.done?' (complete)':''),x.week+' · '+x.name)});
+(d.agenda.linkedActions||[]).forEach(function(x){field(goals,'Daily action'+(x.done?' (complete)':''),x.date+' · '+x.name)});
+root.appendChild(goals);
+var reminders=el('section');reminders.className='print-page';addHeading(reminders,'h2','Reminders and activity history');
+(d.agenda.reminders||[]).forEach(function(x){field(reminders,'Reminder'+(x.done?' (complete)':''),x.when+' · '+x.name)});
+(d.agenda.sessions||[]).forEach(function(x){field(reminders,'Tracked activity',x.name+' · '+x.minutes+' min · '+(x.finished||''))});
+root.appendChild(reminders);
+Object.keys(d.growth.weeks||{}).sort().forEach(function(key){if(d.agenda.weeks&&d.agenda.weeks[key])return;var reflect=(d.growth.weeks[key]||{}).reflection;if(!reflect)return;var growthWeek=el('section');growthWeek.className='print-page';addHeading(growthWeek,'h2','Whole-life weekly growth · '+key);field(growthWeek,'Reflection',reflect);root.appendChild(growthWeek)});
 }
 return d;
 }
