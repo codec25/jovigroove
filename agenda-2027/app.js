@@ -62,6 +62,16 @@ data.days[item.date].schedule=item.schedule;
 save();
 if(selected===item.date&&$('schedule'))$('schedule').value=item.schedule;
 });
+/* Keep schedule edits and copied days in the main controller's in-memory state.
+   Otherwise its next save would overwrite planner tools' local edits. */
+document.addEventListener('kingdom:planningChanged',function(ev){
+var change=ev.detail||{};
+if(change.days){Object.keys(change.days).forEach(function(key){data.days[key]=change.days[key]})}
+if(change.weeks){Object.keys(change.weeks).forEach(function(key){data.weeks[key]=change.weeks[key]})}
+save();
+if(change.days&&Object.prototype.hasOwnProperty.call(change.days,selected))setDay(selected);
+if(change.weeks&&Object.prototype.hasOwnProperty.call(change.weeks,weekStartKey(weekSelected)))loadWeek(weekSelected);
+});
 
 /* Purpose-first productivity extension */
 var weekSelected=selected;
