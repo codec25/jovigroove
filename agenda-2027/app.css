@@ -571,3 +571,84 @@ dialog.growth-dialog.growth-keyboard{
 .pdf-preview-feedback{flex:0 0 auto;min-height:17px;font-size:10px;color:#738675;padding:0 16px 7px;margin:0}
 @media(max-width:760px){.pdf-preview-dialog{inset:0!important;max-height:100dvh!important;height:100dvh!important;width:100%!important;max-width:none!important;border:0;border-radius:0!important}.pdf-preview-top{padding:15px 15px 10px}.pdf-preview-top h2{font-size:22px}.pdf-preview-top p{font-size:11px}.pdf-preview-content{padding:5px;gap:3px}.pdf-preview-help{font-size:10px}.pdf-preview-bottom{gap:6px;padding:10px 11px max(11px,env(safe-area-inset-bottom))}.pdf-preview-bottom button{flex:1 1 auto;font-size:11px;padding:10px 7px;white-space:nowrap}}
 @media print{.pdf-preview-dialog{display:none!important}}
+
+
+/* FAMILY SPACE — editorial private household workspace; no global overrides */
+.family-space{--fh-forest:#123e2c;--fh-gold:#b69a58;--fh-line:#e3e8dd;--fh-muted:#728374;color:#1d3e2c}
+.family-home{background:#fffefb;border:1px solid var(--fh-line);border-radius:21px;padding:25px;box-shadow:0 12px 36px #071d1610;margin-bottom:26px}
+.family-home-header{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:17px}
+.family-home-brand h2{font:400 34px/1.15 Georgia,serif;margin:5px 0 7px;color:#143d2a}
+.family-home-brand p{color:#738478;font-size:13px;line-height:1.5;margin:0}
+.family-home-status{white-space:nowrap;display:inline-flex;align-items:center;gap:7px;border:1px solid #dce7d9;border-radius:999px;padding:7px 10px;color:#45715a;background:#f5f8f1;font-size:11px;font-weight:650}
+.family-home-status span{font-size:13px;color:#548d65}
+.family-home-intro{padding:23px 24px;background:linear-gradient(120deg,#082e21,#15543b);border-radius:16px;color:#f8f3e5;display:flex;justify-content:space-between;align-items:center;gap:13px}
+.family-home-intro span:not(.family-home-mark){display:block;letter-spacing:.18em;color:#ddc487;font-size:10px;font-weight:700}
+.family-home-intro strong{display:block;font:400 clamp(21px,3.2vw,31px)/1.24 Georgia,serif;margin:8px 0}
+.family-home-intro small{display:block;color:#dce7df;font-size:12px;line-height:1.55}
+.family-home-mark{display:grid;place-items:center;font-size:43px;line-height:1;color:#e3cf93;opacity:.86;padding:12px}
+.family-local-warning{background:#f7f5eb;color:#706951;border:1px solid #e8e0c7;border-radius:10px;padding:10px 13px;font-size:11px;line-height:1.65;margin:14px 0 17px}
+.family-home-tabs{display:flex;gap:8px;padding:4px 0 13px;margin-bottom:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.family-home-tabs::-webkit-scrollbar{display:none}
+.family-home-tabs button{flex:0 0 auto;min-height:41px;padding:9px 15px;border:1px solid #dce6d9;border-radius:999px;background:#f9faf7;color:#476853;font-size:12px;font-weight:700}
+.family-home-tabs button[aria-selected="true"]{background:#174530;border-color:#174530;color:#fff}
+.family-panel[hidden]{display:none!important}
+.family-panel{padding:20px 4px 13px}
+.family-panel-title{display:flex;justify-content:space-between;align-items:start;gap:10px;margin-bottom:14px}
+.family-panel-title h3{font:400 27px/1.2 Georgia,serif;color:#16402d;text-transform:none;letter-spacing:0;margin:0 0 5px}
+.family-panel-title p{font-size:12px;color:#77897a;margin:0}
+.family-panel-title>span{font:26px Georgia,serif;color:#b39a5d}
+.family-progress-bar{height:6px;background:#e4eae2;border-radius:20px;overflow:hidden;margin:14px 0 20px}
+.family-progress-bar>div{height:100%;width:0;background:#27724c;transition:width .15s;border-radius:20px}
+.family-add-form{padding:15px 16px;border:1px solid #e3e9e0;border-radius:13px;background:#f8faf5;margin-bottom:17px}
+.family-add-form>label,.family-form-grid label{font-size:12px;color:#3f634e;font-weight:650;display:block;margin-bottom:7px}
+.family-add-form input,.family-add-form textarea,.family-add-form select{border:1px solid #d9e3d9;background:#fff;border-radius:9px;padding:10px;min-width:0;min-height:44px;font-size:16px;color:#1e422e;width:100%;max-width:100%}
+.family-add-form textarea{min-height:95px;resize:vertical;line-height:1.5}
+.family-add-fields{display:grid;grid-template-columns:minmax(0,2fr) minmax(92px,1fr) auto;gap:9px}
+.family-add-form button[type=submit],.family-primary-action{background:#174530;color:#fff;border:1px solid #174530;border-radius:9px;min-height:44px;padding:10px 16px;font-size:13px;font-weight:700;white-space:nowrap}
+.family-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:12px 0}
+.family-add-form .family-primary-action{margin-top:3px}
+.family-cancel-button{margin:9px 0 0 9px;background:#fff;color:#335c43;border:1px solid #cbdacb;border-radius:9px;padding:9px 13px;min-height:43px}
+.family-rows{display:flex;flex-direction:column;gap:8px}
+.family-item{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 14px;background:#fff;border:1px solid var(--fh-line);border-radius:11px;min-width:0}
+.family-item>input[type=checkbox]{width:19px;height:19px;accent-color:#216947;flex:0 0 19px}
+.family-item-copy{flex:1 1 150px;min-width:0;display:flex;flex-direction:column;gap:3px}
+.family-item-copy strong{font-size:13px;line-height:1.4;overflow-wrap:anywhere}
+.family-item-copy small{font-size:11px;color:#7a8b7c;line-height:1.4;overflow-wrap:anywhere}
+.family-item.is-done .family-item-copy strong{text-decoration:line-through;color:#809284}
+.family-item-actions{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+.family-row-action{padding:7px 10px;background:#f7faf5;border:1px solid #d9e3d8;color:#365b45;border-radius:7px;font-size:11px;font-weight:650;min-height:35px}
+.family-row-action:active{background:#e6eee2}
+.family-empty{font-size:12px;color:#829183;padding:11px}
+.family-panel-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:16px}
+.family-subtle-button{border:0;background:transparent;font-size:12px;color:#788777;padding:10px 0}
+.family-utility-button{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-height:41px;border:1px solid #d5dfd3;border-radius:10px;padding:9px 13px;background:#fff;color:#2c543b;font-size:12px;font-weight:700;cursor:pointer}
+.family-suggestions{margin-top:18px;border-top:1px solid #e7e9df;padding-top:12px;color:#43644d}
+.family-suggestions summary{cursor:pointer;font-size:12px;font-weight:700}
+.family-suggestion-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.family-suggestion{background:#f0f5ee;border:1px solid #e0e9dc;border-radius:99px;color:#365f45;padding:8px 11px;font-size:11px}
+.family-moment-content{margin:7px 0 0;font-size:13px;color:#486451;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65}
+.family-data-tools{margin-top:20px;padding:15px 16px;border:1px solid #e5e9df;border-radius:12px;background:#fcfcf7}
+.family-data-tools summary{font-size:12px;color:#345642;font-weight:700;cursor:pointer}
+.family-data-tools p{font-size:11px;color:#748375;line-height:1.6}
+.family-data-tools .family-panel-actions{justify-content:flex-start}
+.family-data-tools [role=status]{margin-bottom:0;color:#326647}
+@media(max-width:760px){
+.family-home{margin:0 -4px 16px;padding:16px 13px;border-radius:15px}
+.family-home-header{flex-wrap:wrap;gap:10px}
+.family-home-brand h2{font-size:28px}
+.family-home-brand p{font-size:12px}
+.family-home-intro{padding:18px;border-radius:12px}
+.family-home-mark{font-size:30px;padding:5px}
+.family-home-tabs{margin:0 -4px}
+.family-home-tabs button{padding:10px 13px}
+.family-panel{padding:15px 0 10px}
+.family-panel-title h3{font-size:23px}
+.family-add-form{padding:12px}
+.family-add-fields{grid-template-columns:minmax(0,1fr) 95px}
+.family-add-fields button{grid-column:1/-1}
+.family-form-grid{grid-template-columns:1fr 1fr}
+.family-item{padding:11px 10px;gap:9px}
+.family-item-actions{width:100%;justify-content:flex-end}
+.family-item-copy{flex:1 1 70%}
+}
+@media print{.family-space .family-home-tabs,.family-space .family-add-form,.family-space .family-panel-actions,.family-space .family-data-tools{display:none!important}}
