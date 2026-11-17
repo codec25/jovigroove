@@ -431,18 +431,4 @@ body.journal-fallback-active::before{content:"";position:fixed;inset:0;z-index:9
 .preset-day-shortcut{max-width:850px;margin:12px auto 2px;border:1px solid #e1e6d9;border-radius:10px;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#f9faf4}
 .preset-day-shortcut strong{font-size:13px;display:block;color:#264a36}.preset-day-shortcut small{color:#748575;font-size:11px;display:block}.preset-day-shortcut button{border:0;background:#1b4933;color:white;border-radius:8px;padding:10px 12px;font-size:12px;white-space:nowrap}
 .preset-export{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.preset-export label{font-size:12px}.preset-export select{width:auto;flex:1 1 150px}
-#preset-print-report{display:none}
-@media(max-width:760px){.preset-grid{grid-template-columns:1fr 1fr}.preset-list article{flex-wrap:wrap}.preset-day-shortcut{padding:11px}.preset-day-shortcut button{font-size:11px}}
-@media print{
-body.preset-print-mode>*:not(#preset-print-report){display:none!important}
-body.preset-print-mode #preset-print-report{display:block!important;position:static!important;background:white;color:#182d24}
-body.preset-print-mode{background:white!important}
-#preset-print-report{font:11pt/1.5 Georgia,serif}
-#preset-print-report .print-front{page-break-after:always;border-bottom:1px solid #c1a465;padding:30pt 10pt}
-#preset-print-report h1{font:26pt Georgia,serif;color:#163d2e}#preset-print-report h2{font:17pt Georgia,serif;color:#163d2e}
-#preset-print-report h3{font:12pt Georgia,serif;color:#8a6d30}
-#preset-print-report .print-page{page-break-after:always;padding:10pt 8pt;break-inside:avoid}
-#preset-print-report .print-block{margin:13pt 0}#preset-print-report pre{white-space:pre-wrap;overflow-wrap:anywhere;font:11pt/1.5 Georgia,serif}
-#preset-print-report .print-muted{color:#697c6c}
-}
 .daily-pdf-share{display:inline-flex;align-items:center;gap:6px;background:#f7f7ef;color:#365a42;border:1px solid #dfe7da;border-radius:99px;padding:8px 12px;font:650 11px/1.2 system-ui,sans-serif;letter-spacing:0;text-transform:none;white-space:nowrap}.daily-pdf-share span{font-size:15px;color:#a18142}.daily-pdf-share:active{background:#e5eddf}@media print{.daily-pdf-share{display:none!important}}
