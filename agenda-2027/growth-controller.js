@@ -10,6 +10,29 @@ var CATEGORIES=[
 {id:'financial',label:'Financial',mark:'$',desc:'Practice wisdom, generosity and stewardship with money.',prompt:'Healthy financial habits are built one intentional decision at a time.',suggestions:['Review today’s spending and record my expenses','Set aside a small amount toward savings','Check my weekly budget before buying anything','Identify one unnecessary expense I can reduce']}
 ];
 var active='personal',dialog=null,lastTrigger=null;
+function adjustGrowthViewport(){
+ if(!dialog||!dialog.open)return;
+ var viewport=window.visualViewport,full=window.innerHeight||document.documentElement.clientHeight;
+ var visible=viewport?viewport.height:full,keyboard=!!viewport&&visible<full-125;
+ dialog.classList.toggle('growth-keyboard',keyboard);
+ if(keyboard){
+  dialog.style.setProperty('--growth-height',Math.max(240,Math.round(visible))+'px');
+  dialog.style.setProperty('--growth-top',Math.max(0,Math.round(viewport.offsetTop))+'px');
+ }else{
+  dialog.style.removeProperty('--growth-height');
+  dialog.style.removeProperty('--growth-top');
+ }
+}
+function keepGrowthFieldVisible(target){
+ if(!dialog||!dialog.open||!target||!dialog.contains(target))return;
+ requestAnimationFrame(function(){
+  var scroll=dialog.querySelector('.growth-content');if(!scroll)return;
+  var field=target.getBoundingClientRect(),space=scroll.getBoundingClientRect();
+  if(field.bottom>space.bottom-14)scroll.scrollTop+=field.bottom-space.bottom+22;
+  if(field.top<space.top+12)scroll.scrollTop-=space.top-field.top+18;
+ });
+}
+
 function $(id){return document.getElementById(id)}
 function day(){var input=$('datepick');if(input&&/^\d{4}-\d{2}-\d{2}$/.test(input.value))return input.value;var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function load(){try{var value=JSON.parse(localStorage.getItem(KEY)||'null');return value&&typeof value==='object'?value:{days:{},weeks:{}}}catch(err){return {days:{},weeks:{}}}}
@@ -52,12 +75,22 @@ function open(trigger){
 dialog=$('growth-dialog');lastTrigger=trigger;active='personal';render();
 if(typeof dialog.showModal==='function'&&!dialog.open){try{dialog.showModal()}catch(e){dialog.setAttribute('open','')}}
 else dialog.setAttribute('open','');
+requestAnimationFrame(adjustGrowthViewport);
 }
-function close(){if(!dialog)return;if(document.activeElement&&dialog.contains(document.activeElement))document.activeElement.blur();if(typeof dialog.close==='function'&&dialog.open)dialog.close();else dialog.removeAttribute('open');if(lastTrigger&&lastTrigger.isConnected)lastTrigger.focus({preventScroll:true});renderPreview()}
+function close(){if(!dialog)return;if(document.activeElement&&dialog.contains(document.activeElement))document.activeElement.blur();if(typeof dialog.close==='function'&&dialog.open)dialog.close();else dialog.removeAttribute('open');dialog.classList.remove('growth-keyboard');dialog.style.removeProperty('--growth-height');dialog.style.removeProperty('--growth-top');if(lastTrigger&&lastTrigger.isConnected)lastTrigger.focus({preventScroll:true});renderPreview()}
 function init(){
 var btn=$('growth-open'),modal=$('growth-dialog');if(!btn||!modal)return;
 var nav=$('growth-category-nav');CATEGORIES.forEach(function(cat){var b=document.createElement('button');b.type='button';b.dataset.category=cat.id;b.textContent=cat.label;b.setAttribute('role','tab');b.onclick=function(){active=cat.id;render()};nav.appendChild(b)});
 btn.onclick=function(){open(btn)};$('growth-close').onclick=close;$('growth-done-button').onclick=close;
+modal.addEventListener('focusin',function(e){adjustGrowthViewport();setTimeout(function(){adjustGrowthViewport();keepGrowthFieldVisible(e.target)},150)});
+modal.addEventListener('focusout',function(){setTimeout(adjustGrowthViewport,120)});
+modal.addEventListener('close',function(){modal.classList.remove('growth-keyboard');modal.style.removeProperty('--growth-height');modal.style.removeProperty('--growth-top')});
+if(window.visualViewport){
+ window.visualViewport.addEventListener('resize',function(){adjustGrowthViewport();keepGrowthFieldVisible(document.activeElement)});
+ window.visualViewport.addEventListener('scroll',adjustGrowthViewport);
+}
+window.addEventListener('orientationchange',function(){setTimeout(adjustGrowthViewport,180)});
+
 $('growth-suggestions').onchange=function(){if(this.value){$('growth-action').value=this.value;storeEntry()}};
 ['growth-action','growth-notes','growth-done'].forEach(function(id){$(id).addEventListener(id==='growth-done'?'change':'input',storeEntry)});
 modal.addEventListener('click',function(e){if(e.target===modal)close()});
