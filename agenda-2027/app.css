@@ -446,3 +446,25 @@ body.journal-fallback-active::before{content:"";position:fixed;inset:0;z-index:9
 .preset-conflict.invalid{background:#fff1f0;border-color:#e3b0a8;color:#8b453b}
 .preset-conflict[hidden]{display:none!important}
 @media(max-width:760px){.preset-scheduling{padding:11px}.preset-scheduling .preset-date-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.preset-scheduling .preset-date-row input,.preset-scheduling .preset-date-row select{font-size:16px}}
+
+
+/* Edit, delete, and copy planning actions: compact journal-style controls */
+.planning-copy{max-width:850px;margin:11px auto;border:1px solid #e2e8dd;border-radius:11px;background:#fcfcf8;overflow:hidden}
+.planning-copy>summary{display:flex;gap:12px;justify-content:space-between;align-items:center;padding:13px 15px;cursor:pointer;list-style:none;color:#214833}
+.planning-copy>summary::-webkit-details-marker{display:none}
+.planning-copy>summary strong{font-size:13px;display:block}
+.planning-copy>summary small{font-size:11px;color:#788a79;display:block;margin-top:3px}
+.planning-copy>summary>span:last-child{font-size:22px;color:#ad8e47}
+.planning-copy[open]>summary>span:last-child{transform:rotate(45deg)}
+.planning-copy-inner{padding:14px;border-top:1px solid #e6eadf}
+.planning-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:11px 0}
+.planning-form-grid>div{min-width:0}
+.planning-copy label,.planning-editor label{display:block;font-size:11px;font-weight:700;color:#526c59;margin-bottom:6px}
+.planning-copy input,.planning-copy select,.planning-editor input{width:100%;max-width:100%;min-height:43px;padding:9px;border:1px solid #dce5da;border-radius:9px;background:white;color:#264a35;font-size:16px}
+.planning-editor{padding:17px;border:1px solid #d4dfd1;border-radius:12px;background:#f8faf5;margin:15px 0}
+.planning-editor[hidden]{display:none!important}
+.planning-editor .planning-form-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+#scheduled-activity-list article{flex-wrap:wrap}
+#scheduled-activity-list article button{min-width:52px}
+@media(max-width:760px){.planning-copy-inner{padding:12px}.planning-editor{padding:12px}.planning-editor .planning-form-grid{grid-template-columns:1fr 1fr}.planning-editor .planning-form-grid>div:first-child{grid-column:1/-1}}
+@media print{.planning-copy,.planning-editor{display:none!important}}
