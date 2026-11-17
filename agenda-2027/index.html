@@ -126,6 +126,7 @@
 <div class="activity-actions no-print"><button type="button" class="btn" id="activity-start">Start session</button><button type="button" class="btn light" id="activity-stop" disabled>Finish &amp; learn</button><button type="button" class="btn light" id="activity-copy">Copy to today's schedule</button></div>
 <p id="activity-running" class="hint" aria-live="polite"></p>
 <h3>My reusable activities</h3><div id="activity-library" class="smart-list"></div><h3>Recent sessions</h3><div id="activity-history" class="smart-list"></div>
+<div class="planning-editor" id="session-editor" hidden><div class="section-label">EDIT RECORDED SESSION</div><label for="session-edit-name">Activity name</label><input id="session-edit-name" type="text"><label for="session-edit-minutes">Actual minutes</label><input id="session-edit-minutes" type="number" min="1" max="1440" step="1"><div class="preset-actions"><button class="btn" id="session-edit-save" type="button">Save session</button><button class="btn light" id="session-edit-cancel" type="button">Cancel</button></div><p class="hint">Editing or deleting a session also changes the learned time estimate for this activity.</p></div>
 </div></section>
 <section id="reminders" class="pane">
 <div class="card"><div class="section-label">INTENTIONAL FOLLOW-THROUGH</div><h2>Reminders</h2><p class="intro">Set a date and time for important actions. The agenda checks reminders while it is open, and shows overdue reminders when you return.</p>
