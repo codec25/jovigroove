@@ -133,6 +133,26 @@ async function main(){
    await page.locator('[data-family-tab="calendar"]').click();
    assert.match(await page.locator('#family-event-list').innerText(),/Family game night/);
  });
+ await test('Family item reuse prefills safely without altering the original',async()=>{
+   await page.locator('[data-tab="family-space"]').evaluate(e=>e.click());
+   await page.locator('[data-family-tab="tasks"]').click();
+   const before=await page.locator('#family-task-list article').count();
+   await page.locator('#family-task-list article').filter({hasText:'Take out recycling'}).getByRole('button',{name:'Copy'}).click();
+   assert.equal(await page.locator('#family-task-name').inputValue(),'Take out recycling');
+   assert.equal(await page.locator('#family-task-list article').count(),before,'Copy action should not save automatically');
+   await page.locator('#family-task-name').fill('Take out recycling again');
+   await page.locator('#family-task-form button[type=submit]').click();
+   assert.equal(await page.locator('#family-task-list article').count(),before+1);
+   assert.match(await page.locator('#family-task-list').innerText(),/Take out recycling again/);
+   await page.locator('[data-family-tab="calendar"]').click();
+   await page.locator('#family-event-list article').filter({hasText:'Family game night'}).getByRole('button',{name:'Copy'}).click();
+   assert.equal(await page.locator('#family-event-name').inputValue(),'Family game night');
+   assert.equal(await page.locator('#family-event-list article').count(),1,'Calendar copy must not save before confirmation');
+   await page.locator('[data-family-tab="moments"]').click();
+   await page.locator('#family-moment-list article').getByRole('button',{name:'Reuse'}).first().click();
+   assert.match(await page.locator('#family-moment-text').inputValue(),/Pray and encourage/);
+   assert.equal(await page.locator('#family-moment-list article').count(),1,'Reuse must not create duplicate moments');
+ });
  await test('Growth modal fits mobile and autosaves',async()=>{
    await page.locator('[data-tab="daily"]').evaluate(e=>e.click());
    await page.locator('#growth-open').click();
