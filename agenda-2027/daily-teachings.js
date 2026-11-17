@@ -38,7 +38,22 @@ function saved(){try{const v=JSON.parse(localStorage.getItem(KEY)||'{}');return 
 function date(){return $('datepick')&&$('datepick').value||localDate()}
 function localDate(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function language(){return (window.KA_locale&&window.KA_locale())||localStorage.getItem('ka-agenda-language')||'en'}
-function byDate(d){const custom=saved()[d];if(custom&&custom.title&&custom.body){if(language()==='fr'&&custom.titleFr&&custom.bodyFr)return {title:custom.titleFr,body:custom.bodyFr,custom:true,source:custom};return {title:custom.title,body:custom.body,custom:true,source:custom}}return language()==='fr'?(BUILT_IN_FR[d]||BUILT_IN[d]||null):(BUILT_IN[d]||null)}
+function byDate(d){
+ const custom=saved()[d],lang=language(),fr=BUILT_IN_FR[d],en=BUILT_IN[d];
+ if(custom&&custom.title&&custom.body){
+  if(lang==='fr'){
+   if(custom.titleFr&&custom.bodyFr)return {title:custom.titleFr,body:custom.bodyFr,custom:true,source:custom};
+   // Earlier versions could save the bundled English lesson as a local copy.
+   // That copy must not hide the official French translation.
+   const normalized=String(custom.title).toLowerCase().trim();
+   const isBundledCopy=!!en&&(normalized===en.title.toLowerCase()||
+     String(custom.body).includes(en.blocks[0][1].slice(0,85)));
+   if(fr&&isBundledCopy)return fr;
+  }
+  return {title:custom.title,body:custom.body,custom:true,source:custom};
+ }
+ return lang==='fr'?(fr||en||null):(en||null);
+}
 function pretty(d){const v=new Date(d+'T12:00:00');return Number.isFinite(v.getTime())?v.toLocaleDateString(language()==='fr'?'fr-CA':'en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):d}
 function render(){
  if(!$('daily-teaching-card'))return;
@@ -122,7 +137,7 @@ function init(){
  $('daily-teaching-done').addEventListener('click',close);
  $('daily-teaching-editor').addEventListener('submit',saveTeaching);
  document.addEventListener('kingdom:dayChanged',render);
- document.addEventListener('kingdom:languageChanged',()=>{render();const dialog=$('daily-teaching-dialog');if(dialog&&dialog.open&&!(!$('daily-teaching-editor').hidden))open('read');markCalendar();});
+ document.addEventListener('kingdom:languageChanged',()=>{render();const dialog=$('daily-teaching-dialog');if(dialog&&dialog.open&&$('daily-teaching-editor').hidden)open('read');markCalendar();});
  document.querySelectorAll('[data-tab="monthly"],[data-go="monthly"]').forEach(b=>b.addEventListener('click',()=>setTimeout(markCalendar,0)));
  $('monthpick').addEventListener('change',()=>setTimeout(markCalendar,0));
  $('calendar-year').addEventListener('change',()=>setTimeout(markCalendar,0));
