@@ -7,7 +7,7 @@
 <header><div class="hero-inner"><div class="hero-top"><div class="brand"><img class="brand-logo" src="./kingdom-atmosphere-wordmark-gold.webp" alt="Kingdom Atmosphere" width="188" height="65"></div><span class="edition">YOUR PERSONAL PLANNER</span></div><div class="hero-copy"><div class="hero-eyebrow">FAITH × INTENTION × DISCIPLINE</div><h1>A year of <em>purpose.</em></h1><p>Your personal space to plan wisely, take meaningful action, and grow in what matters.</p></div><div class="hero-bottom"><span>ALL YEARS / ONE AGENDA</span><span>PLAN · GROW · SERVE</span></div></div></header>
 <main class="shell">
 <div class="toolbar no-print" role="navigation" aria-label="Agenda sections">
-<button data-tab="daily" class="active">Today</button><button data-tab="weekly">Week</button><button data-tab="vision">Vision</button><button data-tab="monthly">Calendar</button><button data-tab="presets">Presets</button><button data-tab="activities">Activities</button><button data-tab="reminders">Reminders</button><button data-tab="family">Family</button><button data-tab="gifts">Gifts</button><button data-tab="notes">Journal</button><button data-tab="settings">Settings</button>
+<button data-tab="daily" class="active">Today</button><button data-tab="weekly">Week</button><button data-tab="vision">Vision</button><button data-tab="monthly">Calendar</button><button data-tab="presets">Presets</button><button data-tab="activities">Activities</button><button data-tab="reminders">Reminders</button><button data-tab="family-space">Family Space</button><button data-tab="family">Family dates</button><button data-tab="gifts">Gifts</button><button data-tab="notes">Journal</button><button data-tab="settings">Settings</button>
 </div>
 <details class="install-tip no-print" id="install-guide"><summary>Install this agenda for offline use <span>↗</span></summary><p>On iPhone: open in Safari → Share → Add to Home Screen. On Android: browser menu → Install app. Open while connected once, then use it offline.</p><button type="button" id="install-btn" class="btn light" style="display:none">Install app</button><p class="hint">Your entries are stored on this device. Export a backup regularly.</p></details><div id="status" class="hint" aria-live="polite">Opening today’s agenda…</div>
 <section id="vision" class="pane">
@@ -136,6 +136,77 @@
 <p id="reminder-capability" class="hint"></p>
 <h3>Upcoming &amp; overdue</h3><div id="reminder-list" class="smart-list"></div>
 </div></section>
+<section id="family-space" class="pane family-space" aria-labelledby="family-space-title">
+<div class="family-home">
+  <div class="family-home-header">
+    <div class="family-home-brand">
+      <span class="section-label">KINGDOM ATMOSPHERE / FAMILY</span>
+      <h2 id="family-space-title">Our Family Home</h2>
+      <p>Plan together. Care for one another. Make room for what matters.</p>
+    </div>
+    <div class="family-home-status"><span aria-hidden="true">●</span> This device only</div>
+  </div>
+  <div class="family-home-intro"><div><span>OUR FAMILY RHYTHM</span><strong>Growing together, every day.</strong><small>A home of love, purpose, peace and shared responsibility.</small></div><span class="family-home-mark" aria-hidden="true">⌂</span></div>
+  <p class="family-local-warning">Family Space is private on <strong>this device</strong> for now. Sending a list or a backup is manual; changes do <strong>not</strong> synchronize automatically between phones.</p>
+  <div class="family-home-tabs" role="tablist" aria-label="Family Space sections">
+    <button type="button" role="tab" aria-selected="true" data-family-tab="groceries">Groceries</button>
+    <button type="button" role="tab" aria-selected="false" data-family-tab="tasks">Responsibilities</button>
+    <button type="button" role="tab" aria-selected="false" data-family-tab="calendar">Calendar</button>
+    <button type="button" role="tab" aria-selected="false" data-family-tab="moments">Moments</button>
+  </div>
+  <div class="family-panel" data-family-panel="groceries">
+    <div class="family-panel-title"><div><h3>Our grocery list</h3><p id="family-grocery-progress">Ready for the next shopping trip.</p></div><span aria-hidden="true">♧</span></div>
+    <div class="family-progress-bar" role="progressbar" aria-label="Groceries collected" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="family-progress-fill"></div></div>
+    <form id="family-grocery-form" class="family-add-form">
+      <label for="family-grocery-name">Add a grocery item</label><div class="family-add-fields">
+      <input id="family-grocery-name" type="text" placeholder="e.g. Rice, apples, milk…" maxlength="100" required>
+      <input id="family-grocery-quantity" type="text" placeholder="Qty / unit" aria-label="Quantity or unit" maxlength="50">
+      <button type="submit">Add</button></div>
+    </form>
+    <div id="family-grocery-list" class="family-rows" aria-live="polite"></div>
+    <div class="family-panel-actions"><button type="button" id="family-clear-bought" class="family-subtle-button">Clear purchased items</button><button type="button" id="family-share-groceries" class="family-utility-button">Share grocery list ↗</button></div>
+    <details class="family-suggestions"><summary>Frequently added groceries</summary><div id="family-grocery-suggestions" class="family-suggestion-chips"></div></details>
+  </div>
+  <div class="family-panel" data-family-panel="tasks" hidden>
+    <div class="family-panel-title"><div><h3>Responsibilities</h3><p>Share the work, recognize the effort.</p></div><span aria-hidden="true">✓</span></div>
+    <form id="family-task-form" class="family-add-form">
+      <label for="family-task-name">What needs doing?</label><input id="family-task-name" type="text" maxlength="130" placeholder="e.g. Prepare dinner" required>
+      <div class="family-form-grid">
+      <div><label for="family-task-assignee">Assigned to (optional)</label><input id="family-task-assignee" type="text" maxlength="80" placeholder="Family member"></div>
+      <div><label for="family-task-date">Due date</label><input id="family-task-date" type="date"></div>
+      <div><label for="family-task-repeat">Repeat</label><select id="family-task-repeat"><option value="none">One time</option><option value="weekly">Every week</option></select></div>
+      </div><button type="submit" class="family-primary-action">Add responsibility</button>
+    </form>
+    <div id="family-task-list" class="family-rows" aria-live="polite"></div>
+  </div>
+  <div class="family-panel" data-family-panel="calendar" hidden>
+    <div class="family-panel-title"><div><h3>Family calendar</h3><p>Birthdays, appointments, celebrations and time together.</p></div><span aria-hidden="true">▦</span></div>
+    <form id="family-event-form" class="family-add-form">
+      <label for="family-event-name">Event or occasion</label><input id="family-event-name" type="text" maxlength="130" placeholder="e.g. Family game night" required>
+      <div class="family-form-grid"><div><label for="family-event-date">Date</label><input id="family-event-date" type="date" required></div>
+      <div><label for="family-event-time">Time (optional)</label><input id="family-event-time" type="time"></div>
+      <div><label for="family-event-repeat">Repeat</label><select id="family-event-repeat"><option value="none">Once</option><option value="yearly">Every year</option></select></div></div>
+      <button type="submit" class="family-primary-action">Add to family calendar</button>
+    </form>
+    <div id="family-event-list" class="family-rows" aria-live="polite"></div>
+  </div>
+  <div class="family-panel" data-family-panel="moments" hidden>
+    <div class="family-panel-title"><div><h3>Moments that matter</h3><p>Kindness, prayer, appreciation and quality time.</p></div><span aria-hidden="true">♡</span></div>
+    <form id="family-moment-form" class="family-add-form">
+      <label for="family-moment-kind">Type of moment</label><select id="family-moment-kind"><option value="appreciation">Appreciation</option><option value="prayer">Family prayer</option><option value="checkin">Check-in</option><option value="together">Quality time</option></select>
+      <label for="family-moment-text">Share an intention or a memory</label><textarea id="family-moment-text" maxlength="1000" placeholder="A meaningful thought, prayer or plan…" required></textarea>
+      <button type="submit" class="family-primary-action">Save family moment</button>
+    </form>
+    <div id="family-moment-list" class="family-rows" aria-live="polite"></div>
+  </div>
+  <details class="family-data-tools">
+    <summary>Family data &amp; moving between devices</summary>
+    <p>To move family information to another phone, export a family snapshot and import it there. This is <strong>manual transfer</strong>, not live collaboration. Do not share private details with anyone who should not see them.</p>
+    <div class="family-panel-actions"><button type="button" id="family-export" class="family-utility-button">Export family snapshot</button><label for="family-import" class="family-utility-button family-import-label">Import family snapshot</label><input id="family-import" type="file" accept=".json,application/json" hidden></div>
+    <p id="family-transfer-status" role="status" aria-live="polite"></p>
+  </details>
+</div>
+</section>
 <section id="family" class="pane"><div class="card"><h2>Family & celebrations</h2><p class="hint">Add birthdays, anniversaries, and important milestones. They appear as markers on your monthly calendar. Information stays in this browser unless you export it.</p><div id="familylist"></div><button id="addfamily" class="btn light no-print">+ Add family occasion</button></div></section>
 <section id="gifts" class="pane"><div class="card"><h2>Christmas gift planner</h2><p class="hint">Track gift ideas, budgets and purchases. This is a private planning list, not an online store.</p><div id="giftlist"></div><button id="addgift" class="btn light no-print">+ Add gift idea</button><hr class="rule"><p class="stat"><b>Total planned budget:</b> <span id="budget">CA$0.00</span></p><label class="field" for="christmasnotes">Holiday notes and shopping reminders</label><textarea id="christmasnotes" data-single="christmasnotes"></textarea></div></section>
 <section id="notes" class="pane"><div class="card">
@@ -158,7 +229,7 @@
 <div class="coach-prompts"><button type="button" data-guide="focus">Find my priority</button><button type="button" data-guide="discipline">Build discipline</button><button type="button" data-guide="review">Review my day</button></div>
 <label class="field" for="coach-response">My response</label><textarea id="coach-response" rows="2" placeholder="Answer the reflection prompt…"></textarea><button type="button" class="sheet-submit" id="coach-save">Save reflection to my day</button><p class="hint">Guided offline prompts—not live AI chat. Your answers stay in this browser.</p>
 </section>
-<section id="more-sheet" class="sheet more-sheet no-print" role="dialog" aria-modal="true" aria-labelledby="more-title" hidden><div class="sheet-handle" aria-hidden="true"></div><div class="sheet-head"><div><span class="quick-eyebrow">YOUR WORKSPACES</span><h2 id="more-title">Explore</h2></div><button class="close-sheet" type="button" aria-label="Close">✕</button></div><div class="more-grid"><button type="button" data-open-tab="presets">♧ <strong>Presets</strong><small>Reusable activities &amp; styles</small></button><button type="button" data-open-tab="activities">◷ <strong>Activities</strong><small>Track time &amp; habits</small></button><button type="button" data-open-tab="reminders">◉ <strong>Reminders</strong><small>Alerts &amp; due dates</small></button><button type="button" data-open-tab="family">♡ <strong>Family dates</strong><small>Birthdays &amp; celebrations</small></button><button type="button" data-open-tab="gifts">♧ <strong>Gift planner</strong><small>Christmas &amp; budgets</small></button><button type="button" data-open-tab="notes">▤ <strong>Journal</strong><small>Goals &amp; free writing</small></button><button type="button" data-open-tab="settings">⚙ <strong>Settings</strong><small>Backups &amp; print</small></button></div></section>
+<section id="more-sheet" class="sheet more-sheet no-print" role="dialog" aria-modal="true" aria-labelledby="more-title" hidden><div class="sheet-handle" aria-hidden="true"></div><div class="sheet-head"><div><span class="quick-eyebrow">YOUR WORKSPACES</span><h2 id="more-title">Explore</h2></div><button class="close-sheet" type="button" aria-label="Close">✕</button></div><div class="more-grid"><button type="button" data-open-tab="presets">♧ <strong>Presets</strong><small>Reusable activities &amp; styles</small></button><button type="button" data-open-tab="activities">◷ <strong>Activities</strong><small>Track time &amp; habits</small></button><button type="button" data-open-tab="reminders">◉ <strong>Reminders</strong><small>Alerts &amp; due dates</small></button><button type="button" data-open-tab="family-space">⌂ <strong>Family Space</strong><small>Groceries, plans &amp; moments</small></button><button type="button" data-open-tab="family">♡ <strong>Family dates</strong><small>Birthdays &amp; celebrations</small></button><button type="button" data-open-tab="gifts">♧ <strong>Gift planner</strong><small>Christmas &amp; budgets</small></button><button type="button" data-open-tab="notes">▤ <strong>Journal</strong><small>Goals &amp; free writing</small></button><button type="button" data-open-tab="settings">⚙ <strong>Settings</strong><small>Backups &amp; print</small></button></div></section>
 <p class="footer">© Kingdom Atmosphere · Personal multi-year agenda. Private entries remain on this device unless you explicitly export them. Keep backups; clearing browser data may delete entries.</p><dialog class="growth-dialog" id="growth-dialog" aria-labelledby="growth-title">
 <div class="growth-top"><div><span class="section-label">A LIFE THAT BEARS FRUIT</span><h2 id="growth-title">My daily growth</h2><p>Choose what matters today. You don't have to do everything.</p></div><button type="button" class="growth-close" id="growth-close" aria-label="Close whole-life growth">✕</button></div>
 <div class="growth-content"><div class="growth-category-nav" id="growth-category-nav" role="tablist" aria-label="Growth areas"></div><div class="growth-edit"><div class="growth-category-heading"><span id="growth-icon" aria-hidden="true">✦</span><div><h3 id="growth-category-title">Spiritual</h3><p id="growth-category-desc">Nurture your spiritual life.</p></div></div><div class="growth-gentle" id="growth-gentle">A small step can change your day.</div><label for="growth-suggestions">Choose an action, or create your own</label><select id="growth-suggestions"><option value="">Choose a suggestion</option></select><label for="growth-action">What personal work will I do today?</label><textarea id="growth-action" rows="3" placeholder="Write one realistic action…"></textarea><label class="growth-check"><input id="growth-done" type="checkbox"><span>I followed through with this action</span></label><label for="growth-notes">What did I notice or learn? <small>(optional)</small></label><textarea id="growth-notes" rows="3" placeholder="A thought, lesson, prayer, or observation…"></textarea></div></div>
@@ -184,5 +255,6 @@
 <script src="./planning-controller.js"></script>
 <script src="./pdf-export.js"></script>
 <script src="./growth-controller.js?v=27"></script>
+<script src="./family-space.js"></script>
 <script src="./journal-controller.js"></script>
 <script src="./app.js"></script></body></html>
