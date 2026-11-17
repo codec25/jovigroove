@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Kingdom Atmosphere | My Agenda</title>
 <meta name="theme-color" content="#071d16"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="KA Agenda"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="./app.css?v=41"><link rel="stylesheet" href="./smart-entries.css?v=42"><link rel="stylesheet" href="./language.css?v=43"><link rel="stylesheet" href="./agenda-hub.css?v=47"></head>
+<link rel="stylesheet" href="./app.css?v=41"><link rel="stylesheet" href="./smart-entries.css?v=42"><link rel="stylesheet" href="./language.css?v=43"><link rel="stylesheet" href="./agenda-hub.css?v=48"></head>
 <body>
 <header><div class="hero-inner"><div class="hero-top"><div class="brand"><img class="brand-logo" src="./kingdom-atmosphere-wordmark-gold.webp" alt="Kingdom Atmosphere" width="188" height="65"></div><span class="edition">YOUR PERSONAL PLANNER</span></div></div></header>
 <main class="shell">
@@ -45,6 +45,17 @@
   <div class="ka-tasks-heading"><div><span class="section-label">YOUR PLANNED ACTIVITIES</span><h2>Tasks & appointments</h2><p>Manage scheduled activities without crowding your daily dashboard.</p></div>
   <div class="ka-tasks-actions"><button type="button" id="tasks-new-task" class="btn">＋ Add task</button><button type="button" id="tasks-new-appointment" class="btn light">＋ Appointment</button></div></div>
   <div class="ka-tasks-datebar"><label for="tasks-date">Show entries for</label><input type="date" id="tasks-date"><button type="button" id="tasks-go-today" class="btn light">Today</button></div>
+  <section class="ka-timeline-section" aria-labelledby="ka-timeline-title">
+    <div class="ka-timeline-head">
+      <div><span class="section-label">SMART TIME PLANNING</span><h3 id="ka-timeline-title">Interactive schedule</h3><p id="ka-timeline-instructions">Drag an appointment to a new time. Select two appointments to swap their start times.</p></div>
+      <button id="ka-timeline-undo" type="button" disabled>↶ Undo</button>
+    </div>
+    <div class="ka-timeline-status" id="ka-timeline-status" role="status" aria-live="polite"></div>
+    <div class="ka-timeline-scroll" id="ka-timeline-scroll">
+      <div class="ka-timeline-surface" id="ka-timeline-surface" aria-label="Time schedule"></div>
+    </div>
+    <p class="ka-timeline-footnote" id="ka-timeline-footnote">Appointments keep their original duration. Conflicting moves are not saved. Older schedule entries are shown as fixed blocks when their times can be read.</p>
+  </section>
   <section id="smart-entry-section" class="smart-entry-section"><div class="smart-entry-section-head"><strong>My planned entries</strong><small>Tap an entry to edit its details</small></div><div id="smart-entry-list"></div></section>
 </div></section>
 <section id="daily" class="pane active">
@@ -343,4 +354,4 @@
 <script src="./today-home.js"></script>
 <script src="./daily-teachings.js?v=44"></script>
 <script src="./journal-controller.js"></script>
-<script src="./app.js"></script><script src="./smart-entries.js?v=47"></script><script src="./language.js?v=47"></script><script src="./agenda-hub.js?v=46"></script></body></html>
+<script src="./app.js"></script><script src="./smart-entries.js?v=48"></script><script src="./language.js?v=47"></script><script src="./agenda-hub.js?v=46"></script><script src="./timeline.js?v=48"></script></body></html>
