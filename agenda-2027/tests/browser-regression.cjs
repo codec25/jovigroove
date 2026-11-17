@@ -345,7 +345,8 @@ async function main(){
    assert.equal(saved.action,'Stretch and reflect');assert.equal(saved.done,true);
  });
  await test('Preset creates time block without collision',async()=>{
-   await page.locator('[data-tab="presets"]').evaluate(e=>e.click());
+   await page.locator('#open-more').click();
+   await page.locator('#more-sheet [data-open-tab="presets"]').click();
    await page.locator('#preset-name').fill('Hip-Hop freestyle');
    await page.locator('#preset-category').selectOption('Dance');
    await page.locator('#preset-style').selectOption('Hip-Hop');
@@ -378,7 +379,8 @@ async function main(){
  await test('PDF generated as multipage readable file',async()=>{
    const result=await page.evaluate(d=>{const blob=window.KingdomPDF.generate('week',d);return blob.arrayBuffer().then(b=>{const text=new TextDecoder('latin1').decode(b);return {bytes:b.byteLength,header:text.slice(0,8),count:Number(text.match(/\/Count (\d+)/)?.[1])}})},today);
    assert.equal(result.header,'%PDF-1.4');assert(result.bytes>1500);assert(result.count>=2);
-   await page.locator('[data-tab="settings"]').evaluate(e=>e.click());
+   await page.locator('#open-more').click();
+   await page.locator('#more-sheet [data-open-tab="settings"]').click();
    const download=page.waitForEvent('download',{timeout:10000});
    await page.locator('#print-agenda').click();
    const file=await download;
