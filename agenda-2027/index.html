@@ -262,6 +262,53 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 .cal-day.is-today.current{background:#174531!important;color:#fff!important;border-color:#bf912f!important}
 @media(max-width:760px){.today-indicator{flex-basis:100%;order:4;font-size:10px}}
 @media print{.today-indicator{display:none!important}}
+
+/* Agenda-first editorial book layout: scheduling is optional, writing comes first */
+.agenda-page-head{display:flex;justify-content:space-between;align-items:center;margin:2px 0 8px;color:#938b6f;font-size:10px;letter-spacing:.12em;font-weight:650}
+.agenda-datebar{margin:0 0 12px}
+.agenda-book{max-width:850px;margin:auto}
+.agenda-paper{background:#fffefb;border:1px solid #e5e1d6;box-shadow:0 8px 30px #1f312014,0 1px 2px #15301b09;border-radius:10px;padding:29px 36px 23px}
+.agenda-heading{text-align:center;margin:3px 0 20px}
+.agenda-heading h2{font:400 clamp(28px,4vw,38px)/1.16 Georgia,serif;letter-spacing:-.025em;margin:7px 0 8px}
+.agenda-heading p{font:italic 13px/1.55 Georgia,serif;color:#8b806d;margin:0}
+.agenda-paper .verse{background:#f8f5e9;border:0;border-top:1px solid #e2d6b2;border-bottom:1px solid #e2d6b2;border-radius:0;margin:17px 0 26px;padding:17px 15px;text-align:center}
+.agenda-paper .verse p{max-width:530px;margin:0 auto 6px;font-size:17px}
+.agenda-rule{display:flex;align-items:center;gap:12px;margin:24px 0 11px;color:#655e46;font-size:11px;font-weight:700;letter-spacing:.13em}
+.agenda-rule:after{content:"";height:1px;flex:1;background:#e4e2da}
+.agenda-rule span{font:italic 18px Georgia,serif;color:#ae904b;letter-spacing:0}
+.agenda-paper label.field{margin-top:15px;color:#405b49;font-weight:600}
+.agenda-paper input[type=text],.agenda-paper textarea{border-radius:2px;background:transparent;border:0;border-bottom:1px solid #dbded4;box-shadow:none;padding:11px 4px}
+.agenda-paper input[type=text]:focus,.agenda-paper textarea:focus{outline:2px solid #dfc17c66;outline-offset:1px}
+.agenda-paper textarea{min-height:104px;line-height:1.85;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 30px,#ebece5 31px,#ebece5 32px);background-attachment:local}
+.agenda-paper .agenda-journal{min-height:245px}
+.agenda-paper .agenda-two{gap:18px}
+.agenda-paper .agenda-two textarea{min-height:105px}
+.agenda-footline{border-top:1px solid #e4e3db;margin-top:27px;padding-top:12px;display:flex;justify-content:space-between;color:#aa956e;font-size:9px;letter-spacing:.13em}
+.agenda-utilities{display:grid;gap:9px;margin:13px 0 18px}
+.agenda-details{background:#fffefb;border:1px solid #e5e8e0;border-radius:11px;overflow:hidden}
+.agenda-details summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:13px 16px;color:#214533}
+.agenda-details summary::-webkit-details-marker{display:none}
+.agenda-details summary strong{display:block;font-size:13px}.agenda-details summary small{display:block;color:#758879;font-size:11px;margin-top:3px}
+.agenda-details summary>span:last-child{font-size:22px;color:#b0914e}
+.agenda-details[open] summary>span:last-child{transform:rotate(45deg)}
+.agenda-details-inner{padding:4px 17px 18px;border-top:1px solid #edf0e9}
+.agenda-details-inner .progress-summary{margin:14px 0}
+.agenda-floating-tools{max-width:850px;margin:16px auto}
+.agenda-page-head,.agenda-datebar{max-width:850px;margin-left:auto;margin-right:auto}
+@media(max-width:760px){
+.agenda-page-head{margin:1px 2px 9px;font-size:9px}
+.agenda-paper{padding:21px 18px 18px;border-radius:9px}
+.agenda-heading h2{font-size:27px}
+.agenda-heading p{font-size:12px}
+.agenda-paper .verse{margin:13px 0 19px;padding:13px 7px}
+.agenda-paper .verse p{font-size:15px}
+.agenda-paper .agenda-journal{min-height:230px}
+.agenda-paper textarea{min-height:100px}
+.agenda-paper .agenda-two{grid-template-columns:1fr}
+.agenda-rule{margin-top:20px}
+.agenda-floating-tools{margin-top:13px}
+}
+@media print{.agenda-page-head,.agenda-utilities,.agenda-floating-tools,.year-context{display:none!important}.agenda-paper{padding:0;border:0;box-shadow:none}.agenda-paper .agenda-journal{min-height:180px}.agenda-paper .verse{background:white}}
 </style></head>
 <body>
 <header><div class="hero-inner"><div class="hero-top"><div class="brand"><img class="brand-logo" src="./kingdom-atmosphere-wordmark-gold.webp" alt="Kingdom Atmosphere" width="188" height="65"></div><span class="edition">YOUR PERSONAL PLANNER</span></div><div class="hero-copy"><div class="hero-eyebrow">FAITH × INTENTION × DISCIPLINE</div><h1>A year of <em>purpose.</em></h1><p>Your personal space to plan wisely, take meaningful action, and grow in what matters.</p></div><div class="hero-bottom"><span>ALL YEARS / ONE AGENDA</span><span>PLAN · GROW · SERVE</span></div></div></header>
@@ -295,17 +342,41 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 <label class="field" for="weekreview">Weekly review: wins, lessons, and adjustments</label><textarea id="weekreview" data-week="review" placeholder="What worked? What must change next week?"></textarea>
 </div></section>
 <section id="daily" class="pane active">
-<div class="connected-panel progress-summary no-print" id="progress-dashboard"><div class="connect-top"><strong>Purpose → Progress</strong><button type="button" id="progress-details" class="mini-btn">View progress</button></div><div class="progress-stats"><div><strong id="stat-goals">0</strong><small>Yearly goals</small></div><div><strong id="stat-outcomes">0/0</strong><small>Weekly results</small></div><div><strong id="stat-actions">0/0</strong><small>Actions finished</small></div><div><strong id="stat-minutes">0m</strong><small>Tracked this week</small></div></div><p class="hint" id="progress-insight">Start by setting one measurable goal.</p><div id="progress-expanded" hidden></div></div>
-<div class="year-context no-print"><label for="yearpick">Year</label><input type="number" id="yearpick" min="1900" max="2200" value="2027"><button class="mini-btn" type="button" id="jump-today">Go to today</button><span class="today-indicator" id="today-indicator" aria-live="polite">Today</span><small>Plan any year</small></div><div class="mobile-quickbar no-print">
-<div><span class="quick-eyebrow">YOUR DAILY COMMAND CENTER</span><strong>Make today count.</strong></div>
-<div class="quick-actions"><button type="button" id="quick-add" class="quick-primary" aria-haspopup="dialog">＋ Add</button><button type="button" id="open-coach" class="quick-icon" aria-haspopup="dialog" aria-label="Open guided planning assistant">✧</button></div>
+<div class="agenda-page-head no-print"><span class="section-label">MY DAILY AGENDA</span><span>FAITH · LIFE · GROWTH</span></div>
+<div class="controls no-print agenda-datebar"><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Date</label><input type="date" id="datepick" value="2027-01-01"><button id="next" class="btn light" aria-label="Next day">→</button><button class="btn" data-print="daily">Print page</button></div>
+<div class="agenda-book">
+<div class="card agenda-paper">
+<div class="agenda-heading"><div class="section-label">A NEW PAGE · A NEW OPPORTUNITY</div><h2 id="dayheading">Friday, January 1, 2027</h2><p>A day to steward well. Not everything must be done—what matters most?</p></div>
+<div class="verse"><p id="versetext"></p><small id="verseref"></small></div>
+<div class="agenda-rule"><span>01</span> INTENTION &amp; ACTION</div>
+<label class="field" for="focus">My intention for today</label><input id="focus" type="text" data-day="focus" placeholder="How do I want to live this day?">
+<label class="field" for="oneaction">My one most important action</label><input id="oneaction" type="text" data-day="oneaction" placeholder="The meaningful step I will take today">
+<label class="field" for="priorities">Today's three priorities</label><textarea id="priorities" data-day="priorities" placeholder="1.&#10;2.&#10;3."></textarea>
+<div class="agenda-rule"><span>02</span> MY NOTES &amp; THOUGHTS</div>
+<label class="field" for="daynotes">Write freely</label><textarea id="daynotes" data-day="daynotes" class="agenda-journal" placeholder="Thoughts, discoveries, inspiration, ideas, anything on your mind…"></textarea>
+<div class="agenda-rule"><span>03</span> SPIRITUAL LIFE</div>
+<label class="field" for="reflection">What is God teaching me today?</label><textarea id="reflection" data-day="reflection" placeholder="Reflect on the Scripture and your day…"></textarea>
+<div class="two agenda-two"><div><label class="field" for="prayer">Prayer</label><textarea id="prayer" data-day="prayer" class="short" placeholder="My prayer today…"></textarea></div><div><label class="field" for="gratitude">Gratitude</label><textarea id="gratitude" data-day="gratitude" class="short" placeholder="What am I thankful for?"></textarea></div></div>
+<div class="agenda-rule"><span>04</span> EVENING REFLECTION</div>
+<label class="field" for="review">What did I learn, accomplish, and need to improve?</label><textarea id="review" data-day="review" class="short" placeholder="A moment to reflect before tomorrow…"></textarea>
+<div class="agenda-footline"><span>KINGDOM ATMOSPHERE</span><span>PLAN · GROW · SERVE</span></div>
 </div>
-<div class="controls no-print"><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Choose day</label><input type="date" id="datepick" value="2027-01-01"><button id="next" class="btn light" aria-label="Next day">→</button><button class="btn" data-print="daily">Print this day</button></div>
-<div class="connected-panel connect-daily no-print" id="daily-connect"><div class="connect-top"><strong>Today's outcome-driven action</strong><small>Turn your weekly outcome into something you can finish</small></div><select id="daily-outcome" aria-label="Choose linked weekly outcome"><option value="">Choose a weekly outcome (optional)</option></select><div class="connect-input"><input type="text" id="daily-step" placeholder="The next concrete step"><button type="button" class="btn" id="daily-step-add">Commit</button></div><div class="connected-list" id="daily-step-list"></div></div>
-<div class="daily-strip no-print"><span class="pill"><span aria-hidden="true">◆</span> PURPOSE → ACTION → GROWTH</span><span id="daily-progress" aria-live="polite">0 of 5 essentials filled</span></div><div class="layout">
-<div><div class="card"><div class="section-label">01 / YOUR DAY</div><h2 id="dayheading">Friday, January 1, 2027</h2><div class="verse"><p id="versetext"></p><small id="verseref"></small></div><label class="field" for="focus">Today's focus</label><input id="focus" type="text" data-day="focus" placeholder="What matters most today?"><label class="field" for="oneaction">One action I must finish today</label><input id="oneaction" type="text" data-day="oneaction" placeholder="The most important step toward my vision."><div class="energy-control no-print"><div class="energy-title"><label for="energy">Today's energy &amp; capacity</label><output id="energy-output" for="energy">3 / 5 · Steady</output></div><input id="energy" type="range" min="1" max="5" step="1" value="3" aria-label="Today's energy level"><div class="energy-labels"><span>Rest &amp; recover</span><span>Strong &amp; focused</span></div></div><label class="field" for="schedule">Schedule / appointments</label><textarea id="schedule" data-day="schedule" placeholder="9:00 — ..."></textarea><label class="field" for="priorities">Top 3 priorities</label><textarea id="priorities" data-day="priorities" placeholder="1.&#10;2.&#10;3."></textarea><label class="field" for="tasks">Tasks</label><textarea id="tasks" data-day="tasks" placeholder="Things to do..."></textarea><label class="field" for="discipline">Discipline practiced today</label><input id="discipline" type="text" data-day="discipline" placeholder="A consistent action—not just motivation."></div></div>
-<div><div class="card reflection-card"><div class="section-label">02 / INNER GROWTH</div><h2>Faith & reflection</h2><p class="section-subtitle">A focused moment for reflection, prayer and perspective.</p><label class="field" for="reflection">Reflection</label><textarea id="reflection" data-day="reflection" placeholder="What is this Scripture teaching me?"></textarea><label class="field" for="prayer">Prayer</label><textarea id="prayer" data-day="prayer" placeholder="A prayer for today..."></textarea><label class="field" for="gratitude">Gratitude</label><textarea id="gratitude" data-day="gratitude" class="short" placeholder="Three things I'm thankful for..."></textarea><label class="field" for="review">Evening review: what moved forward?</label><textarea id="review" data-day="review" class="short" placeholder="What did I accomplish? What will I improve tomorrow?"></textarea><label class="field" for="daynotes">Additional notes</label><textarea id="daynotes" data-day="daynotes" placeholder="Notes, ideas, reminders..."></textarea></div></div>
-</div></section>
+<div class="agenda-utilities no-print">
+<details class="agenda-details"><summary><span><strong>Daily schedule &amp; practical tasks</strong><small>Appointments, to-dos and daily discipline</small></span><span aria-hidden="true">＋</span></summary><div class="agenda-details-inner">
+<label class="field" for="schedule">Schedule / appointments</label><textarea id="schedule" data-day="schedule" placeholder="Appointments and time commitments…"></textarea>
+<label class="field" for="tasks">Things I need to do</label><textarea id="tasks" data-day="tasks" placeholder="Tasks and errands…"></textarea>
+<label class="field" for="discipline">Discipline practiced today</label><input id="discipline" type="text" data-day="discipline" placeholder="An intentional habit I practiced">
+<div class="energy-control"><div class="energy-title"><label for="energy">My energy level</label><output id="energy-output" for="energy">3 / 5 · Steady</output></div><input id="energy" type="range" min="1" max="5" step="1" value="3" aria-label="Today's energy level"><div class="energy-labels"><span>Recover</span><span>Energized</span></div></div>
+</div></details>
+<details class="agenda-details"><summary><span><strong>Purpose &amp; progress tracker</strong><small>Connected goals, actions and time history</small></span><span aria-hidden="true">＋</span></summary><div class="agenda-details-inner">
+<div class="connected-panel connect-daily" id="daily-connect"><div class="connect-top"><strong>Today's outcome-driven action</strong><small>Connect to this week's bigger goals</small></div><select id="daily-outcome" aria-label="Choose linked weekly outcome"><option value="">Choose a weekly outcome (optional)</option></select><div class="connect-input"><input type="text" id="daily-step" placeholder="The next concrete step"><button type="button" class="btn" id="daily-step-add">Commit</button></div><div class="connected-list" id="daily-step-list"></div></div>
+<div class="connected-panel progress-summary" id="progress-dashboard"><div class="connect-top"><strong>Purpose → Progress</strong><button type="button" id="progress-details" class="mini-btn">View progress</button></div><div class="progress-stats"><div><strong id="stat-goals">0</strong><small>Yearly goals</small></div><div><strong id="stat-outcomes">0/0</strong><small>Weekly results</small></div><div><strong id="stat-actions">0/0</strong><small>Actions finished</small></div><div><strong id="stat-minutes">0m</strong><small>Tracked this week</small></div></div><p class="hint" id="progress-insight">Start with a measurable goal.</p><div id="progress-expanded" hidden></div></div>
+<div class="daily-strip"><span class="pill">PURPOSE → ACTION → GROWTH</span><span id="daily-progress" aria-live="polite">0 of 5 essentials filled</span></div>
+</div></details>
+</div></div>
+<div class="mobile-quickbar no-print agenda-floating-tools"><div><span class="quick-eyebrow">SAVE A THOUGHT</span><strong>Make room for what matters.</strong></div><div class="quick-actions"><button type="button" id="quick-add" class="quick-primary" aria-haspopup="dialog">＋ Add</button><button type="button" id="open-coach" class="quick-icon" aria-haspopup="dialog" aria-label="Open guided reflection">✧</button></div></div>
+<div class="year-context no-print"><label for="yearpick">Year</label><input type="number" id="yearpick" min="1900" max="2200" value="2027"><button class="mini-btn" type="button" id="jump-today">Go to today</button><span class="today-indicator" id="today-indicator" aria-live="polite">Today</span><small>Plan any year</small></div>
+</section>
 <section id="monthly" class="pane"><div class="card">
 <div class="controls no-print"><label class="control-label" for="monthpick">Month</label><select id="monthpick"></select><input type="number" id="calendar-year" min="1900" max="2200" value="2027" aria-label="Calendar year"><button class="btn" data-print="monthly">Print this month</button></div><h2 id="monthheading"></h2><div class="calendar" id="calendar"></div><hr class="rule"><div class="two"><div><label class="field" for="monthfocus">Monthly focus</label><textarea id="monthfocus" data-month="focus"></textarea><label class="field" for="monthgoals">Goals</label><textarea id="monthgoals" data-month="goals"></textarea></div><div><label class="field" for="monthevents">Important dates</label><textarea id="monthevents" data-month="events"></textarea><label class="field" for="monthnotes">Notes / prayer</label><textarea id="monthnotes" data-month="notes"></textarea></div></div></div></section>
 <section id="activities" class="pane">
