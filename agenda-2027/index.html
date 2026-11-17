@@ -309,6 +309,38 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 .agenda-floating-tools{margin-top:13px}
 }
 @media print{.agenda-page-head,.agenda-utilities,.agenda-floating-tools,.year-context{display:none!important}.agenda-paper{padding:0;border:0;box-shadow:none}.agenda-paper .agenda-journal{min-height:180px}.agenda-paper .verse{background:white}}
+
+/* Compact journal popup sections — genuine editable pages, not appointment cards */
+.journal-intro{display:flex;justify-content:space-between;gap:8px;color:#927d55;font-size:10px;letter-spacing:.085em;font-weight:700;margin:21px 0 11px}
+.journal-intro span:last-child{font-weight:500;color:#7c8b7e}
+.journal-tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.journal-tile{display:flex;text-align:left;align-items:flex-start;gap:12px;padding:18px 15px;border:1px solid #e7e7dd;background:#fcfcf9;border-radius:11px;color:#284733;min-width:0;min-height:114px;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}
+.journal-tile:hover{border-color:#c8b276;box-shadow:0 5px 16px #132d1b10;transform:translateY(-1px)}
+.journal-tile-featured{background:#f7f7ed;border-color:#e2e1cb}
+.tile-icon{font:italic 18px Georgia,serif;color:#aa894b;flex:0 0 24px}
+.tile-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
+.tile-copy strong{font-size:13px;line-height:1.3;font-weight:670}
+.tile-copy small{font-size:11px;line-height:1.45;color:#788777;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tile-arrow{font-size:16px;color:#bba26f;line-height:1}
+.journal-saving{font-size:11px;color:#78907a;margin:18px 0 4px;display:flex;align-items:center;gap:6px}
+.journal-saving span{color:#3b9866;font-size:9px}
+.agenda-dialog{border:1px solid #e4e8dd;border-radius:22px 22px 0 0;background:#fffefb;color:#183329;box-shadow:0 -15px 55px #071d1630;width:min(100%,650px);max-width:650px;max-height:92dvh;margin:auto auto 0;padding:0;overflow:auto;overscroll-behavior:contain}
+.agenda-dialog::backdrop{background:#071d168a;backdrop-filter:blur(3px)}
+.agenda-dialog[open]{display:flex;flex-direction:column}
+.journal-dialog-top{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#f9f8f1;padding:23px 23px 17px;border-bottom:1px solid #e9e8df;position:sticky;top:0;z-index:2}
+.journal-dialog-top h2{font:400 26px Georgia,serif;margin:5px 0 0;line-height:1.2;color:#1a3e2b}
+.journal-close{border:0;background:#e9ede5;border-radius:50%;width:38px;height:38px;font-size:16px;color:#365b45;flex:0 0 auto}
+.journal-dialog-body{padding:13px 23px 22px;overflow:auto;flex:1}
+.journal-dialog-body label.field{display:block;margin-top:20px;margin-bottom:8px;font-size:12px;font-weight:650;color:#34523e}
+.journal-dialog-body textarea,.journal-dialog-body input{background:#fff;border:1px solid #e3e7e0;padding:12px;border-radius:9px;font-size:15px}
+.journal-dialog-body textarea{min-height:105px;line-height:1.65}
+.journal-dialog-body .agenda-journal{min-height:42dvh;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 31px,#e9ece4 32px)}
+.journal-writing-help{font:italic 14px/1.6 Georgia,serif;color:#6d7a68;margin:12px 0}
+.journal-dialog-footer{border-top:1px solid #e5e9e1;background:#fffefb;display:flex;justify-content:space-between;align-items:center;padding:13px 23px max(15px,env(safe-area-inset-bottom));position:sticky;bottom:0}
+.journal-dialog-footer span{font-size:11px;color:#718774}
+.journal-done{background:#153e2a;color:white;border:0;border-radius:9px;min-width:100px;padding:11px 21px;font-size:13px;font-weight:700}
+@media(max-width:760px){.journal-tiles{grid-template-columns:1fr 1fr;gap:8px}.journal-tile{min-height:126px;gap:8px;padding:13px 10px}.tile-icon{font-size:16px;flex-basis:18px}.tile-copy strong{font-size:12px}.tile-copy small{font-size:10px}.tile-arrow{font-size:13px}.journal-intro{font-size:9px}.agenda-paper{padding:20px 15px}.agenda-dialog{width:100%;max-height:94dvh;border-radius:20px 20px 0 0}.journal-dialog-top{padding:20px 17px 14px}.journal-dialog-body{padding:10px 17px 22px}.journal-dialog-footer{padding:11px 17px max(12px,env(safe-area-inset-bottom))}}
+@media print{.journal-tiles,.journal-intro,.journal-saving{display:none!important}.agenda-dialog:not([open]){display:block!important}.agenda-dialog{position:static!important;width:100%!important;max-width:none!important;max-height:none!important;overflow:visible!important;margin:0!important;border:none!important;box-shadow:none!important;border-radius:0!important}.journal-dialog-top{position:static!important;padding:12px 0 4px!important;background:white!important}.journal-dialog-top h2{font-size:18px!important}.journal-dialog-body{padding:0!important;overflow:visible!important}.journal-dialog-footer,.journal-close{display:none!important}.journal-dialog-body .agenda-journal{min-height:140px!important}}
 </style></head>
 <body>
 <header><div class="hero-inner"><div class="hero-top"><div class="brand"><img class="brand-logo" src="./kingdom-atmosphere-wordmark-gold.webp" alt="Kingdom Atmosphere" width="188" height="65"></div><span class="edition">YOUR PERSONAL PLANNER</span></div><div class="hero-copy"><div class="hero-eyebrow">FAITH × INTENTION × DISCIPLINE</div><h1>A year of <em>purpose.</em></h1><p>Your personal space to plan wisely, take meaningful action, and grow in what matters.</p></div><div class="hero-bottom"><span>ALL YEARS / ONE AGENDA</span><span>PLAN · GROW · SERVE</span></div></div></header>
@@ -346,21 +378,34 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 <div class="controls no-print agenda-datebar"><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Date</label><input type="date" id="datepick" value="2027-01-01"><button id="next" class="btn light" aria-label="Next day">→</button><button class="btn" data-print="daily">Print page</button></div>
 <div class="agenda-book">
 <div class="card agenda-paper">
-<div class="agenda-heading"><div class="section-label">A NEW PAGE · A NEW OPPORTUNITY</div><h2 id="dayheading">Friday, January 1, 2027</h2><p>A day to steward well. Not everything must be done—what matters most?</p></div>
+<div class="agenda-heading"><div class="section-label">YOUR PERSONAL JOURNAL</div><h2 id="dayheading">Friday, January 1, 2027</h2><p>One day at a time, with intention, faith and room to grow.</p></div>
 <div class="verse"><p id="versetext"></p><small id="verseref"></small></div>
-<div class="agenda-rule"><span>01</span> INTENTION &amp; ACTION</div>
+<div class="journal-intro no-print"><span>YOUR DAILY PAGES</span><span>Tap a section to write <span aria-hidden="true">↗</span></span></div>
+<div class="journal-tiles no-print">
+<button class="journal-tile" type="button" data-journal-open="intent"><span class="tile-icon">01</span><span class="tile-copy"><strong>Intentions &amp; priorities</strong><small id="preview-intent">What matters most to you today?</small></span><span class="tile-arrow" aria-hidden="true">↗</span></button>
+<button class="journal-tile journal-tile-featured" type="button" data-journal-open="notes"><span class="tile-icon">02</span><span class="tile-copy"><strong>My notes &amp; thoughts</strong><small id="preview-notes">A private space to write freely.</small></span><span class="tile-arrow" aria-hidden="true">↗</span></button>
+<button class="journal-tile" type="button" data-journal-open="faith"><span class="tile-icon">03</span><span class="tile-copy"><strong>Faith, prayer &amp; gratitude</strong><small id="preview-faith">Reflect on the Word and your day.</small></span><span class="tile-arrow" aria-hidden="true">↗</span></button>
+<button class="journal-tile" type="button" data-journal-open="evening"><span class="tile-icon">04</span><span class="tile-copy"><strong>Evening reflection</strong><small id="preview-evening">Record progress, lessons and growth.</small></span><span class="tile-arrow" aria-hidden="true">↗</span></button>
+</div>
+<p class="journal-saving no-print"><span aria-hidden="true">●</span> Your writing is automatically saved on this device.</p>
+<div class="agenda-footline"><span>KINGDOM ATMOSPHERE</span><span>PLAN · GROW · SERVE</span></div>
+</div>
+<dialog class="agenda-dialog" id="journal-intent" aria-labelledby="journal-title-intent"><div class="journal-dialog-top"><div><span class="section-label">01 / LIVE INTENTIONALLY</span><h2 id="journal-title-intent">Intention &amp; action</h2></div><button type="button" class="journal-close" aria-label="Close intention page">✕</button></div><div class="journal-dialog-body">
 <label class="field" for="focus">My intention for today</label><input id="focus" type="text" data-day="focus" placeholder="How do I want to live this day?">
 <label class="field" for="oneaction">My one most important action</label><input id="oneaction" type="text" data-day="oneaction" placeholder="The meaningful step I will take today">
 <label class="field" for="priorities">Today's three priorities</label><textarea id="priorities" data-day="priorities" placeholder="1.&#10;2.&#10;3."></textarea>
-<div class="agenda-rule"><span>02</span> MY NOTES &amp; THOUGHTS</div>
-<label class="field" for="daynotes">Write freely</label><textarea id="daynotes" data-day="daynotes" class="agenda-journal" placeholder="Thoughts, discoveries, inspiration, ideas, anything on your mind…"></textarea>
-<div class="agenda-rule"><span>03</span> SPIRITUAL LIFE</div>
-<label class="field" for="reflection">What is God teaching me today?</label><textarea id="reflection" data-day="reflection" placeholder="Reflect on the Scripture and your day…"></textarea>
-<div class="two agenda-two"><div><label class="field" for="prayer">Prayer</label><textarea id="prayer" data-day="prayer" class="short" placeholder="My prayer today…"></textarea></div><div><label class="field" for="gratitude">Gratitude</label><textarea id="gratitude" data-day="gratitude" class="short" placeholder="What am I thankful for?"></textarea></div></div>
-<div class="agenda-rule"><span>04</span> EVENING REFLECTION</div>
-<label class="field" for="review">What did I learn, accomplish, and need to improve?</label><textarea id="review" data-day="review" class="short" placeholder="A moment to reflect before tomorrow…"></textarea>
-<div class="agenda-footline"><span>KINGDOM ATMOSPHERE</span><span>PLAN · GROW · SERVE</span></div>
-</div>
+</div><div class="journal-dialog-footer"><span>Automatically saved</span><button class="journal-done" type="button">Done</button></div></dialog>
+<dialog class="agenda-dialog" id="journal-notes" aria-labelledby="journal-title-notes"><div class="journal-dialog-top"><div><span class="section-label">02 / WRITE FREELY</span><h2 id="journal-title-notes">My notes &amp; thoughts</h2></div><button type="button" class="journal-close" aria-label="Close notes page">✕</button></div><div class="journal-dialog-body"><p class="journal-writing-help">Ideas, observations, memories, discoveries, inspiration—this space is yours.</p>
+<label class="field" for="daynotes">My personal writing</label><textarea id="daynotes" data-day="daynotes" class="agenda-journal" placeholder="Write anything on your mind…"></textarea>
+</div><div class="journal-dialog-footer"><span>Automatically saved</span><button class="journal-done" type="button">Done</button></div></dialog>
+<dialog class="agenda-dialog" id="journal-faith" aria-labelledby="journal-title-faith"><div class="journal-dialog-top"><div><span class="section-label">03 / INNER LIFE</span><h2 id="journal-title-faith">Faith &amp; reflection</h2></div><button type="button" class="journal-close" aria-label="Close spiritual reflection">✕</button></div><div class="journal-dialog-body">
+<label class="field" for="reflection">What is God teaching me today?</label><textarea id="reflection" data-day="reflection" placeholder="Reflect on Scripture and your day…"></textarea>
+<label class="field" for="prayer">Prayer</label><textarea id="prayer" data-day="prayer" placeholder="My prayer today…"></textarea>
+<label class="field" for="gratitude">Gratitude</label><textarea id="gratitude" data-day="gratitude" class="short" placeholder="What am I thankful for?"></textarea>
+</div><div class="journal-dialog-footer"><span>Automatically saved</span><button class="journal-done" type="button">Done</button></div></dialog>
+<dialog class="agenda-dialog" id="journal-evening" aria-labelledby="journal-title-evening"><div class="journal-dialog-top"><div><span class="section-label">04 / REFLECT &amp; GROW</span><h2 id="journal-title-evening">Evening reflection</h2></div><div><button type="button" class="journal-close" aria-label="Close evening reflection">✕</button></div></div><div class="journal-dialog-body"><p class="journal-writing-help">What did I learn, accomplish, or need to change? Carry the lesson, not the burden, into tomorrow.</p>
+<label class="field" for="review">My reflection</label><textarea id="review" data-day="review" class="agenda-journal" placeholder="What moved forward? What matters tomorrow?"></textarea>
+</div><div class="journal-dialog-footer"><span>Automatically saved</span><button class="journal-done" type="button">Done</button></div></dialog>
 <div class="agenda-utilities no-print">
 <details class="agenda-details"><summary><span><strong>Daily schedule &amp; practical tasks</strong><small>Appointments, to-dos and daily discipline</small></span><span aria-hidden="true">＋</span></summary><div class="agenda-details-inner">
 <label class="field" for="schedule">Schedule / appointments</label><textarea id="schedule" data-day="schedule" placeholder="Appointments and time commitments…"></textarea>
@@ -646,6 +691,25 @@ function checkRealDay(){var current=dateText(new Date());if(current===lastRealDa
 document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')checkRealDay()});
 window.addEventListener('focus',checkRealDay);
 setInterval(checkRealDay,60000);
+})();
+
+
+/* Agenda journal panels: preserve existing form elements and data-day saving */
+(function(){
+var journalSections=['intent','notes','faith','evening'],lastTrigger=null;
+function preview(text,fallback){var str=String(text||'').trim().replace(/\s+/g,' ');return str?str.slice(0,110):fallback}
+function updateJournalTiles(){var entry=data.days[selected]||{};
+$('preview-intent').textContent=preview(entry.oneaction||entry.focus||entry.priorities,'What matters most to you today?');
+$('preview-notes').textContent=preview(entry.daynotes,'A private space to write freely.');
+$('preview-faith').textContent=preview(entry.reflection||entry.prayer||entry.gratitude,'Reflect on the Word and your day.');
+$('preview-evening').textContent=preview(entry.review,'Record progress, lessons and growth.');
+}
+function openJournal(name,trigger){var panel=$('journal-'+name);if(!panel||typeof panel.showModal!=='function')return;lastTrigger=trigger||null;panel.showModal();var first=panel.querySelector('input,textarea');if(first)requestAnimationFrame(function(){first.focus({preventScroll:true})})}
+document.querySelectorAll('[data-journal-open]').forEach(function(btn){btn.addEventListener('click',function(){openJournal(btn.dataset.journalOpen,btn)})});
+journalSections.forEach(function(name){var panel=$('journal-'+name);panel.querySelectorAll('.journal-close,.journal-done').forEach(function(b){b.onclick=function(){panel.close()}});panel.addEventListener('click',function(e){if(e.target===panel)panel.close()});panel.addEventListener('close',function(){updateJournalTiles();if(lastTrigger&&lastTrigger.isConnected)lastTrigger.focus({preventScroll:true})})});
+document.querySelectorAll('.agenda-dialog [data-day]').forEach(function(el){el.addEventListener('input',updateJournalTiles)});
+var earlierSetDay=setDay;setDay=function(s){earlierSetDay(s);updateJournalTiles()};
+updateJournalTiles();
 })();
 
 if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost'))navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(e){console.warn('Offline installation unavailable',e)});
