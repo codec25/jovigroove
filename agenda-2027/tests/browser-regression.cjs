@@ -109,6 +109,7 @@ async function main(){
    assert.match(await page.locator('#family-event-list').innerText(),/Family game night/);
  });
  await test('Growth modal fits mobile and autosaves',async()=>{
+   await page.locator('[data-tab="daily"]').evaluate(e=>e.click());
    await page.locator('#growth-open').click();
    assert.equal(await page.locator('#growth-dialog').evaluate(e=>e.open),true);
    const sheet=await page.locator('#growth-dialog').boundingBox();
