@@ -44,7 +44,7 @@ async function main(){
      const rect=home.getBoundingClientRect();
      return {stylesheets:sheet,bg:css.backgroundColor,radius:css.borderRadius,padding:css.padding,headerFont:head.fontFamily,buttonBg:action.backgroundColor,width:rect.width};
    });
-   assert(styles.stylesheets.some(x=>x.includes('app.css?v=36')),'Outdated CSS version requested: '+JSON.stringify(styles.stylesheets));
+   assert(styles.stylesheets.some(x=>x.includes('app.css?v=37')),'Outdated CSS version requested: '+JSON.stringify(styles.stylesheets));
    assert.equal(styles.bg,'rgb(255, 254, 251)','Today home stylesheet missing: '+JSON.stringify(styles));
    assert.notEqual(styles.radius,'0px','Today home card border radius missing');
    assert(styles.width>280,'Today card collapsed on mobile');
