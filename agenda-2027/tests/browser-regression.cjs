@@ -69,6 +69,35 @@ async function main(){
    assert.equal(await page.locator('#daynotes').inputValue(),'Browser regression note');
    await page.locator('#journal-notes .journal-done').click();
  });
+ await test('Today home is immediately actionable and reflects the existing daily plan',async()=>{
+   await page.locator('[data-tab="daily"]').evaluate(e=>e.click());
+   assert.equal(await page.locator('#today-home').isVisible(),true);
+   assert.equal(await page.locator('#today-home-empty').isVisible(),true);
+   await page.locator('#today-plan').click();
+   assert.equal(await page.locator('#journal-intent').evaluate(e=>e.open),true);
+   await page.locator('#oneaction').fill('Finish the important work');
+   await page.locator('#journal-intent .journal-done').click();
+   assert.equal(await page.locator('#today-home-ready').isVisible(),true);
+   assert.match(await page.locator('#today-main-focus').innerText(),/Finish the important work/);
+   await page.locator('#today-add-task').click();
+   assert.equal(await page.locator('#quick-sheet').isVisible(),true);
+   assert.equal(await page.locator('#quick-kind').inputValue(),'tasks');
+   await page.locator('#quick-text').fill('Prepare lesson notes');
+   await page.locator('#quick-save').click();
+   assert.match(await page.locator('#today-task-list').innerText(),/Prepare lesson notes/);
+   assert.equal(await page.locator('#today-task-count').innerText(),'1 task');
+   const persisted=await page.evaluate(d=>JSON.parse(localStorage.getItem('ka-2027-agenda-v1')).days[d],today);
+   assert.equal(persisted.oneaction,'Finish the important work');
+   assert.match(persisted.tasks,/Prepare lesson notes/);
+   await page.reload({waitUntil:'load'});
+   assert.match(await page.locator('#today-main-focus').innerText(),/Finish the important work/);
+   assert.match(await page.locator('#today-task-list').innerText(),/Prepare lesson notes/);
+   await page.locator('#next').click();
+   assert.equal(await page.locator('#datepick').inputValue(),tomorrow);
+   assert.equal(await page.locator('#today-home-empty').isVisible(),true);
+   await page.locator('#today-home-return').click();
+   assert.equal(await page.locator('#datepick').inputValue(),today);
+ });
  await test('Family Space groceries, editing, shopping and separate storage',async()=>{
    await page.locator('[data-tab="family-space"]').evaluate(e=>e.click());
    assert.equal(await page.locator('#family-space').evaluate(e=>e.classList.contains('active')),true);
