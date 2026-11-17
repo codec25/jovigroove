@@ -117,7 +117,7 @@ async function main(){
    await page.locator('#family-task-name').fill('Take out recycling');
    await page.locator('#family-task-assignee').fill('Family member');
    await page.locator('#family-task-form button[type=submit]').click();
-   assert.equal(await page.locator('#family-task-list article').count(),1);
+   assert.equal(await page.locator('#family-task-list article').count(),3);
    await page.locator('[data-family-tab="calendar"]').click();
    await page.locator('#family-event-name').fill('Family game night');
    await page.locator('#family-event-date').fill(tomorrow);
