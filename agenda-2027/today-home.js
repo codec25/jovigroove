@@ -27,7 +27,7 @@ function render(){
  const schedule=lines(day.schedule),tasks=lines(day.tasks),priorities=lines(day.priorities);
  const focus=String(day.oneaction||'').trim(),intention=String(day.focus||'').trim();
  const prepared=!!(focus||intention||priorities.length||tasks.length||schedule.length);
- const labelDate=new Date(date+'T12:00:00').toLocaleDateString('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+ const labelDate=new Date(date+'T12:00:00').toLocaleDateString((window.KA_locale&&window.KA_locale()==='fr')?'fr-CA':'en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
  $('today-home-date').textContent=labelDate;
  $('today-home-title').textContent=date===iso(new Date())?'Today, with purpose.':'Your day, at a glance.';
  $('today-home-return').hidden=date===iso(new Date());
