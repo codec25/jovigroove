@@ -22,8 +22,7 @@ var status=document.getElementById('status');
 if(status)status.textContent='Agenda v15 · Today is '+d.toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'})+' · Saved on this device';
 }
 renderLiveDate();
-document.addEventListener('DOMContentLoaded',renderLiveDate);
-document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&document.getElementById('datepick').dataset.manualDate!=='yes')renderLiveDate()});
+document.addEventListener('DOMContentLoaded',function(){var p=document.getElementById('datepick');if(p&&(!p.value||p.value==='2027-01-01'))renderLiveDate()});
 document.addEventListener('change',function(e){if(e.target&&e.target.id==='datepick'){e.target.dataset.manualDate='yes'}},true);
 
 var activePanel=null;
