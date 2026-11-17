@@ -72,3 +72,6 @@ Run `node agenda-2027/tests/regression.cjs` from the repository root before depl
 - Manual real-device iPhone verification is required; syntax checks and simulated DOM tests do not replace it.
 
 The source repo URL can retain `/agenda-2027/` for link compatibility even though the product supports all years.
+
+## Consolidated day navigation (v40)
+The Today tab shows one concise plan, a compact dated teaching and two optional sections: **Journal & reflection** (`#today-journal`) and **More planning tools** (`#today-tools`). Native journal dialogs are direct children of the daily pane so they remain accessible while their journal cards are collapsed. The existing daily data writer and offline keys are unchanged. Desktop navigation shows Today, Week, Calendar, Family Space and Journal, with remaining destinations available from More. Do not recreate the old stacked full-height journal on Today or add another independent daily save handler.
