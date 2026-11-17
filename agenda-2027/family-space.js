@@ -169,7 +169,7 @@ function renderTasks(){
  const list=$('family-task-list');list.replaceChildren();
  const entries=active('tasks').sort((a,b)=>Number(a.done)-Number(b.done)||String(a.date||'9999').localeCompare(String(b.date||'9999')));
  for(const x of entries){
-  const detail=[x.assignee?'For '+x.assignee:'Unassigned',x.date||'No due date',x.repeat==='weekly'?'Weekly':x.repeat==='daily'?'Daily':''].filter(Boolean).join(' · ');
+  const detail=[x.assignee?'For '+x.assignee:'Unassigned',x.date||'No due date',x.repeat==='weekly'?'Weekly':x.repeat==='daily'?'Daily':'',x.lastCompleted===localDay()?'✓ Completed today':''].filter(Boolean).join(' · ');
   const row=card('tasks',x,x.name,detail,[
    {text:'Edit',act:()=>editStart('tasks',x)},{text:'Delete',act:()=>{if(confirm('Remove this responsibility?'))remove('tasks',x.id)}}
   ],x.done);
