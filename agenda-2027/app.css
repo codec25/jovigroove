@@ -813,7 +813,7 @@ dialog.growth-dialog.growth-keyboard{
 .today-plan-editor-head strong{font:400 22px/1.2 Georgia,serif;color:#1c4932}
 .today-plan-editor-head span{font-size:10px;color:#798d7d}
 .today-plan-editor label{font-size:12px;font-weight:700;color:#43634e;margin:5px 0 0}
-.today-plan-editor input,.today-plan-editor textarea{width:100%;max-width:100%;min-width:0;border:1px solid #d6e2d7;background:#fff;color:#214734;padding:11px 12px;font:16px/1.5 inherit;border-radius:9px}
+.today-plan-editor input,.today-plan-editor textarea{width:100%;max-width:100%;min-width:0;border:1px solid #d6e2d7;background:#fff;color:#214734;padding:11px 12px;font:inherit;font-size:16px;line-height:1.5;border-radius:9px}
 .today-plan-editor textarea{min-height:92px;resize:vertical}
 .today-plan-editor-buttons{display:flex;justify-content:flex-end;gap:9px;margin-top:7px}
 .today-plan-editor-buttons button{border-radius:9px;border:1px solid #cedccd;padding:11px 16px;min-height:43px;font-size:12px;font-weight:700;background:white;color:#335a43}
