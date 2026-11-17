@@ -138,23 +138,107 @@ function generate(mode,ref){var d=gather(mode,ref);return doc(d,{days:d.dates,al
 function download(blob,name){
  var url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},20000)
 }
-async function sharePDF(mode,ref,notify){
- var pdf=generate(mode,ref),name=fileName(mode,ref);
- if(typeof File!=='undefined'&&navigator.share){
-  var file=new File([pdf],name,{type:'application/pdf'});
-  if(!navigator.canShare||navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Kingdom Atmosphere Agenda'});notify('Share sheet opened.');return}
+/* One owner for PDF generation, preview, download and native sharing.
+   The preview uses the exact Blob that will be sent or downloaded. */
+var previewState=null;
+function releasePreview(){
+ if(!previewState)return;
+ var old=previewState;previewState=null;
+ var frame=document.getElementById('pdf-preview-frame');
+ if(frame)frame.src='about:blank';
+ // Allow an already-open full-document tab to load before revoking its URL.
+ setTimeout(function(){URL.revokeObjectURL(old.url)},60000);
+}
+function closePreview(){
+ var dialog=document.getElementById('pdf-preview-dialog');
+ if(!dialog)return;
+ if(dialog.open&&typeof dialog.close==='function')dialog.close();
+ else dialog.removeAttribute('open');
+ releasePreview();
+}
+function previewPDF(mode,ref,notify){
+ var dialog=document.getElementById('pdf-preview-dialog');
+ if(!dialog)throw new Error('Preview is unavailable. Please reload the agenda.');
+ releasePreview();
+ var blob=generate(mode,ref),name=fileName(mode,ref),url=URL.createObjectURL(blob);
+ previewState={blob:blob,name:name,url:url};
+ document.getElementById('pdf-preview-frame').src=url;
+ var description=document.getElementById('pdf-preview-description');
+ if(description)description.textContent=mode==='all'?'Your complete saved agenda archive':mode==='week'?'Week of '+ref:mode==='month'?'Month '+ref.slice(0,7):'Daily journal · '+ref;
+ var status=document.getElementById('pdf-preview-feedback');
+ if(status)status.textContent='Preview ready · '+Math.max(1,Math.round(blob.size/1024))+' KB';
+ if(!dialog.open){
+  if(typeof dialog.showModal==='function')dialog.showModal();
+  else dialog.setAttribute('open','');
  }
- download(pdf,name);notify('PDF downloaded. Open it in Files to share.');
+ notify('PDF preview ready. Review the document before sharing.');
+}
+async function sharePreview(notify){
+ if(!previewState)return;
+ var fileData=previewState;
+ if(typeof File!=='undefined'&&navigator.share){
+  var file=new File([fileData.blob],fileData.name,{type:'application/pdf'});
+  if(!navigator.canShare||navigator.canShare({files:[file]})){
+   await navigator.share({files:[file],title:'Kingdom Atmosphere Agenda'});
+   notify('PDF share sheet opened.');return;
+  }
+ }
+ download(fileData.blob,fileData.name);
+ notify('File sharing is unavailable here. The PDF was downloaded so you can share it from Files.');
 }
 function setup(){
- var dl=document.getElementById('print-agenda'),share=document.getElementById('share-agenda'),status=document.getElementById('pdf-status');
- if(!dl||!share)return;
- function settings(){var p=document.getElementById('datepick'),picker=document.getElementById('print-range');return {mode:picker?picker.value:'day',date:p&&p.value||isoLocal(new Date())}}
- function notify(message){if(status)status.textContent=message}
- dl.addEventListener('click',function(){try{var s=settings(),pdf=generate(s.mode,s.date);download(pdf,fileName(s.mode,s.date));notify('PDF generated. Check your Downloads or Files.')}catch(e){notify('PDF error: '+e.message);console.error(e)}});
- var direct=document.getElementById('daily-pdf-share');if(direct)direct.addEventListener('click',async function(){try{await sharePDF('day',settings().date,notify)}catch(e){if(e.name==='AbortError')return;notify('Unable to share PDF; try Download PDF in Settings.');console.error(e)}});
- share.addEventListener('click',async function(){try{var s=settings();await sharePDF(s.mode,s.date,notify)}catch(e){if(e.name==='AbortError')return;notify('Sharing unavailable. Use Download PDF.');console.error(e)}});
+ var dl=document.getElementById('print-agenda'),
+     share=document.getElementById('share-agenda'),
+     preview=document.getElementById('preview-agenda'),
+     status=document.getElementById('pdf-status'),
+     dialog=document.getElementById('pdf-preview-dialog');
+ if(!dl||!share||!dialog)return;
+ function settings(){
+  var p=document.getElementById('datepick'),picker=document.getElementById('print-range');
+  return {mode:picker?picker.value:'day',date:p&&p.value||isoLocal(new Date())}
+ }
+ function notify(message){
+  if(status)status.textContent=message;
+  var messageArea=document.getElementById('pdf-preview-feedback');
+  if(messageArea)messageArea.textContent=message;
+ }
+ function openSelected(mode,ref){
+  try{previewPDF(mode,ref,notify)}
+  catch(e){notify('Unable to preview PDF: '+e.message);console.error(e)}
+ }
+ if(preview)preview.addEventListener('click',function(){var s=settings();openSelected(s.mode,s.date)});
+ // Existing direct download remains available, but every sharing route previews first.
+ dl.addEventListener('click',function(){
+  try{var s=settings(),pdf=generate(s.mode,s.date);download(pdf,fileName(s.mode,s.date));notify('PDF downloaded. Check your Files or Downloads.')}
+  catch(e){notify('PDF error: '+e.message);console.error(e)}
+ });
+ share.addEventListener('click',function(){var s=settings();openSelected(s.mode,s.date)});
+ var daily=document.getElementById('daily-pdf-share');
+ if(daily)daily.addEventListener('click',function(){openSelected('day',settings().date)});
+ document.getElementById('pdf-preview-close').addEventListener('click',closePreview);
+ dialog.addEventListener('close',releasePreview);
+ dialog.addEventListener('click',function(e){if(e.target===dialog)closePreview()});
+ document.getElementById('pdf-preview-full').addEventListener('click',function(){
+  if(!previewState)return;
+  var url=previewState.url;
+  var tab=window.open(url,'_blank');
+  if(!tab)notify('Your browser blocked the full PDF view. Use Download to open it in Files.');
+ });
+ document.getElementById('pdf-preview-download').addEventListener('click',function(){
+  if(!previewState)return;
+  download(previewState.blob,previewState.name);
+  notify('PDF downloaded. You can still review or share it.');
+ });
+ document.getElementById('pdf-preview-share').addEventListener('click',async function(){
+  var button=this;
+  if(!previewState)return;
+  button.disabled=true;
+  try{await sharePreview(notify)}
+  catch(e){if(e.name!=='AbortError'){notify('Unable to share. Try Download instead.');console.error(e)}}
+  finally{button.disabled=false}
+ });
 }
+
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 window.KingdomPDF={generate:generate,download:download,filename:fileName};
 })();
