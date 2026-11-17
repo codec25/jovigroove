@@ -1,0 +1,35 @@
+name: Kingdom Agenda regression
+
+on:
+  push:
+    paths:
+      - 'agenda-2027/**'
+      - '.github/workflows/kingdom-agenda-regression.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chromium-mobile-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Static contract and controller checks
+        run: node agenda-2027/tests/regression.cjs
+      - name: Install Playwright test dependency
+        run: npm install --no-save --prefix /tmp/ka-browser-tests playwright-core@1.56.1
+      - name: Start local static app server
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/ka-server.log 2>&1 &
+          sleep 2
+          curl --fail --silent --show-error http://127.0.0.1:8765/agenda-2027/ > /dev/null
+      - name: Mobile Chromium regression
+        env:
+          NODE_PATH: /tmp/ka-browser-tests/node_modules
+          AGENDA_TEST_URL: http://127.0.0.1:8765/agenda-2027/
+        run: node agenda-2027/tests/browser-regression.cjs
