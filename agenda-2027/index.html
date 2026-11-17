@@ -361,6 +361,10 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 @media(max-width:760px){.journal-digest{flex-direction:column;align-items:flex-start;gap:2px;padding:10px 12px}.journal-digest strong{font-size:10px}.agenda-dialog.focus-writing .journal-dialog-top{padding-top:max(20px,env(safe-area-inset-top))}}
 @media(prefers-reduced-motion:reduce){.journal-tile,.agenda-dialog,.journal-dialog-body textarea{animation:none!important;transition:none!important}}
 @media print{.journal-digest{display:none!important}}
+
+/* Fallback support for devices that do not expose the native dialog API. */
+.agenda-dialog.journal-fallback{position:fixed!important;inset:auto 0 0!important;width:100%!important;max-width:none!important;max-height:94dvh!important;display:flex!important;z-index:9999!important}
+body.journal-fallback-active::before{content:"";position:fixed;inset:0;z-index:9998;background:#071d168a}
 </style></head>
 <body>
 <header><div class="hero-inner"><div class="hero-top"><div class="brand"><img class="brand-logo" src="./kingdom-atmosphere-wordmark-gold.webp" alt="Kingdom Atmosphere" width="188" height="65"></div><span class="edition">YOUR PERSONAL PLANNER</span></div><div class="hero-copy"><div class="hero-eyebrow">FAITH × INTENTION × DISCIPLINE</div><h1>A year of <em>purpose.</em></h1><p>Your personal space to plan wisely, take meaningful action, and grow in what matters.</p></div><div class="hero-bottom"><span>ALL YEARS / ONE AGENDA</span><span>PLAN · GROW · SERVE</span></div></div></header>
@@ -479,6 +483,7 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 </section>
 <section id="more-sheet" class="sheet more-sheet no-print" role="dialog" aria-modal="true" aria-labelledby="more-title" hidden><div class="sheet-handle" aria-hidden="true"></div><div class="sheet-head"><div><span class="quick-eyebrow">YOUR WORKSPACES</span><h2 id="more-title">Explore</h2></div><button class="close-sheet" type="button" aria-label="Close">✕</button></div><div class="more-grid"><button type="button" data-open-tab="activities">◷ <strong>Activities</strong><small>Track time &amp; habits</small></button><button type="button" data-open-tab="reminders">◉ <strong>Reminders</strong><small>Alerts &amp; due dates</small></button><button type="button" data-open-tab="family">♡ <strong>Family dates</strong><small>Birthdays &amp; celebrations</small></button><button type="button" data-open-tab="gifts">♧ <strong>Gift planner</strong><small>Christmas &amp; budgets</small></button><button type="button" data-open-tab="notes">▤ <strong>Journal</strong><small>Goals &amp; free writing</small></button><button type="button" data-open-tab="settings">⚙ <strong>Settings</strong><small>Backups &amp; print</small></button></div></section>
 <p class="footer">© Kingdom Atmosphere · Personal multi-year agenda. Private entries remain on this device unless you explicitly export them. Keep backups; clearing browser data may delete entries.</p></main>
+<script src="./journal-controller.js"></script>
 <script>
 (function(){
 'use strict';
