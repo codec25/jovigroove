@@ -393,7 +393,7 @@ $('addgift').onclick=function(){data.gifts.push({recipient:'',idea:'',budget:''}
 document.querySelectorAll('[data-single]').forEach(function(el){el.value=data.single[el.dataset.single]||'';el.addEventListener('input',function(){data.single[el.dataset.single]=el.value;save()})});
 $('export').onclick=function(){var blob=new Blob([JSON.stringify({version:1,year:'multi',days:data.days,months:data.months,family:data.family,gifts:data.gifts,single:data.single,weeks:data.weeks||{},activities:data.activities||[],sessions:data.sessions||[],reminders:data.reminders||[],linkedGoals:data.linkedGoals||[],linkedOutcomes:data.linkedOutcomes||[],linkedActions:data.linkedActions||[]},null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Kingdom-Atmosphere-Agenda-Backup.json';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500)};
 $('import').onchange=function(){var file=this.files&&this.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(){try{var o=JSON.parse(reader.result);if(!o||!o.days||!o.months||!Array.isArray(o.family)||!Array.isArray(o.gifts))throw Error('Invalid backup');if(!confirm('Replace all entries on this device with this backup?'))return;data={days:o.days,months:o.months,family:o.family,gifts:o.gifts,single:o.single||{},weeks:o.weeks||{},activities:Array.isArray(o.activities)?o.activities:[],sessions:Array.isArray(o.sessions)?o.sessions:[],reminders:Array.isArray(o.reminders)?o.reminders:[],linkedGoals:Array.isArray(o.linkedGoals)?o.linkedGoals:[],linkedOutcomes:Array.isArray(o.linkedOutcomes)?o.linkedOutcomes:[],linkedActions:Array.isArray(o.linkedActions)?o.linkedActions:[]};save();location.reload()}catch(e){alert('Could not import that agenda backup.')}};reader.readAsText(file)};
-$('clear').onclick=function(){if(confirm('Erase ALL saved agenda entries from every year? This cannot be undone without an exported backup.')){localStorage.removeItem(KEY);location.reload()}};
+$('clear').onclick=function(){if(confirm('Erase ALL saved agenda entries from every year? This cannot be undone without an exported backup.')){localStorage.removeItem(KEY);localStorage.removeItem('ka-agenda-last-date');location.reload()}};
 setDay(selected);setMonth(0);renderFamily();renderGifts();
 
 /* Purpose-first productivity extension */
@@ -544,7 +544,7 @@ syncYear(y)}
 $('yearpick').onchange=function(){changeYear(Number(this.value),true)};
 $('calendar-year').onchange=function(){changeYear(Number(this.value),false)};
 $('jump-today').onclick=function(){var today=dateText(new Date());selected=today;month=+today.slice(5,7)-1;setDay(today);loadWeek(today);syncYear(+today.slice(0,4));showTab('daily')};
-var originalSetDay=setDay;setDay=function(s){originalSetDay(s);if(selected===s){try{localStorage.setItem('ka-agenda-last-date',s)}catch(e){}var y=Number(s.slice(0,4));if(calendarYear!==y){calendarYear=y;month=Number(s.slice(5,7))-1;syncYear(y)}if(typeof renderReview==='function')renderReview()}};
+var originalSetDay=setDay;setDay=function(s){originalSetDay(s);if(selected===s){try{localStorage.setItem('ka-agenda-last-date',s)}catch(e){}loadWeek(s);var y=Number(s.slice(0,4));if(calendarYear!==y){calendarYear=y;month=Number(s.slice(5,7))-1;syncYear(y)}if(typeof renderReview==='function')renderReview()}};
 var originalLoadWeek=loadWeek;loadWeek=function(s){originalLoadWeek(s);renderReview()};
 function renderReview(){
 var key=weekOf(weekSelected||selected),outcomes=data.linkedOutcomes.filter(function(x){return x.week===key}),actions=data.linkedActions.filter(function(x){return x.date&&weekOf(x.date)===key}),sessions=data.sessions.filter(function(x){return x.finished&&Number.isFinite(Date.parse(x.finished))&&weekOf(dateText(new Date(x.finished)))===key});
@@ -561,7 +561,7 @@ open.forEach(function(x){var label=x.name.toLowerCase()+'|'+x.goalId;if(existing
 if(count){save();loadWeek(next);refresh();alert(count+' unfinished outcome(s) copied to the following week. The originals remain unchanged.')}else alert('These outcomes are already present next week.');};
 var oldRefresh=refresh;refresh=function(){oldRefresh();renderReview()};
 var now=new Date(),today=dateText(now),remembered=null;try{remembered=localStorage.getItem('ka-agenda-last-date')}catch(e){}
-if(remembered&&/^\\d{4}-\\d{2}-\\d{2}$/.test(remembered)&&Number.isFinite(isoDate(remembered).getTime()))today=remembered;
+if(remembered&&/^\d{4}-\d{2}-\d{2}$/.test(remembered)&&Number.isFinite(isoDate(remembered).getTime()))today=remembered;
 selected=today;weekSelected=today;calendarYear=Number(today.slice(0,4));month=Number(today.slice(5,7))-1;setDay(today);loadWeek(today);syncYear(calendarYear);renderReview();
 })();
 
