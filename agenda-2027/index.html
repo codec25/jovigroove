@@ -76,15 +76,16 @@
   <div class="today-home-actions">
     <button id="today-add-task" type="button" class="today-add-action"><span aria-hidden="true">＋</span> Add task</button>
     <button id="today-add-appointment" type="button" class="today-add-action"><span aria-hidden="true">＋</span> Appointment</button>
-    <button id="today-prepare" type="button" class="today-secondary-action" aria-controls="today-plan-editor" aria-expanded="false">Plan / edit day ↗</button>
+    <button id="today-prepare" type="button" class="today-secondary-action" aria-controls="today-plan-editor" aria-expanded="false">Edit plan ↗</button>
+    <button id="today-open-journal" type="button" class="today-journal-action">✎ Write / reflect</button>
   </div>
 </section>
 <section class="daily-teaching-card no-print" id="daily-teaching-card" aria-labelledby="daily-teaching-card-title">
   <div class="daily-teaching-card-top"><span class="section-label">DAILY TEACHING · GROW IN THE WORD</span><span id="daily-teaching-date"></span></div>
   <div id="daily-teaching-available" hidden><h3 id="daily-teaching-card-title">Know the God You Trust</h3><p id="daily-teaching-excerpt">Discover the love of the Father and learn to trust Him.</p><button id="daily-teaching-open" type="button">Read today's teaching <span aria-hidden="true">↗</span></button></div>
-  <div id="daily-teaching-missing"><h3 id="daily-teaching-empty-title">A space for today's teaching</h3><p>No teaching has been added for this date yet.</p><button id="daily-teaching-create" type="button">Add a teaching ↗</button></div>
+  <div id="daily-teaching-missing"><h3 id="daily-teaching-empty-title">No teaching for this date</h3><button id="daily-teaching-create" type="button">＋ Add teaching</button></div>
 </section>
-<div class="agenda-book">
+<details id="today-journal" class="today-workspace-disclosure no-print"><summary><span class="today-disclosure-icon" aria-hidden="true">✎</span><span><strong>Journal &amp; reflection</strong><small>Notes, prayers, growth and evening review</small></span><span class="today-disclosure-chevron" aria-hidden="true">⌄</span></summary><div class="agenda-book">
 <div class="card agenda-paper">
 <div class="agenda-heading"><div class="section-label">YOUR PERSONAL JOURNAL</div><h2 id="dayheading">Opening today’s page…</h2><p>One day at a time, with intention, faith and room to grow.</p></div>
 <div class="verse"><p id="versetext"></p><small id="verseref"></small></div>
@@ -100,6 +101,8 @@
 <p class="journal-saving no-print"><span aria-hidden="true">●</span> Your writing is automatically saved on this device.</p>
 <div class="agenda-footline"><span>KINGDOM ATMOSPHERE</span><span>PLAN · GROW · SERVE</span></div>
 </div>
+</div>
+</details>
 <dialog class="agenda-dialog" id="journal-intent" aria-labelledby="journal-title-intent"><div class="journal-dialog-top"><div><span class="section-label">01 / LIVE INTENTIONALLY</span><h2 id="journal-title-intent">Intention &amp; action</h2></div><button type="button" class="journal-close" aria-label="Close intention page">✕</button></div><div class="journal-dialog-body">
 <label class="field" for="focus">My intention for today</label><input id="focus" type="text" data-day="focus" placeholder="How do I want to live this day?">
 <label class="field" for="oneaction">My one most important action</label><input id="oneaction" type="text" data-day="oneaction" placeholder="The meaningful step I will take today">
@@ -116,8 +119,7 @@
 <dialog class="agenda-dialog" id="journal-evening" aria-labelledby="journal-title-evening"><div class="journal-dialog-top"><div><span class="section-label">04 / REFLECT &amp; GROW</span><h2 id="journal-title-evening">Evening reflection</h2></div><div class="journal-header-actions"><button type="button" class="journal-expand" aria-pressed="false" aria-label="Expand writing space">⤢</button><button type="button" class="journal-close" aria-label="Close evening reflection">✕</button></div></div><div class="journal-dialog-body"><p class="journal-writing-help">What did I learn, accomplish, or need to change? Carry the lesson, not the burden, into tomorrow.</p>
 <label class="field" for="review">My reflection</label><textarea id="review" data-day="review" class="agenda-journal" placeholder="What moved forward? What matters tomorrow?"></textarea>
 </div><div class="journal-dialog-footer"><span class="journal-save-status">Saved locally</span><button class="journal-done" type="button">Done</button></div></dialog>
-</div>
-<div class="preset-day-shortcut no-print"><div><strong>Plan a familiar activity</strong><small>Dance practice, study, workouts, finances and more</small></div><button type="button" id="preset-open-day">＋ Add preset</button></div>
+<details id="today-tools" class="today-workspace-disclosure no-print"><summary><span class="today-disclosure-icon" aria-hidden="true">⚙</span><span><strong>More planning tools</strong><small>Saved activities, copy plans, advanced progress</small></span><span class="today-disclosure-chevron" aria-hidden="true">⌄</span></summary><div class="today-tools-inner"><div class="preset-day-shortcut no-print"><div><strong>Plan a familiar activity</strong><small>Dance practice, study, workouts, finances and more</small></div><button type="button" id="preset-open-day">＋ Add preset</button></div>
 <details class="planning-copy no-print" id="planning-copy"><summary><span><strong>Plan ahead · Copy day or week</strong><small>Duplicate your schedule and tasks into future dates</small></span><span aria-hidden="true">＋</span></summary>
 <div class="planning-copy-inner">
 <div class="planning-form-grid"><div><label for="plan-source-date">Copy from</label><input id="plan-source-date" type="date"></div><div><label for="plan-target-date">Copy to</label><input id="plan-target-date" type="date"></div></div>
@@ -137,6 +139,8 @@
 <div class="daily-strip"><span class="pill">PURPOSE → ACTION → GROWTH</span><span id="daily-progress" aria-live="polite">0 of 5 essentials filled</span></div>
 </div></details>
 </div>
+</div>
+</details>
 <div class="mobile-quickbar no-print agenda-floating-tools"><div><span class="quick-eyebrow">SAVE A THOUGHT</span><strong>Make room for what matters.</strong></div><div class="quick-actions"><button type="button" id="quick-add" class="quick-primary" aria-haspopup="dialog">＋ Add</button><button type="button" id="open-coach" class="quick-icon" aria-haspopup="dialog" aria-label="Open guided reflection">✧</button></div></div>
 <div class="year-context no-print"><label for="yearpick">Year</label><input type="number" id="yearpick" min="1900" max="2200" value="2027"><button class="mini-btn" type="button" id="jump-today">Go to today</button><span class="today-indicator" id="today-indicator" aria-live="polite">Today</span><small>Plan any year</small></div>
 </section>
