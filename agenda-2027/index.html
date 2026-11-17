@@ -652,6 +652,13 @@ $('export').onclick=function(){var blob=new Blob([JSON.stringify({version:1,year
 $('import').onchange=function(){var file=this.files&&this.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(){try{var o=JSON.parse(reader.result);if(!o||!o.days||!o.months||!Array.isArray(o.family)||!Array.isArray(o.gifts))throw Error('Invalid backup');if(!confirm('Replace all entries on this device with this backup?'))return;data={days:o.days,months:o.months,family:o.family,gifts:o.gifts,single:o.single||{},weeks:o.weeks||{},activities:Array.isArray(o.activities)?o.activities:[],sessions:Array.isArray(o.sessions)?o.sessions:[],reminders:Array.isArray(o.reminders)?o.reminders:[],linkedGoals:Array.isArray(o.linkedGoals)?o.linkedGoals:[],linkedOutcomes:Array.isArray(o.linkedOutcomes)?o.linkedOutcomes:[],linkedActions:Array.isArray(o.linkedActions)?o.linkedActions:[]};if(o.wholeLifeGrowth&&typeof o.wholeLifeGrowth==='object')localStorage.setItem('ka-whole-life-growth-v1',JSON.stringify(o.wholeLifeGrowth));if(o.presetsLibrary&&typeof o.presetsLibrary==='object')localStorage.setItem('ka-presets-v1',JSON.stringify(o.presetsLibrary));save();location.reload()}catch(e){alert('Could not import that agenda backup.')}};reader.readAsText(file)};
 $('clear').onclick=function(){if(confirm('Erase ALL saved agenda entries from every year? This cannot be undone without an exported backup.')){localStorage.removeItem(KEY);localStorage.removeItem('ka-agenda-last-date');localStorage.removeItem('ka-whole-life-growth-v1');localStorage.removeItem('ka-presets-v1');location.reload()}};
 setDay(selected);setMonth(month);renderFamily();renderGifts();
+document.addEventListener('kingdom:presetScheduled',function(ev){
+var item=ev.detail||{};if(!item.date||!item.schedule)return;
+data.days=data.days||{};data.days[item.date]=data.days[item.date]||{};
+data.days[item.date].schedule=item.schedule;
+save();
+if(selected===item.date&&$('schedule'))$('schedule').value=item.schedule;
+});
 
 /* Purpose-first productivity extension */
 var weekSelected=selected;
