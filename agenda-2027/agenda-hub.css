@@ -94,3 +94,39 @@
 #tasks .smart-entry-section-head{margin:0 0 12px}
 #tasks .smart-entry-item{padding:15px 10px}
 @media(max-width:600px){.ka-tasks-heading{padding:20px 17px}.ka-tasks-datebar{padding:0 17px 17px}.ka-tasks-actions{width:100%}.ka-tasks-actions button{flex:1}#tasks .smart-entry-section{padding:16px}#tasks .smart-entry-section-head{align-items:flex-start;flex-direction:column;gap:4px}}
+
+/* v48 — precision schedule timeline */
+.ka-timeline-section{background:#fffefa;border:1px solid #e2e9e0;border-radius:0 0 15px 15px;padding:20px 26px;margin-bottom:18px}
+.ka-timeline-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.ka-timeline-head h3{font:400 clamp(22px,2.6vw,28px) Georgia,serif;margin:3px 0;color:#163d2c}
+.ka-timeline-head p,.ka-timeline-footnote{font-size:12px;color:#6a7d70;margin:3px 0;line-height:1.5}
+#ka-timeline-undo{border:1px solid #cbdace;border-radius:10px;background:#f6faf5;color:#164d32;padding:9px 13px;font-weight:700;font-size:12px;cursor:pointer}
+#ka-timeline-undo:disabled{opacity:.42;cursor:default}
+.ka-timeline-status{min-height:32px;font-size:12px;padding:7px 10px;color:#58715d;border-radius:9px;margin:8px 0}
+.ka-timeline-status[data-kind=error]{background:#fff0e9;color:#9b402b}
+.ka-timeline-status[data-kind=good]{background:#edf8ed;color:#235d39}
+.ka-timeline-scroll{max-height:560px;overflow-y:auto;overscroll-behavior:contain;border:1px solid #dce6db;border-radius:13px;background:#fffdf9;scrollbar-gutter:stable}
+.ka-timeline-surface{position:relative;min-width:0;margin-left:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 86px,#f0f4ed 87px);touch-action:pan-y}
+.ka-time-row{position:absolute;left:0;right:0;border-top:1px solid #e5ebe3;min-height:1px;pointer-events:none}
+.ka-time-row.half{border-top-style:dashed;border-color:#eef1ec}
+.ka-time-row span{display:block;position:absolute;left:9px;top:4px;color:#8a988d;font-size:10px;font-weight:600;width:43px}
+.ka-timeline-block{position:absolute;left:62px;right:12px;background:#ecf3ed;border:1px solid #bdd5c3;border-left:4px solid #2c704c;border-radius:9px;box-shadow:0 3px 10px #1029180b;display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:7px 10px;min-height:28px;cursor:grab;touch-action:none;user-select:none;z-index:2}
+.ka-timeline-block.is-selected{background:#e4f1df;border-color:#c09b3e;border-left-color:#a47a19;box-shadow:0 0 0 2px #cfb15e55}
+.ka-timeline-block.is-dragging{cursor:grabbing;z-index:10;box-shadow:0 13px 35px #14392540;opacity:.96}
+.ka-timeline-block.has-conflict{background:#fff0e8;border-color:#c24c39;border-left-color:#c24c39;box-shadow:0 0 0 2px #d86a4d44}
+.ka-timeline-block.is-fixed{background:#f5f5f1;border-color:#e2e4de;border-left-color:#9aaba0;cursor:default}
+.ka-slot-main{display:flex;flex-direction:column;min-width:0;gap:3px;overflow:hidden}
+.ka-slot-time{font-size:11px;font-weight:750;letter-spacing:.015em;color:#1f6a40;white-space:nowrap}
+.has-conflict .ka-slot-time{color:#a33f2d}
+.ka-slot-title{font-size:12px;font-weight:650;color:#214d36;overflow:hidden;text-overflow:ellipsis;white-space:normal;line-height:1.25;overflow-wrap:anywhere}
+.ka-slot-fixed{font-size:10px;color:#78867d;align-self:center}
+.ka-slot-actions{display:flex;align-items:center;gap:4px;flex:0 0 auto;align-self:flex-start}
+.ka-slot-actions button{border:1px solid #caddcb;border-radius:7px;background:#fffefa;color:#245a3b;padding:4px 6px;min-width:29px;min-height:26px;font-size:11px;font-weight:700;cursor:pointer;touch-action:manipulation}
+.ka-slot-actions button:focus-visible{outline:2px solid #b48d2c;outline-offset:2px}
+.ka-timeline-empty{position:absolute;top:16px;left:65px;color:#7f8f81;font-size:12px}
+.ka-timeline-footnote{margin:11px 0 0}
+#tasks .ka-tasks-datebar{border-bottom:0}
+#tasks .ka-timeline-section{border-radius:0;border-top:1px solid #e2e9e0;margin:0}
+#tasks .smart-entry-section{border-radius:0 0 18px 18px}
+@media(max-width:600px){.ka-timeline-section{padding:14px}.ka-timeline-block{left:49px;right:6px;padding:5px 6px;gap:5px}.ka-slot-actions{gap:2px}.ka-slot-actions button{padding:3px 4px;min-width:27px;font-size:10px}.ka-time-row span{left:4px;font-size:9px}.ka-slot-title{font-size:11px}.ka-timeline-scroll{max-height:480px}}
+@media print{.ka-timeline-section{display:none!important}}
