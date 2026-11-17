@@ -146,11 +146,11 @@ function searchRecords(){
 }
 function openSearch(){
  const tab=$('agenda-find-top');
- if(tab){tab.click();}else{document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active',p.id==='ka-find-dialog'));}
+ if(tab){tab.click();}else{document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active',p.id==='search'));}
  requestAnimationFrame(()=>{$('ka-find-input')?.focus({preventScroll:true});renderSearch()});
 }
 function initSearch(){
- const pane=$('ka-find-dialog');if(!pane)return;
+ const pane=$('search');if(!pane)return;
  if($('ka-week-find'))$('ka-week-find').onclick=openSearch;
  if($('agenda-find-top'))$('agenda-find-top').addEventListener('click',()=>requestAnimationFrame(renderSearch));
  $('ka-find-input').oninput=renderSearch;$('ka-find-kind').onchange=renderSearch;
@@ -177,7 +177,7 @@ function translateUI(){
  document.querySelectorAll('[data-ka-ui]').forEach(el=>{el.textContent=t(map[el.dataset.kaUi]||el.dataset.kaUi)});
  if($('ka-find-input'))$('ka-find-input').placeholder=t('searchPlaceholder');
 }
-function refresh(){translateUI();weekBoard();['week','month','year'].forEach(achievementPanel);if($('ka-find-dialog')?.classList.contains('active'))renderSearch();}
+function refresh(){translateUI();weekBoard();['week','month','year'].forEach(achievementPanel);if($('search')?.classList.contains('active'))renderSearch();}
 function init(){
  if(!$('ka-week-grid'))return;
  initSearch();
