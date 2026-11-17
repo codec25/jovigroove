@@ -86,6 +86,7 @@ async function main(){
    await page.locator('#edit-activity-save').click();
    assert((await page.evaluate(d=>JSON.parse(localStorage.getItem('ka-2027-agenda-v1')).days[d].schedule,today)).includes('Hip-Hop technique'));
    await page.locator('[data-tab="daily"]').evaluate(e=>e.click());
+   await page.locator('#planning-copy').evaluate(e=>e.open=true);
    await page.locator('#plan-source-date').fill(today);
    await page.locator('#plan-target-date').fill(tomorrow);
    await page.locator('#plan-copy-scope').selectOption('day');
