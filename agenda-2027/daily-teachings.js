@@ -19,11 +19,27 @@ const BUILT_IN={
   ]
  }
 };
+const BUILT_IN_FR={
+ '2026-11-17':{
+  title:'Connais le Dieu en qui tu mets ta confiance',
+  blocks:[
+   ['p','Tu peux écouter des prédications et apprendre des autres, mais ta foi grandit aussi lorsque tu découvres le caractère de Dieu dans sa Parole et à travers ta propre marche avec lui. Ce que tu entends enseigner devient alors une vérité sur laquelle tu apprends à t’appuyer dans la vie quotidienne.'],
+   ['p','Dans Marc 1.40-42, un homme atteint de la lèpre s’approche de Jésus avec une demande révélatrice : « Si tu le veux, tu peux me rendre pur. » Il croit que Jésus en a le pouvoir. Son incertitude concerne plutôt la volonté de Jésus d’agir pour lui. Jésus répond : « Je le veux », puis il étend la main et le touche.'],
+   ['p','Il nous arrive de porter la même question. Nous savons que Dieu est puissant, mais nous nous demandons s’il nous accueillera, si nous en avons fait assez ou si notre situation compte vraiment à ses yeux. Dans 1 Jean 4.16, nous découvrons un fondement essentiel de la confiance : apprendre à connaître l’amour que Dieu a pour nous et à nous y fier.'],
+   ['p','Imagine un enfant effrayé après avoir cassé quelque chose. Lorsqu’un parent digne de confiance lui dit : « Je suis là. Nous allons régler cela ensemble », l’enfant peut commencer à retrouver son calme. Il peut encore y avoir des conséquences et des réparations à faire, mais il sait vers qui se tourner.'],
+   ['p','Connaître l’amour du Père nous donne cette assurance pour nous approcher de lui. Hébreux 4.16 nous invite à nous présenter avec confiance afin de recevoir miséricorde et grâce au moment où nous en avons besoin. Nous pouvons lui apporter honnêtement nos questions, nos échecs et nos demandes.'],
+   ['p','Quand nous prions, la paix de Dieu peut garder nos cœurs et nos pensées pendant que nous attendons sa réponse (Philippiens 4.6-7). Il se peut que nous ayons encore peur ou que certaines questions demeurent. Nous pouvons aussi les lui confier, en nous rappelant sa fidélité et en faisant confiance à sa sagesse pour la suite.'],
+   ['action','Aujourd’hui, confie une préoccupation à Dieu. Lis lentement l’un de ces passages et demande-toi ce qu’il révèle du Père vers qui tu te tournes.'],
+   ['prayer','Père, aide-moi à connaître ton amour et à m’y fier. Rappelle-moi ta fidélité, donne-moi ta paix pendant l’attente et guide mon prochain pas. Au nom de Jésus, amen.']
+  ]
+ }
+};
 function saved(){try{const v=JSON.parse(localStorage.getItem(KEY)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{}}catch(e){return {}}}
 function date(){return $('datepick')&&$('datepick').value||localDate()}
 function localDate(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function byDate(d){const custom=saved()[d];return custom&&custom.title&&custom.body?{title:custom.title,body:custom.body,custom:true}:BUILT_IN[d]||null}
-function pretty(d){const v=new Date(d+'T12:00:00');return Number.isFinite(v.getTime())?v.toLocaleDateString('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):d}
+function language(){return (window.KA_locale&&window.KA_locale())||localStorage.getItem('ka-agenda-language')||'en'}
+function byDate(d){const custom=saved()[d];if(custom&&custom.title&&custom.body){if(language()==='fr'&&custom.titleFr&&custom.bodyFr)return {title:custom.titleFr,body:custom.bodyFr,custom:true,source:custom};return {title:custom.title,body:custom.body,custom:true,source:custom}}return language()==='fr'?(BUILT_IN_FR[d]||BUILT_IN[d]||null):(BUILT_IN[d]||null)}
+function pretty(d){const v=new Date(d+'T12:00:00');return Number.isFinite(v.getTime())?v.toLocaleDateString(language()==='fr'?'fr-CA':'en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):d}
 function render(){
  if(!$('daily-teaching-card'))return;
  const d=date(),entry=byDate(d),present=!!entry;
@@ -34,7 +50,7 @@ function render(){
   $('daily-teaching-card-title').textContent=entry.title;
   const excerpt=entry.body||entry.blocks.find(x=>x[0]==='p')[1];
   $('daily-teaching-excerpt').textContent=excerpt.slice(0,170)+(excerpt.length>170?'…':'');
-  $('daily-teaching-open').textContent='Read this teaching ↗';
+  $('daily-teaching-open').textContent=language()==='fr'?'Lire cet enseignement ↗':'Read this teaching ↗';
  }
 }
 function renderContent(entry){
@@ -57,14 +73,16 @@ function renderContent(entry){
 function open(mode){
  const d=date(),entry=byDate(d),dialog=$('daily-teaching-dialog');if(!dialog)return;
  $('daily-teaching-dialog-date').textContent=pretty(d);
- $('daily-teaching-dialog-title').textContent=entry?entry.title:'Add daily teaching';
+ $('daily-teaching-dialog-title').textContent=entry?entry.title:(language()==='fr'?'Ajouter un enseignement':'Add daily teaching');
  $('daily-teaching-editor').hidden=mode!=='edit';
  $('daily-teaching-content').hidden=mode==='edit';
  $('daily-teaching-edit').hidden=!entry||!entry.custom||mode==='edit';
  $('daily-teaching-done').hidden=mode==='edit';
  if(mode==='edit'){
-  $('daily-teaching-title').value=entry&&entry.custom?entry.title:'';
-  $('daily-teaching-body').value=entry&&entry.custom?entry.body:'';
+  $('daily-teaching-title').value=entry&&entry.custom?(entry.source||entry).title:'';
+  if($('daily-teaching-title-fr'))$('daily-teaching-title-fr').value=entry&&entry.custom?(entry.source||entry).titleFr||'':'';
+  if($('daily-teaching-body-fr'))$('daily-teaching-body-fr').value=entry&&entry.custom?(entry.source||entry).bodyFr||'':'';
+  $('daily-teaching-body').value=entry&&entry.custom?(entry.source||entry).body:'';
  }else if(entry)renderContent(entry);
  if(!dialog.open)dialog.showModal();
  if(mode==='edit')$('daily-teaching-title').focus();
@@ -74,7 +92,7 @@ function saveTeaching(e){
  e.preventDefault();
  const title=$('daily-teaching-title').value.trim(),body=$('daily-teaching-body').value.trim();
  if(!title||!body)return;
- try{const db=saved();db[date()]={title,body};localStorage.setItem(KEY,JSON.stringify(db))}
+ try{const db=saved();db[date()]={title,body,titleFr:$('daily-teaching-title-fr')?.value.trim()||'',bodyFr:$('daily-teaching-body-fr')?.value.trim()||''};localStorage.setItem(KEY,JSON.stringify(db))}
  catch(e){alert('Teaching could not be saved. Check browser storage.');return}
  render();close();open('read');markCalendar();
 }
@@ -104,6 +122,7 @@ function init(){
  $('daily-teaching-done').addEventListener('click',close);
  $('daily-teaching-editor').addEventListener('submit',saveTeaching);
  document.addEventListener('kingdom:dayChanged',render);
+ document.addEventListener('kingdom:languageChanged',()=>{render();const dialog=$('daily-teaching-dialog');if(dialog&&dialog.open&&!(!$('daily-teaching-editor').hidden))open('read');markCalendar();});
  document.querySelectorAll('[data-tab="monthly"],[data-go="monthly"]').forEach(b=>b.addEventListener('click',()=>setTimeout(markCalendar,0)));
  $('monthpick').addEventListener('change',()=>setTimeout(markCalendar,0));
  $('calendar-year').addEventListener('change',()=>setTimeout(markCalendar,0));
