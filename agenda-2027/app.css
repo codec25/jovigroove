@@ -740,6 +740,44 @@ dialog.growth-dialog.growth-keyboard{
 @media print{.today-home{display:none!important}}
 
 
+/* The agenda is an app, not a landing page: short brand bar and direct day controls. */
+body>header{padding:0 18px;background:#071d16;min-height:0}
+body>header::after{display:none}
+body>header .hero-inner{max-width:1120px;margin:auto;padding:9px 0}
+body>header .hero-top{border:0;padding:0;min-height:43px;display:flex;align-items:center;justify-content:space-between}
+body>header .brand-logo{height:39px;width:172px;max-width:45vw;object-fit:contain;object-position:left center}
+body>header .edition{border-color:#bfaa6250;padding:6px 10px;font-size:9px}
+body>header .hero-copy,body>header .hero-bottom{display:none}
+.shell{padding-top:7px}
+.shell>.toolbar{padding-top:5px;padding-bottom:7px;margin-bottom:9px;min-height:45px;align-items:center}
+.shell>.toolbar button{padding:8px 12px}
+#daily>.agenda-datebar{display:flex;align-items:center;justify-content:flex-start;flex-wrap:nowrap;gap:9px;max-width:850px;width:100%;margin:1px auto 10px;min-height:43px}
+#daily>.agenda-datebar .datebar-caption{font-size:10px;letter-spacing:.12em;font-weight:750;color:#9a7938;white-space:nowrap;margin-right:8px}
+#daily>.agenda-datebar .control-label{display:none}
+#daily>.agenda-datebar #datepick{width:166px;max-width:166px;min-width:0;flex:0 1 166px;grid-column:auto;grid-row:auto;font-size:13px;padding:8px 10px;min-height:39px}
+#daily>.agenda-datebar #prev,#daily>.agenda-datebar #next{flex:0 0 39px;width:39px;height:39px;min-height:39px;padding:0;display:grid;place-items:center;grid-column:auto;grid-row:auto}
+#daily>.agenda-datebar #daily-pdf-share{margin-left:auto;min-height:37px;display:inline-flex;justify-content:center}
+#daily>.today-home{margin-top:0}
+@media(max-width:760px){
+ body>header{display:block!important;padding:0 13px!important}
+ body>header .hero-inner{padding:6px 0!important}
+ body>header .hero-top{min-height:36px;padding:0!important}
+ body>header .brand-logo{width:127px;max-height:34px;height:32px}
+ body>header .edition{font-size:8px;padding:5px 7px}
+ .shell{padding-top:4px}
+ #daily>.agenda-datebar{gap:6px;margin:0 auto 8px;min-height:40px;display:flex;flex-wrap:nowrap}
+ #daily>.agenda-datebar .datebar-caption{display:none}
+ #daily>.agenda-datebar #prev,#daily>.agenda-datebar #next{width:36px;height:38px;min-height:38px;flex:0 0 36px;grid-column:auto;grid-row:auto}
+ #daily>.agenda-datebar #datepick{flex:1 1 145px;width:auto;max-width:190px;min-width:0;grid-column:auto;grid-row:auto;font-size:13px}
+ #daily>.agenda-datebar #daily-pdf-share{margin-left:auto;padding:7px 9px;font-size:10px;white-space:nowrap}
+ #daily>.agenda-datebar #daily-pdf-share span{font-size:12px}
+}
+@media(max-width:350px){
+ #daily>.agenda-datebar{gap:4px}
+ #daily>.agenda-datebar #daily-pdf-share{font-size:0;padding:8px}
+ #daily>.agenda-datebar #daily-pdf-share span{font-size:17px}
+}
+
 /* Today workspace is the only default daily view. The journal and deep tools remain
    in the DOM but are collapsed until explicitly opened. */
 #daily.pane.active{display:flex;flex-direction:column;min-width:0}
