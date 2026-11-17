@@ -215,7 +215,7 @@ function renderEvents(){
  const list=$('family-event-list');list.replaceChildren();
  const events=active('events').map(x=>({x,when:occurrence(x)})).sort((a,b)=>a.when.localeCompare(b.when));
  for(const {x,when} of events){
-  const date=validDate(when)?dateObj(when).toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'}):'Date not set';
+  const date=validDate(when)?dateObj(when).toLocaleDateString((window.KA_locale&&window.KA_locale()==='fr')?'fr-CA':'en-CA',{month:'short',day:'numeric',year:'numeric'}):'Date not set';
   const detail=[date,x.time||'',x.repeat==='yearly'?'Repeats yearly':''].filter(Boolean).join(' · ');
   const row=card('events',x,x.name,detail,[{text:'Edit',act:()=>editStart('events',x)},{text:'Copy',act:()=>reuseItem('events',x)},{text:'Delete',act:()=>{if(confirm('Remove this family event?'))remove('events',x.id)}}],false);list.appendChild(row)
  }
@@ -231,7 +231,7 @@ function renderMoments(){
  const list=$('family-moment-list');list.replaceChildren();
  const name={appreciation:'Appreciation',prayer:'Family prayer',checkin:'Check-in',together:'Quality time'};
  for(const x of active('moments').sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0))){
-  const date=new Date(x.updatedAt||Date.now()).toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
+  const date=new Date(x.updatedAt||Date.now()).toLocaleDateString((window.KA_locale&&window.KA_locale()==='fr')?'fr-CA':'en-CA',{month:'short',day:'numeric',year:'numeric'});
   const row=card('moments',x,name[x.kind]||'Family moment',date,[{text:'Edit',act:()=>editStart('moments',x)},{text:'Reuse',act:()=>reuseItem('moments',x)},{text:'Delete',act:()=>{if(confirm('Remove this family moment?'))remove('moments',x.id)}}],false);
   row.querySelector('.family-item-copy').appendChild(make('p','family-moment-content',x.text));
   list.appendChild(row)
