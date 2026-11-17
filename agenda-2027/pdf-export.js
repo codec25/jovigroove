@@ -57,7 +57,7 @@ function doc(rows,scope){
  function heading(text){room(37);y-=8;baseline(text,left,y,15,true,[.09,.26,.17]);y-=10;line(left,y,W-right,y,[.77,.69,.48]);y-=18}
  function title(text){room(53);y-=7;baseline(text,left,y,21,true,[.09,.26,.17]);y-=29}
  function field(label,value){if(value===null||value===undefined||String(value).trim()==='')return;room(40);baseline(label.toUpperCase(),left,y,9,true,[.57,.43,.19]);y-=17;paragraph(value,10.5)}
- function dateHeading(s){var d=parseDay(s),str=d.toLocaleDateString('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});title(str)}
+ function dateHeading(s){var d=parseDay(s),str=d.toLocaleDateString((window.KA_locale&&window.KA_locale()==='fr')?'fr-CA':'en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});title(str)}
  function listFields(obj,fields){fields.forEach(function(x){field(x[1],obj&&obj[x[0]])})}
  function dayPage(s,d){
   start();dateHeading(s);
