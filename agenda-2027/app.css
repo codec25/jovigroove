@@ -468,3 +468,58 @@ body.journal-fallback-active::before{content:"";position:fixed;inset:0;z-index:9
 #scheduled-activity-list article button{min-width:52px}
 @media(max-width:760px){.planning-copy-inner{padding:12px}.planning-editor{padding:12px}.planning-editor .planning-form-grid{grid-template-columns:1fr 1fr}.planning-editor .planning-form-grid>div:first-child{grid-column:1/-1}}
 @media print{.planning-copy,.planning-editor{display:none!important}}
+
+
+/* Growth editor: iPhone bottom-sheet stability. An explicit height prevents
+   native dialog shrink-to-content and ensures the form is actually visible. */
+dialog.growth-dialog{
+  box-sizing:border-box!important;
+  position:fixed!important;
+  inset:auto 0 0!important;
+  margin:0 auto!important;
+  width:min(100%,670px)!important;
+  max-width:670px!important;
+  height:min(85dvh,780px)!important;
+  min-height:min(65dvh,560px)!important;
+  max-height:85dvh!important;
+  padding:0!important;
+  overflow:hidden!important;
+  flex-direction:column!important;
+}
+dialog.growth-dialog[open]{display:flex!important}
+.growth-dialog .growth-top{flex:0 0 auto;position:relative;padding:14px 17px 11px}
+.growth-dialog .growth-top h2{font-size:clamp(21px,4vw,25px);margin:4px 0}
+.growth-dialog .growth-top p{font-size:11px;line-height:1.4}
+.growth-dialog .growth-content{
+  flex:1 1 auto!important;min-height:0!important;
+  overflow-y:auto!important;overflow-x:hidden!important;
+  overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  padding:14px 17px 24px!important;
+}
+.growth-dialog .growth-category-nav{
+  position:relative;display:flex;flex-wrap:nowrap;
+  padding-bottom:9px;margin-bottom:12px;min-height:48px;
+  overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
+}
+.growth-dialog .growth-category-nav button{min-height:39px;font-size:12px}
+.growth-dialog .growth-edit textarea{font-size:16px;min-height:100px}
+.growth-dialog .growth-bottom{
+  flex:0 0 auto!important;position:relative!important;
+  padding:10px 17px max(12px,env(safe-area-inset-bottom))!important;
+}
+.growth-dialog .growth-bottom button{min-height:44px}
+dialog.growth-dialog.growth-keyboard{
+  inset:var(--growth-top,0px) 0 auto!important;
+  height:var(--growth-height,55dvh)!important;
+  max-height:var(--growth-height,55dvh)!important;
+  min-height:0!important;
+  border-radius:15px 15px 0 0!important;
+}
+.growth-dialog.growth-keyboard .growth-top{padding:9px 15px!important}
+.growth-dialog.growth-keyboard .growth-top h2{font-size:20px}
+.growth-dialog.growth-keyboard .growth-top p{display:none}
+.growth-dialog.growth-keyboard .growth-content{padding:9px 15px 17px!important}
+.growth-dialog.growth-keyboard .growth-gentle{display:none}
+.growth-dialog.growth-keyboard .growth-bottom{padding:7px 15px!important}
+@media(max-width:760px){dialog.growth-dialog{height:83dvh!important;min-height:65dvh!important;max-height:83dvh!important;border-radius:20px 20px 0 0!important}}
+@media(prefers-reduced-motion:reduce){dialog.growth-dialog{transition:none!important}}
