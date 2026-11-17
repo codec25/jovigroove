@@ -14,12 +14,12 @@ var dateParts=day.split('-');
 if(picker&&picker.value!==day&&picker.dataset.manualDate!=='yes')picker.value=day;
 var week=document.getElementById('weekdate');if(week&&!week.dataset.manualDate)week.value=day;
 var title=document.getElementById('dayheading');
-if(title&&(!picker||picker.value===day))title.textContent=d.toLocaleDateString('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+if(title&&(!picker||picker.value===day))title.textContent=d.toLocaleDateString((window.KA_locale&&window.KA_locale()==='fr')?'fr-CA':'en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
 var yr=document.getElementById('yearpick');if(yr&&yr.dataset.manualDate!=='yes')yr.value=+dateParts[0];
 var calYear=document.getElementById('calendar-year');if(calYear&&!calYear.dataset.manualDate)calYear.value=+dateParts[0];
-var indicator=document.getElementById('today-indicator');if(indicator)indicator.textContent='Today · '+d.toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
+var indicator=document.getElementById('today-indicator');if(indicator)indicator.textContent='Today · '+d.toLocaleDateString((window.KA_locale&&window.KA_locale()==='fr')?'fr-CA':'en-CA',{month:'short',day:'numeric',year:'numeric'});
 var status=document.getElementById('status');
-if(status)status.textContent='Today is '+d.toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'})+' · Saved on this device';
+if(status)status.textContent='Today is '+d.toLocaleDateString((window.KA_locale&&window.KA_locale()==='fr')?'fr-CA':'en-CA',{month:'short',day:'numeric',year:'numeric'})+' · Saved on this device';
 }
 renderLiveDate();
 document.addEventListener('DOMContentLoaded',function(){var p=document.getElementById('datepick');if(p&&(!p.value||p.value==='2027-01-01'))renderLiveDate()});
@@ -98,7 +98,7 @@ function renderHistory(){
   button.dataset.historyDate=item.date;button.dataset.historySection=item.section;
   var top=document.createElement('span');top.className='journal-history-item-head';
   var name=document.createElement('strong');name.textContent=HISTORY_LABELS[item.section];
-  var date=document.createElement('small');date.textContent=new Date(item.date+'T12:00:00').toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
+  var date=document.createElement('small');date.textContent=new Date(item.date+'T12:00:00').toLocaleDateString((window.KA_locale&&window.KA_locale()==='fr')?'fr-CA':'en-CA',{month:'short',day:'numeric',year:'numeric'});
   top.appendChild(name);top.appendChild(date);
   var preview=document.createElement('span');preview.className='journal-history-excerpt';
   preview.textContent=item.content.length>190?item.content.slice(0,187)+'…':item.content;
