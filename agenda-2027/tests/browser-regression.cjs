@@ -44,7 +44,7 @@ async function main(){
      const rect=home.getBoundingClientRect();
      return {stylesheets:sheet,bg:css.backgroundColor,radius:css.borderRadius,padding:css.padding,headerFont:head.fontFamily,buttonBg:action.backgroundColor,width:rect.width};
    });
-   assert(styles.stylesheets.some(x=>x.includes('app.css?v=39')),'Outdated CSS version requested: '+JSON.stringify(styles.stylesheets));
+   assert(styles.stylesheets.some(x=>x.includes('app.css?v=40')),'Outdated CSS version requested: '+JSON.stringify(styles.stylesheets));
    assert.equal(styles.bg,'rgb(255, 254, 251)','Today home stylesheet missing: '+JSON.stringify(styles));
    assert.notEqual(styles.radius,'0px','Today home card border radius missing');
    assert(styles.width>280,'Today card collapsed on mobile');
@@ -408,8 +408,8 @@ async function main(){
    });
    console.log('SERVICE WORKER STATE '+JSON.stringify(swState));
    assert(swState.registrations.length>0,'Service worker not registered');
-   assert(swState.caches.includes('ka-agenda-any-year-v39'),'Offline cache not installed');
-   const cached=await page.evaluate(async()=>!!(await (await caches.open('ka-agenda-any-year-v39')).match('./app.js')));
+   assert(swState.caches.includes('ka-agenda-any-year-v40'),'Offline cache not installed');
+   const cached=await page.evaluate(async()=>!!(await (await caches.open('ka-agenda-any-year-v40')).match('./app.js')));
    assert(cached,'Missing cached app.js');
    await context.setOffline(true);
    console.log('OFFLINE: reloading cached document');
