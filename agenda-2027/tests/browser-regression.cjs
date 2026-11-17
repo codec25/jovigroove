@@ -92,9 +92,13 @@ async function main(){
    assert.equal(await page.locator('#today-home').isVisible(),true);
    assert.equal(await page.locator('#today-home-empty').isVisible(),true);
    await page.locator('#today-plan').click();
-   assert.equal(await page.locator('#journal-intent').evaluate(e=>e.open),true);
-   await page.locator('#oneaction').fill('Finish the important work');
-   await page.locator('#journal-intent .journal-done').click();
+   assert.equal(await page.locator('#today-plan-editor').isVisible(),true);
+   assert.equal(await page.locator('#journal-intent').evaluate(e=>e.open),false,'Planning must not open an unrelated journal popup');
+   await page.locator('#today-plan-main').fill('Finish the important work');
+   await page.locator('#today-plan-priorities').fill('Prepare one workshop\\nReview notes');
+   await page.locator('#today-plan-intention').fill('Stay attentive');
+   await page.locator('#today-plan-save').click();
+   assert.equal(await page.locator('#today-plan-editor').isVisible(),false);
    assert.equal(await page.locator('#today-home-ready').isVisible(),true);
    assert.match(await page.locator('#today-main-focus').innerText(),/Finish the important work/);
    await page.locator('#today-add-task').click();
@@ -115,6 +119,28 @@ async function main(){
    assert.equal(await page.locator('#today-home-empty').isVisible(),true);
    await page.locator('#today-home-return').click();
    assert.equal(await page.locator('#datepick').inputValue(),today);
+ });
+ await test('Day planner edit preserves existing values and uses one daily storage record',async()=>{
+   await page.locator('#today-prepare').click();
+   assert.equal(await page.locator('#today-plan-editor').isVisible(),true);
+   assert.equal(await page.locator('#today-plan-main').inputValue(),'Finish the important work');
+   assert.match(await page.locator('#today-plan-priorities').inputValue(),/Prepare one workshop/);
+   await page.locator('#today-plan-cancel').click();
+   assert.equal(await page.locator('#today-plan-editor').isVisible(),false);
+   assert.equal(await page.locator('#oneaction').inputValue(),'Finish the important work');
+ });
+ await test('Journal dialog fits a short desktop viewport and keeps Done visible',async()=>{
+   await page.setViewportSize({width:1366,height:768});
+   await page.locator('[data-journal-open="intent"]').click();
+   const result=await page.locator('#journal-intent').evaluate(el=>{
+    const bounds=el.getBoundingClientRect(),footer=el.querySelector('.journal-dialog-footer').getBoundingClientRect();
+    const body=el.querySelector('.journal-dialog-body');
+    return {top:bounds.top,bottom:bounds.bottom,height:bounds.height,footBottom:footer.bottom,scroll:getComputedStyle(body).overflowY,bodyHeight:body.getBoundingClientRect().height};
+   });
+   assert(result.top>=-1&&result.bottom<=769,'Dialog must remain within desktop viewport '+JSON.stringify(result));
+   assert(result.footBottom<=769&&result.bodyHeight>160,'Journal editor or Done action clipped '+JSON.stringify(result));
+   await page.locator('#journal-intent .journal-done').click();
+   await page.setViewportSize({width:390,height:844});
  });
  await test('Daily teaching appears on assigned date and opens the complete authored text',async()=>{
    await page.locator('[data-tab="daily"]').evaluate(e=>e.click());
