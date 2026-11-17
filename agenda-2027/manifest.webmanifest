@@ -1,0 +1,19 @@
+{
+  "name": "Kingdom Atmosphere — 2027 Agenda",
+  "short_name": "KA 2027 Agenda",
+  "description": "Your fillable, offline 2027 faith and life planner",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f2e7",
+  "theme_color": "#071d16",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
