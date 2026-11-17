@@ -9,6 +9,7 @@ A mobile-first, offline-capable, multi-year Christian journal and personal plann
 - `journal-controller.js` — **only journal UI controller**: opens/closes four writing dialogs, handles full-screen editing, previews and iPhone keyboard behavior. It does **not** write main agenda data; `app.js` does.
 - `growth-controller.js` — five-domain whole-life growth journal.
 - `today-home.js` — read-only Today overview and one-tap preparation actions routed to the existing journal and quick-add handlers; no second daily data writer.
+- `daily-teachings.js` — calendar-date teaching reader. Includes the first authored teaching for November 17, 2026, with optional locally authored teachings saved separately as `ka-agenda-daily-teachings-v1`. Teaching markers appear on the month calendar and the selected date's Today screen.
 - `family-space.js` — standalone Family Space: groceries, household responsibilities, family calendar and meaningful moments; separate local-only family storage, manual grocery sharing and family snapshot export/import.
   - Copy / Reuse actions for existing groceries, responsibilities, calendar events and moments prefill the original form, but do not create data until the user saves.
   - Includes a built-in household chore library (kitchen, laundry, bathrooms, cleaning, bedrooms, outdoors and family), searchable category picker, one-tap task creation, duplicate prevention, and one-time/daily/weekly assignments.
@@ -21,11 +22,12 @@ A mobile-first, offline-capable, multi-year Christian journal and personal plann
 **Do not rename localStorage keys without an explicit migration.** Current keys:
 - `ka-2027-agenda-v1`: main agenda data across *all* years; historical key retained for compatibility.
 - `ka-whole-life-growth-v1`: daily and weekly five-domain growth entries.
+- `ka-agenda-daily-teachings-v1`: locally added daily teachings by date; the built-in first teaching ships with app assets and does not require localStorage.
 - `ka-family-space-v1`: family-only groceries, tasks, events, moments and repeat suggestions; separate from personal journal storage. **No cloud synchronization, accounts or shared access yet**.
 - `ka-presets-v1`: user-created presets and recently scheduled activities. Preserves optional structured `bookings` so overlapping time blocks can be checked alongside recognizable times in the agenda's free-text schedule.
 - `ka-agenda-last-date`: last selected date preference.
 
-The full agenda JSON backup includes all four content stores. Family Space also has its own export/import snapshot with ID-based merge and timestamps. PDF is a printable/shareable snapshot **not** an editable backup. Existing user data must never be reset during a design or software update.
+The full agenda JSON backup includes personal, growth, presets and family stores. Locally authored teachings have their own key and must be included in future full-backup revisions. Family Space also has its own export/import snapshot with ID-based merge and timestamps. PDF is a printable/shareable snapshot **not** an editable backup. Existing user data must never be reset during a design or software update.
 
 ## Ownership / avoiding collisions
 - A new planner feature should use existing controllers when possible, not introduce a second action handler for the same button.
