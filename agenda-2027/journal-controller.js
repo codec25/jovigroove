@@ -1,4 +1,4 @@
-/* Kingdom Atmosphere journal: resilient iPhone dialog + autosave handler.
+/* Kingdom Atmosphere journal: sole owner of journal dialog presentation.
    This runs before the main planner script, so unrelated modules cannot disable these cards. */
 (function(){
 'use strict';
@@ -72,7 +72,7 @@ activePanel=panel;
 try{if(!panel.open&&typeof panel.showModal==='function')panel.showModal();
 else if(!panel.open){panel.setAttribute('open','');panel.classList.add('journal-fallback');document.body.classList.add('journal-fallback-active')}}
 catch(e){panel.setAttribute('open','');panel.classList.add('journal-fallback');document.body.classList.add('journal-fallback-active')}
-if(panel.open){updateKeyboardLayout();}
+if(panel.open){updateKeyboardLayout();panel.querySelectorAll('textarea').forEach(resizeWriting)}
 // Do not auto-focus a text field: iPhone should not open the keyboard before the user is ready.
 }
 function closePanel(panel){
@@ -82,36 +82,51 @@ if(panel.classList.contains('journal-fallback')){panel.removeAttribute('open');p
 else if(panel.open&&typeof panel.close==='function')panel.close();
 activePanel=null;
 panel.classList.remove('journal-keyboard-open');
+panel.classList.remove('focus-writing');var expand=panel.querySelector('.journal-expand');if(expand){expand.setAttribute('aria-pressed','false');expand.textContent='⤢'}
 panel.style.removeProperty('--journal-visible-height');
 panel.style.removeProperty('--journal-visible-top');
 refresh();
 if(panel._returnFocus&&panel._returnFocus.isConnected)try{panel._returnFocus.focus({preventScroll:true})}catch(e){}
 }
-function saveField(target){
-var key=target.dataset.day;if(!key)return;
-try{var db=read(),day=date();if(!db.days)db.days={};if(!db.days[day])db.days[day]={};
-db.days[day][key]=target.value;
-localStorage.setItem(KEY,JSON.stringify(db));
-var status=target.closest('dialog').querySelector('.journal-save-status');
-if(status)status.textContent='Saved on this device';
-if($('status'))$('status').textContent='Saved on this device';
-}catch(e){var label=target.closest('dialog').querySelector('.journal-save-status');if(label)label.textContent='Cannot save—check browser storage'}
-refresh();
+/* The main app controller is the sole writer of [data-day] values. */
+function resizeWriting(el){
+ if(!el||el.tagName!=='TEXTAREA')return;
+ el.style.height='auto';
+ var limit=Math.max(180,(window.innerHeight||700)*.65);
+ el.style.height=Math.max(105,Math.min(el.scrollHeight+4,limit))+'px';
+ el.style.overflowY=el.scrollHeight>limit?'auto':'hidden';
+}
+function toggleWritingFocus(button){
+ var panel=button.closest('.agenda-dialog');if(!panel)return;
+ var enabled=panel.classList.toggle('focus-writing');
+ button.setAttribute('aria-pressed',String(enabled));
+ button.setAttribute('aria-label',enabled?'Exit full-screen writing':'Expand writing space');
+ button.textContent=enabled?'⤡':'⤢';
+ panel.querySelectorAll('textarea').forEach(resizeWriting);
 }
 // Capturing click events makes the action reliable even if another script fails during initialization.
 document.addEventListener('click',function(e){
 var tile=e.target.closest('[data-journal-open]');
 if(tile){e.preventDefault();e.stopImmediatePropagation();openPanel(tile.dataset.journalOpen,tile);return}
+var expand=e.target.closest('.agenda-dialog .journal-expand');
+if(expand){e.preventDefault();e.stopImmediatePropagation();toggleWritingFocus(expand);return}
 var close=e.target.closest('.agenda-dialog .journal-close,.agenda-dialog .journal-done');
 if(close){e.preventDefault();e.stopImmediatePropagation();closePanel(close.closest('dialog'))}
 },true);
-document.addEventListener('input',function(e){if(e.target.matches('.agenda-dialog [data-day]'))saveField(e.target)},true);
+document.addEventListener('input',function(e){
+ if(!e.target.matches('.agenda-dialog [data-day]'))return;
+ resizeWriting(e.target);
+ // The app.js input handler saves the data when this event bubbles.
+ setTimeout(refresh,0);
+},true);
 document.addEventListener('focusin',function(e){if(e.target.matches('.agenda-dialog input,.agenda-dialog textarea')){activePanel=e.target.closest('dialog');updateKeyboardLayout();setTimeout(function(){updateKeyboardLayout();keepFieldVisible(e.target)},160)}},true);
 document.addEventListener('focusout',function(e){if(e.target.matches('.agenda-dialog input,.agenda-dialog textarea'))setTimeout(updateKeyboardLayout,120)},true);
 if(window.visualViewport){window.visualViewport.addEventListener('resize',function(){updateKeyboardLayout();if(document.activeElement)keepFieldVisible(document.activeElement)});window.visualViewport.addEventListener('scroll',updateKeyboardLayout)}
 window.addEventListener('orientationchange',function(){setTimeout(updateKeyboardLayout,200)});
 document.addEventListener('change',function(e){if(e.target.id==='datepick')setTimeout(refresh,0)},true);
+document.addEventListener('kingdom:dayChanged',function(){setTimeout(refresh,0)});
 document.addEventListener('DOMContentLoaded',function(){refresh();document.querySelectorAll('.agenda-dialog').forEach(function(el){el.addEventListener('close',function(){if(activePanel===el){activePanel=null;el.classList.remove('journal-keyboard-open')}refresh()})})});
 window.addEventListener('pageshow',refresh);
+window.addEventListener('resize',function(){document.querySelectorAll('.agenda-dialog[open] textarea').forEach(resizeWriting)});
 window.KingdomJournalSelfTest=function(){var result={cards:0,dialogs:0,fields:0,modalSupported:typeof HTMLDialogElement!=='undefined'&&typeof HTMLDialogElement.prototype.showModal==='function'};Object.keys(FIELDS).forEach(function(name){if(document.querySelector('[data-journal-open="'+name+'"]'))result.cards++;if($('journal-'+name))result.dialogs++;FIELDS[name].forEach(function(key){if($(key))result.fields++})});return result};
 })();
