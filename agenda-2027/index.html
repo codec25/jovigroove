@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Kingdom Atmosphere | My Agenda</title>
 <meta name="theme-color" content="#071d16"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="KA Agenda"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="./app.css?v=41"><link rel="stylesheet" href="./smart-entries.css?v=42"></head>
+<link rel="stylesheet" href="./app.css?v=41"><link rel="stylesheet" href="./smart-entries.css?v=42"><link rel="stylesheet" href="./language.css?v=43"></head>
 <body>
 <header><div class="hero-inner"><div class="hero-top"><div class="brand"><img class="brand-logo" src="./kingdom-atmosphere-wordmark-gold.webp" alt="Kingdom Atmosphere" width="188" height="65"></div><span class="edition">YOUR PERSONAL PLANNER</span></div></div></header>
 <main class="shell">
@@ -322,7 +322,7 @@
   <div id="daily-teaching-content" class="daily-teaching-content"></div>
   <form id="daily-teaching-editor" class="daily-teaching-editor" hidden>
     <label for="daily-teaching-title">Teaching title</label><input id="daily-teaching-title" type="text" maxlength="160" required placeholder="Title of the teaching">
-    <label for="daily-teaching-body">Teaching text</label><textarea id="daily-teaching-body" rows="14" required placeholder="Write the daily teaching, Scriptures, reflection and prayer…"></textarea>
+    <label for="daily-teaching-body">Teaching text (English)</label><textarea id="daily-teaching-body" rows="14" required placeholder="Write the daily teaching, Scriptures, reflection and prayer…"></textarea><div class="teaching-translation-fields"><div class="teaching-translation-heading">VERSION FRANÇAISE · Facultative</div><label for="daily-teaching-title-fr">Titre en français</label><input id="daily-teaching-title-fr" type="text" maxlength="160" placeholder="Titre de l’enseignement en français"><label for="daily-teaching-body-fr">Enseignement en français</label><textarea id="daily-teaching-body-fr" rows="10" placeholder="Rédigez ici la version française de votre enseignement."></textarea><p class="hint">Le français et l’anglais sont enregistrés pour la même date. Les textes personnels ne sont pas traduits automatiquement.</p></div>
     <div class="daily-teaching-editor-actions"><button id="daily-teaching-cancel" type="button">Cancel</button><button type="submit" id="daily-teaching-save">Save teaching</button></div>
   </form>
   <div class="daily-teaching-footer"><button id="daily-teaching-edit" type="button" hidden>Edit teaching</button><button id="daily-teaching-done" type="button">Done</button></div>
@@ -335,4 +335,4 @@
 <script src="./today-home.js"></script>
 <script src="./daily-teachings.js"></script>
 <script src="./journal-controller.js"></script>
-<script src="./app.js"></script><script src="./smart-entries.js?v=42"></script></body></html>
+<script src="./app.js"></script><script src="./smart-entries.js?v=42"></script><script src="./language.js?v=43"></script></body></html>
