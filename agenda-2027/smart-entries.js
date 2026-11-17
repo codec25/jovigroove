@@ -176,14 +176,29 @@ function render(){
 function init(){
  const home=$('today-home-actions')||document.querySelector('.today-home-actions');
  if(home&&!$('smart-add-note')){const b=document.createElement('button');b.type='button';b.id='smart-add-note';b.className='today-add-action';b.textContent='＋ Add note';home.appendChild(b);b.addEventListener('click',()=>open('note'));}
- const today=$('today-home');
- if(today&&!$('smart-entry-section')){const section=document.createElement('section');section.id='smart-entry-section';section.className='smart-entry-section';section.innerHTML='<div class="smart-entry-section-head"><strong>My planned entries</strong><small>Tap an entry to edit its details</small></div><div id="smart-entry-list"></div>';today.insertAdjacentElement('afterend',section);}
+ // The planned-entry list lives inside the Tasks tab, never above the Today dashboard.
+ const tasksDate=$('tasks-date');
+ if(tasksDate){
+  tasksDate.value=date();
+  tasksDate.addEventListener('change',()=>{
+   if(!tasksDate.value)return;
+   const picker=$('datepick');
+   if(picker){picker.value=tasksDate.value;picker.dispatchEvent(new Event('change',{bubbles:true}));}
+   render();
+  });
+ }
+ if($('tasks-go-today'))$('tasks-go-today').addEventListener('click',()=>{
+  const now=new Date(),d=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  if(tasksDate){tasksDate.value=d;tasksDate.dispatchEvent(new Event('change',{bubbles:true}));}
+ });
+ if($('tasks-new-task'))$('tasks-new-task').addEventListener('click',()=>open('task'));
+ if($('tasks-new-appointment'))$('tasks-new-appointment').addEventListener('click',()=>open('appointment'));
  const notesPane=document.querySelector('#notes .card');
  if(notesPane&&!$('smart-note-library')){const section=document.createElement('section');section.id='smart-note-library';section.className='smart-entry-section';section.innerHTML='<div class="smart-entry-section-head"><strong>Personal notes library</strong><button id="smart-library-add" type="button" class="smart-suggest">＋ New note</button></div><div id="smart-note-list"></div><hr class="rule">';notesPane.prepend(section);$('smart-library-add').addEventListener('click',()=>open('note'));}
  ['today-add-task','today-add-appointment'].forEach(id=>{const b=$(id);if(b)b.addEventListener('click',event=>{event.preventDefault();event.stopImmediatePropagation();open(id==='today-add-task'?'task':'appointment');},true);});
  // Route the generic quick-add choices to specialized editors while retaining other quick-add types.
  const quick=$('quick-save');if(quick)quick.addEventListener('click',event=>{const v=$('quick-kind').value;if(v==='tasks'||v==='schedule'){event.preventDefault();event.stopImmediatePropagation();const title=$('quick-text').value.trim();$('quick-text').value='';const closeBtn=$('quick-sheet').querySelector('.close-sheet');if(closeBtn)closeBtn.click();open(v==='tasks'?'task':'appointment');if(title)$('smart-title').value=title;}},true);
- document.addEventListener('kingdom:dayChanged',render);
+ document.addEventListener('kingdom:dayChanged',()=>{if(tasksDate)tasksDate.value=date();render();});
  document.addEventListener('kingdom:planningChanged',render);
  window.addEventListener('storage',render);
  render();
