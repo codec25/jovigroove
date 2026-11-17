@@ -215,6 +215,42 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 @media(max-width:760px){.brand-logo{height:39px;max-width:52vw}.activity-controls,.reminder-fields{grid-template-columns:1fr 110px}.reminder-fields{grid-template-columns:1fr}.smart-item{gap:6px;flex-wrap:wrap}.smart-item button{padding:8px 10px}}
 @media print{#activities .activity-actions,#reminders .activity-actions{display:none!important}}
 
+
+/* Purpose-to-progress connection: compact linked outcome cards */
+.connected-panel{border:1px solid #e3e8df;background:#fdfdf9;padding:14px;border-radius:13px;margin:12px 0 18px}
+.connect-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.connect-top>strong{font:600 15px Georgia,serif;color:#184330}
+.connect-top small{font-size:11px;color:#7b8b7a}
+.connect-input{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.connect-input>input{flex:2 1 180px;min-width:100px}
+.connect-input>select{flex:1 1 135px}
+.connect-input>.btn{flex:0 0 auto;white-space:nowrap}
+.connected-panel select{min-height:43px;border:1px solid #dfe5de;background:white;border-radius:8px;color:#274b37;padding:8px;max-width:100%}
+.connected-list{display:flex;flex-direction:column;gap:7px;margin-top:10px}
+.connected-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid #e7eae3;border-radius:9px;background:#fff;min-width:0}
+.connected-item input[type=checkbox]{width:18px;height:18px;accent-color:#1d6141;flex:0 0 auto}
+.connected-item .connected-copy{flex:1;min-width:0}
+.connected-item .connected-copy b{font-size:12px;display:block;overflow-wrap:anywhere}
+.connected-item .connected-copy small{font-size:10px;color:#738374}
+.connected-item .connected-copy.is-done b{text-decoration:line-through;color:#839288}
+.connected-item button{background:transparent;border:1px solid #dfe6de;color:#4a6755;border-radius:7px;padding:7px 9px;font-size:11px}
+.connected-panel.progress-summary{background:#0e3022;color:#f6f3e9;border:1px solid #27583f;padding:14px 16px;margin:0 0 13px}
+.progress-summary .connect-top{margin-bottom:7px}
+.progress-summary .connect-top strong{color:#f3e7bb;font:500 16px Georgia,serif}
+.progress-summary .connect-top button{color:#f2e9d5;border-color:#507258;background:#1f4831}
+.progress-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.progress-stats>div{display:flex;flex-direction:column;gap:1px}
+.progress-stats strong{font-size:18px;color:#f7f3e7}
+.progress-stats small{font-size:10px;color:#bbd0bf}
+.progress-summary .hint{font-size:11px;color:#d4ddc9;margin:11px 0 0}
+#progress-expanded{margin-top:11px;padding-top:11px;border-top:1px solid #42634b;font-size:12px;line-height:1.8}
+#progress-expanded p{margin:4px 0;color:#f4ead0}
+#progress-expanded small{color:#bdd0c0}
+.connect-daily{margin-bottom:10px}
+.connect-daily>select{width:100%;margin-bottom:8px}
+@media(max-width:760px){.progress-stats{gap:5px}.progress-stats strong{font-size:16px}.progress-stats small{font-size:9px}.connected-panel{padding:12px}.connect-input>input{flex:1 1 100%}.connect-input>.btn{flex:1 0 auto}.connect-input>select{flex:1 1 100%}.connected-item{padding:8px}.progress-summary{margin-bottom:10px!important}}
+@media print{.connected-panel{display:none!important}}
+
 </style></head>
 <body>
 <header><div class="hero-inner"><div class="hero-top"><div class="brand"><img class="brand-logo" src="./kingdom-atmosphere-wordmark-gold.webp" alt="Kingdom Atmosphere" width="188" height="65"></div><span class="edition">THE 2027 EDITION</span></div><div class="hero-copy"><div class="hero-eyebrow">FAITH × INTENTION × DISCIPLINE</div><h1>A year of <em>purpose.</em></h1><p>Your personal space to plan wisely, take meaningful action, and grow in what matters.</p></div><div class="hero-bottom"><span>2027 / YOUR PERSONAL AGENDA</span><span>PLAN · GROW · SERVE</span></div></div></header>
@@ -226,6 +262,7 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 <section id="vision" class="pane">
 <div class="card">
 <div class="section-label">THE FOUNDATION / DIRECTION BEFORE ACTIVITY</div><h2>My purpose & vision</h2>
+<div class="connected-panel" id="vision-connect"><div class="connect-top"><strong>My measurable outcomes</strong><small>Linked to weekly and daily progress</small></div><div class="connect-input"><input type="text" id="goal-name" placeholder="e.g. Teach 12 workshops"><button type="button" class="btn" id="goal-add">Add goal</button></div><div class="connected-list" id="goal-list"></div></div>
 <p class="intro">A productive life starts with knowing what matters, becoming the person capable of doing it, and choosing daily actions that serve that purpose.</p>
 <label class="field" for="purpose">What am I here to contribute?</label><textarea id="purpose" data-single="purpose" placeholder="Describe the people you want to serve and the difference you want to make."></textarea>
 <label class="field" for="vision">What kind of person am I becoming by December 2027?</label><textarea id="vision" data-single="vision" placeholder="Character, faith, relationships, work, health, and service."></textarea>
@@ -238,6 +275,7 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 <div class="card"><div class="section-label">WEEKLY PRACTICE / INTENTIONAL PROGRESS</div><h2>Design the week</h2>
 <div class="controls no-print"><button class="btn light" id="weekprev">← Previous</button><label class="control-label" for="weekdate">Week of</label><input type="date" id="weekdate" min="2027-01-01" max="2027-12-31" value="2027-01-01"><button class="btn light" id="weeknext">Next →</button></div>
 <p class="hint" id="weekrange"></p>
+<div class="connected-panel" id="week-connect"><div class="connect-top"><strong>Measurable weekly outcomes</strong><small>Choose the annual goal each outcome supports</small></div><div class="connect-input"><input type="text" id="outcome-name" placeholder="What result will I complete this week?"><select id="outcome-goal" aria-label="Connected yearly goal"><option value="">General progress</option></select><button type="button" class="btn" id="outcome-add">Add outcome</button></div><div class="connected-list" id="outcome-list"></div></div>
 <label class="field" for="weekmission">My mission this week</label><textarea id="weekmission" data-week="mission" class="short" placeholder="What result would make this week meaningful?"></textarea>
 <label class="field" for="weekresults">Three results I will deliver</label><textarea id="weekresults" data-week="results" placeholder="Specific, measurable outcomes—not just a long task list."></textarea>
 <label class="field" for="weekblocks">Time blocks / commitments</label><textarea id="weekblocks" data-week="blocks" placeholder="Reserve time for your most important work, family, rest and faith."></textarea>
@@ -246,11 +284,13 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 <label class="field" for="weekreview">Weekly review: wins, lessons, and adjustments</label><textarea id="weekreview" data-week="review" placeholder="What worked? What must change next week?"></textarea>
 </div></section>
 <section id="daily" class="pane active">
+<div class="connected-panel progress-summary no-print" id="progress-dashboard"><div class="connect-top"><strong>Purpose → Progress</strong><button type="button" id="progress-details" class="mini-btn">View progress</button></div><div class="progress-stats"><div><strong id="stat-goals">0</strong><small>Yearly goals</small></div><div><strong id="stat-outcomes">0/0</strong><small>Weekly results</small></div><div><strong id="stat-actions">0/0</strong><small>Actions finished</small></div><div><strong id="stat-minutes">0m</strong><small>Tracked this week</small></div></div><p class="hint" id="progress-insight">Start by setting one measurable goal.</p><div id="progress-expanded" hidden></div></div>
 <div class="mobile-quickbar no-print">
 <div><span class="quick-eyebrow">YOUR DAILY COMMAND CENTER</span><strong>Make today count.</strong></div>
 <div class="quick-actions"><button type="button" id="quick-add" class="quick-primary" aria-haspopup="dialog">＋ Add</button><button type="button" id="open-coach" class="quick-icon" aria-haspopup="dialog" aria-label="Open guided planning assistant">✧</button></div>
 </div>
 <div class="controls no-print"><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Choose day</label><input type="date" id="datepick" min="2027-01-01" max="2027-12-31" value="2027-01-01"><button id="next" class="btn light" aria-label="Next day">→</button><button class="btn" data-print="daily">Print this day</button></div>
+<div class="connected-panel connect-daily no-print" id="daily-connect"><div class="connect-top"><strong>Today's outcome-driven action</strong><small>Turn your weekly outcome into something you can finish</small></div><select id="daily-outcome" aria-label="Choose linked weekly outcome"><option value="">Choose a weekly outcome (optional)</option></select><div class="connect-input"><input type="text" id="daily-step" placeholder="The next concrete step"><button type="button" class="btn" id="daily-step-add">Commit</button></div><div class="connected-list" id="daily-step-list"></div></div>
 <div class="daily-strip no-print"><span class="pill"><span aria-hidden="true">◆</span> PURPOSE → ACTION → GROWTH</span><span id="daily-progress" aria-live="polite">0 of 5 essentials filled</span></div><div class="layout">
 <div><div class="card"><div class="section-label">01 / YOUR DAY</div><h2 id="dayheading">Friday, January 1, 2027</h2><div class="verse"><p id="versetext"></p><small id="verseref"></small></div><label class="field" for="focus">Today's focus</label><input id="focus" type="text" data-day="focus" placeholder="What matters most today?"><label class="field" for="oneaction">One action I must finish today</label><input id="oneaction" type="text" data-day="oneaction" placeholder="The most important step toward my vision."><div class="energy-control no-print"><div class="energy-title"><label for="energy">Today's energy &amp; capacity</label><output id="energy-output" for="energy">3 / 5 · Steady</output></div><input id="energy" type="range" min="1" max="5" step="1" value="3" aria-label="Today's energy level"><div class="energy-labels"><span>Rest &amp; recover</span><span>Strong &amp; focused</span></div></div><label class="field" for="schedule">Schedule / appointments</label><textarea id="schedule" data-day="schedule" placeholder="9:00 — ..."></textarea><label class="field" for="priorities">Top 3 priorities</label><textarea id="priorities" data-day="priorities" placeholder="1.&#10;2.&#10;3."></textarea><label class="field" for="tasks">Tasks</label><textarea id="tasks" data-day="tasks" placeholder="Things to do..."></textarea><label class="field" for="discipline">Discipline practiced today</label><input id="discipline" type="text" data-day="discipline" placeholder="A consistent action—not just motivation."></div></div>
 <div><div class="card reflection-card"><div class="section-label">02 / INNER GROWTH</div><h2>Faith & reflection</h2><p class="section-subtitle">A focused moment for reflection, prayer and perspective.</p><label class="field" for="reflection">Reflection</label><textarea id="reflection" data-day="reflection" placeholder="What is this Scripture teaching me?"></textarea><label class="field" for="prayer">Prayer</label><textarea id="prayer" data-day="prayer" placeholder="A prayer for today..."></textarea><label class="field" for="gratitude">Gratitude</label><textarea id="gratitude" data-day="gratitude" class="short" placeholder="Three things I'm thankful for..."></textarea><label class="field" for="review">Evening review: what moved forward?</label><textarea id="review" data-day="review" class="short" placeholder="What did I accomplish? What will I improve tomorrow?"></textarea><label class="field" for="daynotes">Additional notes</label><textarea id="daynotes" data-day="daynotes" placeholder="Notes, ideas, reminders..."></textarea></div></div>
@@ -260,6 +300,7 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 <section id="activities" class="pane">
 <div class="card"><div class="section-label">SMART ROUTINES / REAL TIME</div><h2>Activity memory</h2><p class="intro">Track how long recurring activities actually take. After a few sessions, your agenda suggests a realistic duration—based on your own history.</p>
 <div class="activity-controls no-print"><div><label class="field" for="activity-name">Activity</label><input type="text" id="activity-name" placeholder="e.g. Bible study, practice, editing"></div><div><label class="field" for="activity-minutes">Planned minutes</label><input id="activity-minutes" type="number" min="1" max="1440" value="30"></div></div>
+<label class="field" for="activity-link">This activity contributes to</label><select id="activity-link" aria-label="Linked weekly outcome"><option value="">Unlinked personal activity</option></select>
 <p class="hint" id="activity-estimate" aria-live="polite">Enter an activity to see its suggested duration.</p>
 <div class="activity-actions no-print"><button type="button" class="btn" id="activity-start">Start session</button><button type="button" class="btn light" id="activity-stop" disabled>Finish &amp; learn</button><button type="button" class="btn light" id="activity-copy">Copy to today's schedule</button></div>
 <p id="activity-running" class="hint" aria-live="polite"></p>
@@ -328,7 +369,7 @@ var VERSES=[
 ['Psalm 121:2','My help cometh from the LORD, which made heaven and earth.'],
 ['1 Corinthians 16:14','Let all your things be done with charity.']
 ];
-var data={days:{},months:{},family:[],gifts:[],single:{},activities:[],sessions:[],reminders:[],weeks:{}};try{var loaded=JSON.parse(localStorage.getItem(KEY)||'null');if(loaded&&typeof loaded==='object'){data.days=loaded.days||{};data.months=loaded.months||{};data.family=Array.isArray(loaded.family)?loaded.family:[];data.gifts=Array.isArray(loaded.gifts)?loaded.gifts:[];data.single=loaded.single||{};data.weeks=loaded.weeks||{};data.activities=Array.isArray(loaded.activities)?loaded.activities:[];data.sessions=Array.isArray(loaded.sessions)?loaded.sessions:[];data.reminders=Array.isArray(loaded.reminders)?loaded.reminders:[]}}catch(e){}
+var data={days:{},months:{},family:[],gifts:[],single:{},activities:[],sessions:[],reminders:[],weeks:{},linkedGoals:[],linkedOutcomes:[],linkedActions:[]};try{var loaded=JSON.parse(localStorage.getItem(KEY)||'null');if(loaded&&typeof loaded==='object'){data.days=loaded.days||{};data.months=loaded.months||{};data.family=Array.isArray(loaded.family)?loaded.family:[];data.gifts=Array.isArray(loaded.gifts)?loaded.gifts:[];data.single=loaded.single||{};data.weeks=loaded.weeks||{};data.activities=Array.isArray(loaded.activities)?loaded.activities:[];data.sessions=Array.isArray(loaded.sessions)?loaded.sessions:[];data.reminders=Array.isArray(loaded.reminders)?loaded.reminders:[];data.linkedGoals=Array.isArray(loaded.linkedGoals)?loaded.linkedGoals:[];data.linkedOutcomes=Array.isArray(loaded.linkedOutcomes)?loaded.linkedOutcomes:[];data.linkedActions=Array.isArray(loaded.linkedActions)?loaded.linkedActions:[]}}catch(e){}
 var selected='2027-01-01', month=0;var $=function(id){return document.getElementById(id)};function save(){try{localStorage.setItem(KEY,JSON.stringify(data));$('status').textContent='Saved on this device';}catch(e){$('status').textContent='Storage unavailable. Export your entries to avoid losing them.'}}
 function isoDate(s){return new Date(s+'T12:00:00')}function dayIndex(s){return Math.round((isoDate(s)-isoDate('2027-01-01'))/86400000)}function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function setDay(s){if(s<'2027-01-01'||s>'2027-12-31')return;selected=s;$('datepick').value=s;var d=isoDate(s);$('dayheading').textContent=d.toLocaleDateString('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});var verse=VERSES[dayIndex(s)%VERSES.length];$('versetext').textContent='“'+verse[1]+'”';$('verseref').textContent=verse[0]+' · KJV';var entry=data.days[selected]||{};document.querySelectorAll('[data-day]').forEach(function(el){el.value=entry[el.dataset.day]||''})}
@@ -345,8 +386,8 @@ function renderGifts(){var list=$('giftlist');list.innerHTML='';data.gifts.forEa
 function updateBudget(){var sum=data.gifts.reduce(function(a,x){return a+(Number(x.budget)||0)},0);$('budget').textContent=new Intl.NumberFormat('en-CA',{style:'currency',currency:'CAD'}).format(sum)}
 $('addgift').onclick=function(){data.gifts.push({recipient:'',idea:'',budget:''});save();renderGifts()};
 document.querySelectorAll('[data-single]').forEach(function(el){el.value=data.single[el.dataset.single]||'';el.addEventListener('input',function(){data.single[el.dataset.single]=el.value;save()})});
-$('export').onclick=function(){var blob=new Blob([JSON.stringify({version:1,year:2027,days:data.days,months:data.months,family:data.family,gifts:data.gifts,single:data.single,weeks:data.weeks||{},activities:data.activities||[],sessions:data.sessions||[],reminders:data.reminders||[]},null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Kingdom-Atmosphere-Agenda-2027-Backup.json';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500)};
-$('import').onchange=function(){var file=this.files&&this.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(){try{var o=JSON.parse(reader.result);if(o.year!==2027||!o.days||!o.months||!Array.isArray(o.family)||!Array.isArray(o.gifts))throw Error('Invalid backup');if(!confirm('Replace all entries on this device with this backup?'))return;data={days:o.days,months:o.months,family:o.family,gifts:o.gifts,single:o.single||{},weeks:o.weeks||{},activities:Array.isArray(o.activities)?o.activities:[],sessions:Array.isArray(o.sessions)?o.sessions:[],reminders:Array.isArray(o.reminders)?o.reminders:[]};save();location.reload()}catch(e){alert('Could not import that 2027 agenda backup.')}};reader.readAsText(file)};
+$('export').onclick=function(){var blob=new Blob([JSON.stringify({version:1,year:2027,days:data.days,months:data.months,family:data.family,gifts:data.gifts,single:data.single,weeks:data.weeks||{},activities:data.activities||[],sessions:data.sessions||[],reminders:data.reminders||[],linkedGoals:data.linkedGoals||[],linkedOutcomes:data.linkedOutcomes||[],linkedActions:data.linkedActions||[]},null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Kingdom-Atmosphere-Agenda-2027-Backup.json';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500)};
+$('import').onchange=function(){var file=this.files&&this.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(){try{var o=JSON.parse(reader.result);if(o.year!==2027||!o.days||!o.months||!Array.isArray(o.family)||!Array.isArray(o.gifts))throw Error('Invalid backup');if(!confirm('Replace all entries on this device with this backup?'))return;data={days:o.days,months:o.months,family:o.family,gifts:o.gifts,single:o.single||{},weeks:o.weeks||{},activities:Array.isArray(o.activities)?o.activities:[],sessions:Array.isArray(o.sessions)?o.sessions:[],reminders:Array.isArray(o.reminders)?o.reminders:[],linkedGoals:Array.isArray(o.linkedGoals)?o.linkedGoals:[],linkedOutcomes:Array.isArray(o.linkedOutcomes)?o.linkedOutcomes:[],linkedActions:Array.isArray(o.linkedActions)?o.linkedActions:[]};save();location.reload()}catch(e){alert('Could not import that 2027 agenda backup.')}};reader.readAsText(file)};
 $('clear').onclick=function(){if(confirm('Erase ALL 2027 agenda entries saved in this browser? This cannot be undone without an exported backup.')){localStorage.removeItem(KEY);location.reload()}};
 setDay(selected);setMonth(0);renderFamily();renderGifts();
 
@@ -424,8 +465,8 @@ $('activity-running').textContent=activeSession?'Tracking '+activeSession.name+'
 }
 function copyActivity(name,min){var line=name+' — '+min+' min';data.days[selected]=data.days[selected]||{};data.days[selected].schedule=[data.days[selected].schedule,line].filter(Boolean).join('\n');save();setDay(selected);$('activity-estimate').textContent='Added "'+name+'" to '+selected+' schedule.'}
 $('activity-name').addEventListener('input',function(){var v=duration(this.value);if(v)$('activity-minutes').value=v.average;redrawActivities()});
-$('activity-start').onclick=function(){var name=$('activity-name').value.trim();if(!name){$('activity-name').focus();return}if(data.activeSession&&!confirm('Replace your currently running session?'))return;var minutes=Math.max(1,Math.min(1440,Number($('activity-minutes').value)||30));if(!data.activities.some(function(x){return normalized(x.name)===normalized(name)}))data.activities.push({name:name});data.activeSession={name:name,started:new Date().toISOString(),planned:minutes};save();redrawActivities()};
-$('activity-stop').onclick=function(){var sess=data.activeSession;if(!sess)return;var elapsed=(Date.now()-Date.parse(sess.started))/60000;if(elapsed<0||!Number.isFinite(elapsed)){alert('Session start time could not be read.');return}var minutes=Math.max(1,Math.round(elapsed));data.sessions.push({name:sess.name,minutes:minutes,started:sess.started,finished:new Date().toISOString()});if(data.sessions.length>2000)data.sessions=data.sessions.slice(-2000);data.activeSession=null;save();redrawActivities()};
+$('activity-start').onclick=function(){var name=$('activity-name').value.trim();if(!name){$('activity-name').focus();return}if(data.activeSession&&!confirm('Replace your currently running session?'))return;var minutes=Math.max(1,Math.min(1440,Number($('activity-minutes').value)||30));if(!data.activities.some(function(x){return normalized(x.name)===normalized(name)}))data.activities.push({name:name});data.activeSession={name:name,started:new Date().toISOString(),planned:minutes,outcomeId:$('activity-link').value||''};save();redrawActivities()};
+$('activity-stop').onclick=function(){var sess=data.activeSession;if(!sess)return;var elapsed=(Date.now()-Date.parse(sess.started))/60000;if(elapsed<0||!Number.isFinite(elapsed)){alert('Session start time could not be read.');return}var minutes=Math.max(1,Math.round(elapsed));data.sessions.push({name:sess.name,minutes:minutes,started:sess.started,finished:new Date().toISOString(),outcomeId:sess.outcomeId||''});if(data.sessions.length>2000)data.sessions=data.sessions.slice(-2000);data.activeSession=null;save();redrawActivities()};
 $('activity-copy').onclick=function(){var name=$('activity-name').value.trim();if(!name){$('activity-name').focus();return}var v=duration(name),minutes=v?v.average:Math.max(1,Number($('activity-minutes').value)||30);copyActivity(name,minutes)};
 function setReminderDefault(){var date=new Date();date.setMinutes(date.getMinutes()+60);date.setSeconds(0,0);var local=new Date(date.getTime()-date.getTimezoneOffset()*60000).toISOString().slice(0,16);if(!$('reminder-when').value)$('reminder-when').value=local}
 function supported(){return 'Notification' in window&&window.isSecureContext}
@@ -436,6 +477,52 @@ $('notify-permission').onclick=function(){if(!supported()){showCapability();retu
 function checkReminders(){var now=Date.now(),changed=false;data.reminders.forEach(function(item){if(item.done||item.notified||Date.parse(item.when)>now)return;item.notified=true;changed=true;if(supported()&&Notification.permission==='granted'&&document.visibilityState==='visible'){try{new Notification('Kingdom Atmosphere · Reminder',{body:item.name,tag:item.id,icon:'./icon.svg'})}catch(e){}}});if(changed){save();redrawReminders();var pending=data.reminders.filter(function(x){return !x.done&&Date.parse(x.when)<=now}).length;status.textContent=pending+' reminder'+(pending===1?' is':'s are')+' due. Check the list below.'}}
 var previousShowTab=showTab;showTab=function(id){previousShowTab(id);if(id==='activities')redrawActivities();if(id==='reminders'){redrawReminders();checkReminders();showCapability();}};
 setReminderDefault();showCapability();redrawActivities();redrawReminders();checkReminders();setInterval(checkReminders,30000);document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')checkReminders()});window.addEventListener('focus',checkReminders);
+})();
+
+
+/* Linked progress engine. Existing freeform writing and local records remain untouched. */
+(function(){
+var goalList=$('goal-list'),outcomeList=$('outcome-list'),actionList=$('daily-step-list');
+function norm(t){return String(t||'').trim()}
+function id(){return 'link-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8)}
+function fmtDay(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function weekKey(s){var d=isoDate(s);d.setDate(d.getDate()-(d.getDay()+6)%7);return fmtDay(d)}
+function textNode(parent,tag,txt,cls){var n=document.createElement(tag);if(cls)n.className=cls;n.textContent=txt;parent.appendChild(n);return n}
+function makeLine(parent,obj,sub,canComplete,onChange,onDelete){var line=document.createElement('div');line.className='connected-item';if(canComplete){var cb=document.createElement('input');cb.type='checkbox';cb.checked=!!obj.done;cb.setAttribute('aria-label','Mark '+obj.name+' complete');cb.onchange=function(){obj.done=cb.checked;onChange()};line.appendChild(cb)}var copy=textNode(line,'div','', 'connected-copy'+(obj.done?' is-done':''));textNode(copy,'b',obj.name);if(sub)textNode(copy,'small',sub);var b=textNode(line,'button','Remove');b.type='button';b.setAttribute('aria-label','Remove '+obj.name);b.onclick=function(){if(confirm('Remove this entry?'))onDelete()};parent.appendChild(line)}
+function options(select,items,defaultLabel,selectedValue){select.innerHTML='';var first=document.createElement('option');first.value='';first.textContent=defaultLabel;select.appendChild(first);items.forEach(function(x){var o=document.createElement('option');o.value=x.id;o.textContent=x.name;select.appendChild(o)});select.value=selectedValue||'';if(select.selectedIndex<0)select.value=''}
+function weekOutcomes(date){return data.linkedOutcomes.filter(function(x){return x.week===weekKey(date)})}
+function thisWeek(){return weekKey(weekSelected||selected)}
+function renderGoals(){goalList.innerHTML='';data.linkedGoals.forEach(function(g){var count=data.linkedOutcomes.filter(function(o){return o.goalId===g.id&&o.done}).length;makeLine(goalList,g,count+' connected weekly outcomes completed',true,function(){save();refresh()},function(){data.linkedGoals=data.linkedGoals.filter(function(x){return x.id!==g.id});data.linkedOutcomes.forEach(function(o){if(o.goalId===g.id)o.goalId=''});save();refresh()})});if(!data.linkedGoals.length)textNode(goalList,'p','Create your first yearly goal to connect weekly outcomes.','hint');options($('outcome-goal'),data.linkedGoals,'General progress',$('outcome-goal').value)}
+function renderOutcomes(){outcomeList.innerHTML='';weekOutcomes(weekSelected).forEach(function(o){var g=data.linkedGoals.find(function(x){return x.id===o.goalId});var done=data.linkedActions.filter(function(x){return x.outcomeId===o.id&&x.done}).length;var total=data.linkedActions.filter(function(x){return x.outcomeId===o.id}).length;makeLine(outcomeList,o,(g?g.name+' · ':'')+done+'/'+total+' linked actions finished',true,function(){save();refresh()},function(){data.linkedOutcomes=data.linkedOutcomes.filter(function(x){return x.id!==o.id});data.linkedActions.forEach(function(x){if(x.outcomeId===o.id)x.outcomeId=''});save();refresh()})});if(!weekOutcomes(weekSelected).length)textNode(outcomeList,'p','Set one result for this week, then choose it on Today.','hint')}
+function renderActions(){actionList.innerHTML='';data.linkedActions.filter(function(x){return x.date===selected}).forEach(function(a){var o=data.linkedOutcomes.find(function(x){return x.id===a.outcomeId});makeLine(actionList,a,o?'Supports: '+o.name:'Personal action',true,function(){save();refresh()},function(){data.linkedActions=data.linkedActions.filter(function(x){return x.id!==a.id});save();refresh()})});options($('daily-outcome'),weekOutcomes(selected),'Choose a weekly outcome (optional)',$('daily-outcome').value)}
+function renderActivityLinks(){var select=$('activity-link');if(!select)return;options(select,weekOutcomes(selected),'Unlinked personal activity',select.value)}
+function minutesLabel(n){return n>=60?Math.floor(n/60)+'h '+Math.round(n%60)+'m':Math.round(n)+'m'}
+function renderDashboard(){
+var key=weekKey(selected),outcomes=data.linkedOutcomes.filter(function(x){return x.week===key}),actions=data.linkedActions.filter(function(x){return weekKey(x.date)===key});
+var sessionRows=data.sessions.filter(function(x){return x.finished&&weekKey(fmtDay(new Date(x.finished)))===key});
+var mins=sessionRows.reduce(function(a,x){return a+(Number(x.minutes)||0)},0);
+$('stat-goals').textContent=data.linkedGoals.filter(function(x){return !x.done}).length;
+$('stat-outcomes').textContent=outcomes.filter(function(x){return x.done}).length+'/'+outcomes.length;
+$('stat-actions').textContent=actions.filter(function(x){return x.done}).length+'/'+actions.length;
+$('stat-minutes').textContent=minutesLabel(mins);
+var linked=sessionRows.filter(function(x){return x.outcomeId&&outcomes.some(function(o){return o.id===x.outcomeId})}),linkedMins=linked.reduce(function(a,x){return a+(Number(x.minutes)||0)},0);
+var report=!data.linkedGoals.length?'Start with a measurable annual goal.':!outcomes.length?'Break an annual goal into a weekly outcome.':!actions.length?'Turn a weekly outcome into one daily action.':!sessionRows.length?'Record an activity to see time spent alongside completed actions.':'This week: '+linked.length+' tracked sessions directly support weekly outcomes ('+minutesLabel(linkedMins)+').';
+$('progress-insight').textContent=report;
+var detail=$('progress-expanded');detail.replaceChildren();textNode(detail,'p','Weekly time logged: '+minutesLabel(mins)+' across '+sessionRows.length+' sessions.');textNode(detail,'p','Linked outcome time: '+minutesLabel(linkedMins)+'.');textNode(detail,'small','Completion is based on what you manually mark finished. Time totals come from recorded sessions, not AI estimates.');
+}
+function refresh(){renderGoals();renderOutcomes();renderActions();renderActivityLinks();renderDashboard()}
+$('goal-add').onclick=function(){var name=norm($('goal-name').value);if(!name){$('goal-name').focus();return}data.linkedGoals.push({id:id(),name:name,done:false});$('goal-name').value='';save();refresh()};
+$('outcome-add').onclick=function(){var name=norm($('outcome-name').value);if(!name){$('outcome-name').focus();return}data.linkedOutcomes.push({id:id(),name:name,goalId:$('outcome-goal').value,week:thisWeek(),done:false});$('outcome-name').value='';save();refresh()};
+$('daily-step-add').onclick=function(){var name=norm($('daily-step').value);if(!name){$('daily-step').focus();return}data.linkedActions.push({id:id(),name:name,outcomeId:$('daily-outcome').value,date:selected,done:false});data.days[selected]=data.days[selected]||{};if(!norm(data.days[selected].oneaction)){data.days[selected].oneaction=name;setDay(selected)}$('daily-step').value='';save();refresh()};
+$('progress-details').onclick=function(){var x=$('progress-expanded');x.hidden=!x.hidden;this.textContent=x.hidden?'View progress':'Hide details'};
+var oldDay=setDay;setDay=function(s){oldDay(s);renderActions();renderActivityLinks();renderDashboard()};
+var oldWeek=loadWeek;loadWeek=function(s){oldWeek(s);renderOutcomes()};
+var oldShow=showTab;showTab=function(section){oldShow(section);refresh()};
+document.querySelectorAll('[data-week]').forEach(function(el){el.addEventListener('change',refresh)});
+$('activity-stop').addEventListener('click',function(){refresh()});
+$('activity-start').addEventListener('click',function(){refresh()});
+$('activity-link').addEventListener('change',function(){var active=data.activeSession;if(active){active.outcomeId=this.value;save()}});
+refresh();
 })();
 
 if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost'))navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(e){console.warn('Offline installation unavailable',e)});
