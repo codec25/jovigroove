@@ -673,3 +673,68 @@ dialog.growth-dialog.growth-keyboard{
 .family-chore-chip:focus-visible{outline:3px solid #d4af54;outline-offset:2px}
 .family-chore-feedback{font-size:11px;line-height:1.5;color:#69816b;margin:8px 0 0;min-height:16px}
 @media(max-width:760px){.family-chore-catalog{padding:12px}.family-chore-controls select,.family-chore-controls input{font-size:16px}.family-chore-choices{max-height:225px}.family-chore-chip{padding:8px 10px}}
+
+
+/* TODAY HOME — put today's actionable plan before the journal without duplicating any saved fields */
+.today-home{background:#fffefb;border:1px solid #e2e8de;border-radius:19px;box-shadow:0 12px 34px #09281810;padding:21px 23px 17px;margin:0 0 18px;color:#143d2c}
+.today-home-top{display:flex;justify-content:space-between;align-items:start;gap:12px}
+.today-home-top h2{font:400 clamp(25px,4vw,33px)/1.15 Georgia,serif;margin:5px 0 5px;color:#123e2b}
+.today-home-top p{color:#799080;font-size:12px;margin:0}
+.today-return{font-size:11px;background:#f2f6ee;border:1px solid #dce9dc;color:#2c5d41;padding:8px 10px;border-radius:8px;white-space:nowrap}
+.today-home-empty{padding:25px 15px 22px;text-align:center;background:#f7f8f1;border:1px solid #e9eddf;border-radius:13px;margin:16px 0 14px}
+.today-empty-mark{font:28px Georgia,serif;color:#ae965f;line-height:1}
+.today-home-empty h3{color:#194533;font:400 25px/1.2 Georgia,serif;letter-spacing:0;text-transform:none;margin:7px 0}
+.today-home-empty p{font-size:13px;line-height:1.6;color:#718276;max-width:390px;margin:7px auto 15px}
+.today-primary-action{background:#12412e;border:1px solid #12412e;border-radius:10px;color:#fff;font-weight:700;font-size:13px;min-height:46px;padding:12px 22px}
+.today-primary-action span{color:#e6c97d;padding-left:7px}
+.today-home-ready{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.85fr);gap:10px;margin:16px 0}
+.today-home-ready[hidden],.today-next-block[hidden],.today-home-empty[hidden],.today-return[hidden]{display:none!important}
+.today-ready-main{background:#143c2b;border-radius:12px;padding:17px 18px;color:#fff;min-height:118px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.today-kicker{display:block;font-size:10px;letter-spacing:.12em;font-weight:700;color:#c9b77f}
+.today-ready-main h3{font:400 21px/1.3 Georgia,serif;letter-spacing:0;text-transform:none;color:#fff;margin:7px 0 9px;overflow-wrap:anywhere}
+.today-ready-main button{padding:0;color:#dfc88b;background:transparent;border:0;font-size:11px;font-weight:700}
+.today-next-block{background:#f4f5eb;border:1px solid #e4e9d8;border-radius:12px;padding:18px;display:flex;flex-direction:column;justify-content:center;gap:7px;min-height:118px}
+.today-next-block strong{font-size:13px;line-height:1.5;color:#2b533c;overflow-wrap:anywhere}
+.today-next-block small{font-size:11px;color:#778c7c}
+.today-overview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+.today-overview-grid.is-unplanned{margin-top:5px}
+.today-overview-column{border:1px solid #e5eadf;border-radius:11px;padding:14px;background:#fff;min-width:0}
+.today-overview-heading{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:10px}
+.today-overview-heading strong{font-size:13px;color:#19412e}
+.today-overview-heading span{font-size:10px;color:#8d9c8c;white-space:nowrap}
+.today-overview-lines{display:flex;flex-direction:column;gap:7px}
+.today-line{display:flex;gap:7px;align-items:start;color:#4d6654;font-size:12px;line-height:1.5;overflow-wrap:anywhere;white-space:pre-wrap}
+.today-line-dot{color:#ae9154;line-height:1.5}
+.today-no-items{font-size:11px;color:#93a195;margin:0}
+.today-more-items{font-size:10px;color:#7c927f}
+.today-home-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:15px;padding-top:13px;border-top:1px solid #eef0e8}
+.today-home-actions button{min-height:40px;border-radius:9px;padding:10px 13px;font-size:11px;font-weight:700}
+.today-add-action{background:#ecf3eb;color:#1a5838;border:1px solid #d7e6d7}
+.today-add-action span{font-size:15px;padding-right:3px}
+.today-secondary-action{margin-left:auto;background:transparent;color:#42664c;border:1px solid #d8e3d8}
+@media(max-width:760px){
+ header{padding-top:9px!important;padding-bottom:9px!important}
+ header .hero-inner{max-width:1120px}
+ header .hero-copy,header .hero-bottom{display:none!important}
+ header .brand-logo{width:125px;height:auto;max-height:42px;object-fit:contain}
+ header .edition{font-size:9px}
+ .shell{padding-top:9px}
+ .toolbar{display:none!important}
+ .today-home{padding:15px 13px;margin:0 -2px 15px;border-radius:15px}
+ .today-home-top h2{font-size:27px}
+ .today-home-empty{padding:19px 11px 18px;margin:12px 0 10px}
+ .today-home-empty h3{font-size:22px}
+ .today-home-empty p{font-size:12px;margin-bottom:12px}
+ .today-home-ready{grid-template-columns:1fr;margin:12px 0}
+ .today-ready-main{min-height:100px;padding:14px}
+ .today-ready-main h3{font-size:20px}
+ .today-next-block{min-height:85px;padding:13px}
+ .today-overview-grid{gap:8px}
+ .today-overview-column{padding:11px 10px}
+ .today-overview-heading{flex-wrap:wrap}
+ .today-home-actions{gap:7px}
+ .today-home-actions button{flex:1 1 auto;padding:10px}
+ .today-secondary-action{margin-left:0}
+}
+@media(max-width:370px){.today-overview-grid{grid-template-columns:1fr}.today-overview-heading{flex-wrap:nowrap}}
+@media print{.today-home{display:none!important}}
