@@ -98,7 +98,12 @@
 </div>
 <p id="preset-estimate" class="hint">Your completed sessions will help suggest realistic timing.</p>
 <div class="preset-actions"><button id="preset-save" class="btn" type="button">Save preset</button><button id="preset-apply" class="btn light" type="button">Add to selected day</button></div>
-<div class="preset-date-row"><label for="preset-date">Schedule for</label><input id="preset-date" type="date"><label for="preset-time">Start at</label><input id="preset-time" type="time" value="09:00"></div>
+<div class="preset-scheduling">
+<div class="preset-date-row"><div><label for="preset-date">Date</label><input id="preset-date" type="date"></div><div><label for="preset-time">Starts at</label><input id="preset-time" type="time" value="09:00"></div><div><label for="preset-time-mode">Set timing by</label><select id="preset-time-mode"><option value="duration">Duration</option><option value="end">End time</option></select></div><div id="preset-end-wrap" hidden><label for="preset-end">Ends at</label><input id="preset-end" type="time" value="09:45"></div></div>
+<div class="preset-time-summary" id="preset-time-summary" aria-live="polite">09:00 – 09:45 · 45 minutes</div>
+<div class="preset-conflict" id="preset-conflict" role="status" aria-live="polite" hidden></div>
+<p class="hint">The agenda checks overlapping time blocks before adding an activity. Existing untimed notes are kept unchanged.</p>
+</div>
 <h3>My reusable activities</h3><div id="preset-library" class="preset-list"></div>
 <h3>Recently used</h3><div id="preset-recent" class="preset-list"></div>
 </div></section>
