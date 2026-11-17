@@ -227,7 +227,7 @@ async function main(){
  });
  await test('Daily agenda is ordered before the optional journal',async()=>{
    await page.locator('[data-tab="daily"]').evaluate(e=>e.click());
-   const order=await page.evaluate(()=>['.agenda-datebar','.today-home','.daily-teaching-card','.agenda-utilities','.agenda-book'].map(q=>{
+   const order=await page.evaluate(()=>['.agenda-datebar','.today-home','.daily-teaching-card','#today-journal','#today-tools'].map(q=>{
     const el=document.querySelector('#daily > '+q);return {q,order:Number(getComputedStyle(el).order),top:el.getBoundingClientRect().top}
    }));
    for(let i=1;i<order.length;i++)assert(order[i].order>order[i-1].order,'Agenda sections out of order '+JSON.stringify(order));
