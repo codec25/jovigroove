@@ -8,6 +8,7 @@ A mobile-first, offline-capable, multi-year Christian journal and personal plann
 - `app.js` — main agenda date navigation, daily/weekly/monthly content, family, gifts, reminders, activity sessions and saved progress. **Only writer** for `data-day` inputs in the main agenda.
 - `journal-controller.js` — **only journal UI controller**: opens/closes four writing dialogs, handles full-screen editing, previews and iPhone keyboard behavior. It does **not** write main agenda data; `app.js` does.
 - `growth-controller.js` — five-domain whole-life growth journal.
+- `family-space.js` — standalone Family Space: groceries, household responsibilities, family calendar and meaningful moments; separate local-only family storage, manual grocery sharing and family snapshot export/import.
 - `presets-controller.js` — reusable activities with categories and dance styles, remembered preferred start/end times, duration selection, same-day overlap checks and quick scheduling.
 - `planning-controller.js` — edit, copy, delete scheduled activities; duplicate days or full Monday–Sunday weeks without deleting source plans. Copies by default preserve existing destination writing and merge unique schedule/task lines.
 - `pdf-export.js` — offline one-tap PDF generation, download and native file sharing.
@@ -17,10 +18,11 @@ A mobile-first, offline-capable, multi-year Christian journal and personal plann
 **Do not rename localStorage keys without an explicit migration.** Current keys:
 - `ka-2027-agenda-v1`: main agenda data across *all* years; historical key retained for compatibility.
 - `ka-whole-life-growth-v1`: daily and weekly five-domain growth entries.
+- `ka-family-space-v1`: family-only groceries, tasks, events, moments and repeat suggestions; separate from personal journal storage. **No cloud synchronization, accounts or shared access yet**.
 - `ka-presets-v1`: user-created presets and recently scheduled activities. Preserves optional structured `bookings` so overlapping time blocks can be checked alongside recognizable times in the agenda's free-text schedule.
 - `ka-agenda-last-date`: last selected date preference.
 
-The JSON backup includes all three content stores. PDF is a printable/shareable snapshot **not** an editable backup. Existing user data must never be reset during a design or software update.
+The full agenda JSON backup includes all four content stores. Family Space also has its own export/import snapshot with ID-based merge and timestamps. PDF is a printable/shareable snapshot **not** an editable backup. Existing user data must never be reset during a design or software update.
 
 ## Ownership / avoiding collisions
 - A new planner feature should use existing controllers when possible, not introduce a second action handler for the same button.
@@ -48,6 +50,13 @@ Run `node agenda-2027/tests/regression.cjs` from the repository root before depl
 9. Install the PWA, load while online, go offline and confirm journal, presets and PDF export remain available.
 10. Inspect the console for runtime errors and look for keyboard/safe-area overlap.
 11. Increase the service-worker cache version when HTML, CSS, JS or other precached assets change; wait for GitHub Pages deployment to succeed.
+
+## Family Space privacy and synchronization boundaries
+- The current GitHub Pages deployment is a static site. Family data stays **on the current device**. It is not an authenticated shared household, and it has no live updates between phones.
+- `Share grocery list` sends a **text snapshot** via the device's share sheet. Other people cannot check off an item in your copy of the list.
+- `Export family snapshot` writes a JSON file with **family data only**, without the personal agenda, daily writing or private prayer data. `Import family snapshot` merges item IDs and timestamps, including delete tombstones where present.
+- A production shared Family Space requires a server-side API and authenticated household membership, invitation verification, and per-household database authorization. Never implement private permissions by relying on editable browser-local fields alone.
+- Do not automatically publish personal agenda dates, private prayers, finance entries or journal content to a family household. Explicit opt-in sharing is mandatory.
 
 ## Known constraints
 - Browser storage is local to that browser/app install and is not cloud synced.
