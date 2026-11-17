@@ -169,6 +169,17 @@
   </div>
   <div class="family-panel" data-family-panel="tasks" hidden>
     <div class="family-panel-title"><div><h3>Responsibilities</h3><p>Share the work, recognize the effort.</p></div><span aria-hidden="true">✓</span></div>
+    <div class="family-chore-catalog">
+      <div class="family-chore-head"><div><strong>Pick a home chore</strong><small>Tap a chore to add it instantly, or write your own below.</small></div><span aria-hidden="true">✧</span></div>
+      <div class="family-chore-controls">
+        <label for="family-chore-category">Room / category</label>
+        <select id="family-chore-category" aria-label="Choose chore category"><option value="all">All chores</option><option value="kitchen">Kitchen</option><option value="cleaning">General cleaning</option><option value="laundry">Laundry</option><option value="bathroom">Bathrooms</option><option value="bedroom">Bedrooms</option><option value="outdoor">Outdoor</option><option value="family">Family &amp; household</option></select>
+        <label for="family-chore-search">Find a chore</label>
+        <input type="search" id="family-chore-search" placeholder="Search chores…" autocomplete="off">
+      </div>
+      <div id="family-chore-choices" class="family-chore-choices" aria-live="polite"></div>
+      <p class="family-chore-feedback" id="family-chore-feedback" role="status" aria-live="polite">Choose a chore to add it to the responsibilities below.</p>
+    </div>
     <form id="family-task-form" class="family-add-form">
       <label for="family-task-name">What needs doing?</label><input id="family-task-name" type="text" maxlength="130" placeholder="e.g. Prepare dinner" required>
       <div class="family-form-grid">
