@@ -57,48 +57,7 @@ document.dispatchEvent(new CustomEvent('kingdom:presetScheduled',{detail:{date:d
 if(date===agendaDate()&&$('schedule'))$('schedule').value=a.days[date].schedule;
 alert('Added to '+date+' at '+time+'. You can repeat it from Presets anytime.');
 }
-function printData(){
-var mode=$('print-range').value,reference=agendaDate(),a=read(AGENDA),p=db(),g=read(GROWTH);
-var dates=Object.keys(a.days||{}).filter(function(date){return /^\d{4}-\d{2}-\d{2}$/.test(date)});
-if(mode==='day')dates=[reference];
-else if(mode==='week'){var date=new Date(reference+'T12:00:00');date.setDate(date.getDate()-(date.getDay()+6)%7);dates=[];for(var n=0;n<7;n++){var z=new Date(date);z.setDate(z.getDate()+n);dates.push(z.getFullYear()+'-'+String(z.getMonth()+1).padStart(2,'0')+'-'+String(z.getDate()).padStart(2,'0'))}}
-else if(mode==='month')dates=dates.filter(function(x){return x.slice(0,7)===reference.slice(0,7)});
-else{dates=Array.from(new Set(dates.concat(Object.keys(g.days||{}))));}
-dates.sort();return {mode:mode,reference:reference,dates:dates,agenda:a,presets:p,growth:g}
-}
-function addHeading(root,tag,t){var h=el(tag,t);root.appendChild(h)}
-function field(root,label,value){if(!String(value||'').trim())return;var section=el('section');section.className='print-block';section.appendChild(el('h3',label));section.appendChild(el('pre',String(value)));root.appendChild(section)}
-function buildReport(){
-var d=printData(),root=$('preset-print-report');root.replaceChildren();var front=el('section');front.className='print-front';addHeading(front,'h1','KINGDOM ATMOSPHERE');addHeading(front,'h2','My personal agenda');front.appendChild(el('p','Personal journal · Faith · Life · Purpose · Growth'));front.appendChild(el('p',d.mode==='all'?'Complete saved archive':d.mode==='day'?'Day: '+d.reference:d.mode==='week'?'Week of '+d.reference:'Month: '+d.reference.slice(0,7)));root.appendChild(front);
-d.dates.forEach(function(date){var a=(d.agenda.days||{})[date]||{},growth=(d.growth.days||{})[date]||{},page=el('section');page.className='print-page';addHeading(page,'h2',new Date(date+'T12:00:00').toLocaleDateString('en-CA',{weekday:'long',year:'numeric',month:'long',day:'numeric'}));
-field(page,'Daily intention',a.focus);field(page,'Most important action',a.oneaction);field(page,'Top priorities',a.priorities);field(page,'Writing & notes',a.daynotes);field(page,'Spiritual reflection',a.reflection);field(page,'Prayer',a.prayer);field(page,'Gratitude',a.gratitude);field(page,'Evening review',a.review);field(page,'Schedule & appointments',a.schedule);field(page,'Tasks',a.tasks);field(page,'Discipline',a.discipline);
-var cats={spiritual:'Spiritual',emotional:'Emotional',relationships:'Relationships',personal:'Personal',financial:'Financial'};Object.keys(cats).forEach(function(k){var x=growth[k];if(x&&x.action)field(page,cats[k]+' growth'+(x.done?' (completed)':''),x.action+(x.notes?'\nReflection: '+x.notes:''))});
-if(!page.querySelector('section'))page.appendChild(el('p','A new day to begin again.'));
-root.appendChild(page)});
-if(d.mode==='all'){
-var more=el('section');more.className='print-page';addHeading(more,'h2','Yearly vision and personal notes');Object.entries(d.agenda.single||{}).forEach(function(x){field(more,x[0],x[1])});root.appendChild(more);
-Object.keys(d.agenda.months||{}).sort().forEach(function(key){var page=el('section');page.className='print-page';addHeading(page,'h2','Monthly notes · '+key);Object.entries(d.agenda.months[key]||{}).forEach(function(x){field(page,x[0],x[1])});root.appendChild(page)});
-Object.keys(d.agenda.weeks||{}).sort().forEach(function(key){var page=el('section');page.className='print-page';addHeading(page,'h2','Weekly reflections · '+key);Object.entries(d.agenda.weeks[key]||{}).forEach(function(x){field(page,x[0],x[1])});field(page,'Whole-life weekly review',(d.growth.weeks||{})[key]&&d.growth.weeks[key].reflection);root.appendChild(page)});
-var extras=el('section');extras.className='print-page';addHeading(extras,'h2','Family dates, gifts and saved presets');
-(d.agenda.family||[]).forEach(function(x){field(extras,'Family',x.name+' · '+x.kind+' · '+x.date)});
-(d.agenda.gifts||[]).forEach(function(x){field(extras,'Gift',x.recipient+' · '+x.idea+' · Budget '+x.budget)});
-(d.presets.presets||[]).forEach(function(x){field(extras,'Activity preset',x.category+' / '+x.style+' · '+x.name+' · '+x.minutes+' minutes')});
-root.appendChild(extras);
-var goals=el('section');goals.className='print-page';addHeading(goals,'h2','Goals, planned outcomes and completed actions');
-(d.agenda.linkedGoals||[]).forEach(function(x){field(goals,'Annual goal'+(x.done?' (complete)':''),x.year+' · '+x.name)});
-(d.agenda.linkedOutcomes||[]).forEach(function(x){field(goals,'Weekly outcome'+(x.done?' (complete)':''),x.week+' · '+x.name)});
-(d.agenda.linkedActions||[]).forEach(function(x){field(goals,'Daily action'+(x.done?' (complete)':''),x.date+' · '+x.name)});
-root.appendChild(goals);
-var reminders=el('section');reminders.className='print-page';addHeading(reminders,'h2','Reminders and activity history');
-(d.agenda.reminders||[]).forEach(function(x){field(reminders,'Reminder'+(x.done?' (complete)':''),x.when+' · '+x.name)});
-(d.agenda.sessions||[]).forEach(function(x){field(reminders,'Tracked activity',x.name+' · '+x.minutes+' min · '+(x.finished||''))});
-root.appendChild(reminders);
-Object.keys(d.growth.weeks||{}).sort().forEach(function(key){if(d.agenda.weeks&&d.agenda.weeks[key])return;var reflect=(d.growth.weeks[key]||{}).reflection;if(!reflect)return;var growthWeek=el('section');growthWeek.className='print-page';addHeading(growthWeek,'h2','Whole-life weekly growth · '+key);field(growthWeek,'Reflection',reflect);root.appendChild(growthWeek)});
-}
-return d;
-}
-function printAgenda(){buildReport();document.body.classList.add('preset-print-mode');setTimeout(function(){window.print()},110)}
-function shareAgenda(){var d=printData(),lines=['Kingdom Atmosphere — Agenda summary',d.mode+' · '+d.reference,''];d.dates.forEach(function(date){var x=(d.agenda.days||{})[date]||{};lines.push(date);if(x.oneaction)lines.push('Focus: '+x.oneaction);if(x.schedule)lines.push('Schedule:\n'+x.schedule);if(x.priorities)lines.push('Priorities:\n'+x.priorities);lines.push('')});var text=lines.join('\n');if(navigator.share)navigator.share({title:'Kingdom Atmosphere Agenda',text:text}).catch(function(){});else if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(function(){alert('Summary copied. Paste it into a message.')}).catch(function(){alert('Use Print / Save PDF to share from Files.')});else alert('Use Print / Save PDF to create a shareable document.')}
+/* PDF exporting is owned by pdf-export.js. */
 function init(){
 if(!$('preset-category'))return;
 categorySelect();$('preset-category').onchange=function(){active=null;styleSelect();estimate()};
@@ -108,7 +67,6 @@ $('preset-save').onclick=function(){if(savePreset())alert('Saved to your reusabl
 $('preset-apply').onclick=addToAgenda;$('preset-open-day').onclick=function(){var tab=document.querySelector('[data-tab="presets"]');if(tab)tab.click();else{document.querySelectorAll('.pane').forEach(function(x){x.classList.toggle('active',x.id==='presets')})} $('preset-date').value=agendaDate()};
 $('preset-date').value=agendaDate();
 /* PDF buttons are handled only by pdf-export.js; retain legacy print helpers as inactive fallback. */
-window.addEventListener('afterprint',function(){document.body.classList.remove('preset-print-mode')});
 document.addEventListener('change',function(e){if(e.target.id==='datepick'&&$('preset-date'))$('preset-date').value=agendaDate()},true);
 render();
 }
