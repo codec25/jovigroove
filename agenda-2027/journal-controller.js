@@ -3,6 +3,29 @@
 (function(){
 'use strict';
 var KEY='ka-2027-agenda-v1';
+/* Initial date rendering must not depend on the main dashboard JavaScript. */
+function getLocalDay(){
+var d=new Date();
+return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function renderLiveDate(){
+var d=new Date(),day=getLocalDay(),picker=document.getElementById('datepick');
+var dateParts=day.split('-');
+if(picker&&picker.value!==day&&picker.dataset.manualDate!=='yes')picker.value=day;
+var week=document.getElementById('weekdate');if(week&&!week.dataset.manualDate)week.value=day;
+var title=document.getElementById('dayheading');
+if(title&&(!picker||picker.value===day))title.textContent=d.toLocaleDateString('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+var yr=document.getElementById('yearpick');if(yr&&yr.dataset.manualDate!=='yes')yr.value=+dateParts[0];
+var calYear=document.getElementById('calendar-year');if(calYear&&!calYear.dataset.manualDate)calYear.value=+dateParts[0];
+var indicator=document.getElementById('today-indicator');if(indicator)indicator.textContent='Today · '+d.toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
+var status=document.getElementById('status');
+if(status)status.textContent='Agenda v15 · Today is '+d.toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'})+' · Saved on this device';
+}
+renderLiveDate();
+document.addEventListener('DOMContentLoaded',renderLiveDate);
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&document.getElementById('datepick').dataset.manualDate!=='yes')renderLiveDate()});
+document.addEventListener('change',function(e){if(e.target&&e.target.id==='datepick'){e.target.dataset.manualDate='yes'}},true);
+
 var activePanel=null;
 function visibleViewport(){return window.visualViewport||null}
 function updateKeyboardLayout(){
