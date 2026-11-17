@@ -8,6 +8,7 @@ A mobile-first, offline-capable, multi-year Christian journal and personal plann
 - `app.js` — main agenda date navigation, daily/weekly/monthly content, family, gifts, reminders, activity sessions and saved progress. **Only writer** for `data-day` inputs in the main agenda.
 - `journal-controller.js` — **only journal UI controller**: opens/closes four writing dialogs, handles full-screen editing, previews and iPhone keyboard behavior. It does **not** write main agenda data; `app.js` does.
 - `growth-controller.js` — five-domain whole-life growth journal.
+- `today-home.js` — read-only Today overview and one-tap preparation actions routed to the existing journal and quick-add handlers; no second daily data writer.
 - `family-space.js` — standalone Family Space: groceries, household responsibilities, family calendar and meaningful moments; separate local-only family storage, manual grocery sharing and family snapshot export/import.
   - Copy / Reuse actions for existing groceries, responsibilities, calendar events and moments prefill the original form, but do not create data until the user saves.
   - Includes a built-in household chore library (kitchen, laundry, bathrooms, cleaning, bedrooms, outdoors and family), searchable category picker, one-tap task creation, duplicate prevention, and one-time/daily/weekly assignments.
