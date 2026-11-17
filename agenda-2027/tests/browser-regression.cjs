@@ -142,6 +142,24 @@ async function main(){
    await page.locator('#journal-intent .journal-done').click();
    await page.setViewportSize({width:390,height:844});
  });
+ await test('All journal modes remain usable on short desktop and mobile screens',async()=>{
+   for(const viewport of [{width:1280,height:700},{width:390,height:700}]){
+     await page.setViewportSize(viewport);
+     for(const mode of ['intent','notes','faith','evening']){
+       await page.locator('[data-journal-open="'+mode+'"]').click();
+       const layout=await page.locator('#journal-'+mode).evaluate(el=>{
+         const b=el.getBoundingClientRect();
+         const body=el.querySelector('.journal-dialog-body').getBoundingClientRect();
+         const footer=el.querySelector('.journal-dialog-footer').getBoundingClientRect();
+         return {top:b.top,bottom:b.bottom,bodyH:body.height,footerBottom:footer.bottom,viewportH:window.innerHeight};
+       });
+       assert(layout.top>=-2&&layout.bottom<=viewport.height+2,'Dialog exceeds viewport '+mode+' '+JSON.stringify(layout));
+       assert(layout.footerBottom<=viewport.height+2&&layout.bodyH>90,'Editor content or Done clipped '+mode+' '+JSON.stringify(layout));
+       await page.locator('#journal-'+mode+' .journal-done').click();
+     }
+   }
+   await page.setViewportSize({width:390,height:844});
+ });
  await test('Daily teaching appears on assigned date and opens the complete authored text',async()=>{
    await page.locator('[data-tab="daily"]').evaluate(e=>e.click());
    const assigned='2026-11-17';
