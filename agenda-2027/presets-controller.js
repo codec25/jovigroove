@@ -107,7 +107,7 @@ $('preset-estimate').onclick=function(){var avg=Number(this.dataset.estimate);if
 $('preset-save').onclick=function(){if(savePreset())alert('Saved to your reusable activity library.')};
 $('preset-apply').onclick=addToAgenda;$('preset-open-day').onclick=function(){var tab=document.querySelector('[data-tab="presets"]');if(tab)tab.click();else{document.querySelectorAll('.pane').forEach(function(x){x.classList.toggle('active',x.id==='presets')})} $('preset-date').value=agendaDate()};
 $('preset-date').value=agendaDate();
-$('print-agenda').onclick=printAgenda;$('share-agenda').onclick=shareAgenda;
+/* PDF buttons are handled only by pdf-export.js; retain legacy print helpers as inactive fallback. */
 window.addEventListener('afterprint',function(){document.body.classList.remove('preset-print-mode')});
 document.addEventListener('change',function(e){if(e.target.id==='datepick'&&$('preset-date'))$('preset-date').value=agendaDate()},true);
 render();
