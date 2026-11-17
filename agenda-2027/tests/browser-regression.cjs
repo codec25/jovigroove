@@ -87,6 +87,31 @@ async function main(){
    assert.equal(agenda.days[today].daynotes,'Browser regression note');
    assert.match(await page.evaluate(()=>window.KingdomFamilySpace.getGroceryText()),/Milk/);
  });
+ await test('Home chore picker filters, adds one-tap and avoids duplicate tasks',async()=>{
+   await page.locator('[data-tab="family-space"]').evaluate(e=>e.click());
+   await page.locator('[data-family-tab="tasks"]').click();
+   await page.locator('#family-chore-category').selectOption('laundry');
+   assert(await page.locator('#family-chore-choices button').count()>=4);
+   await page.locator('#family-chore-search').fill('Fold');
+   assert.equal(await page.locator('#family-chore-choices button').count(),1);
+   await page.locator('#family-chore-choices button').click();
+   assert.match(await page.locator('#family-task-list').innerText(),/Fold clothes/);
+   const count=await page.locator('#family-task-list article').count();
+   await page.locator('#family-chore-choices button').click();
+   assert.equal(await page.locator('#family-task-list article').count(),count,'Duplicate chore unexpectedly inserted');
+   assert.match(await page.locator('#family-chore-feedback').innerText(),/already on your list/);
+   await page.locator('#family-chore-search').fill('');
+   await page.locator('#family-chore-category').selectOption('kitchen');
+   const wash=page.locator('#family-chore-choices button').filter({hasText:'Wash dishes'});
+   await wash.click();
+   const scheduled=await page.evaluate(()=>JSON.parse(localStorage.getItem('ka-family-space-v1')).tasks);
+   assert.equal(scheduled.find(x=>x.name==='Wash dishes').repeat,'daily');
+   assert.equal(scheduled.find(x=>x.name==='Fold clothes').repeat,'weekly');
+   await page.locator('#family-task-list input[aria-label="Complete Wash dishes"]').check();
+   const after=await page.evaluate(()=>JSON.parse(localStorage.getItem('ka-family-space-v1')).tasks.find(x=>x.name==='Wash dishes'));
+   assert.equal(after.completedCount,1);
+   assert.equal(after.done,false);
+ });
  await test('Family responsibilities, calendar, moments and offline persistence',async()=>{
    await page.locator('[data-family-tab="tasks"]').click();
    await page.locator('#family-task-name').fill('Take out recycling');
