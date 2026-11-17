@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Kingdom Atmosphere | My Agenda</title>
 <meta name="theme-color" content="#071d16"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="KA Agenda"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="./app.css?v=36"></head>
+<link rel="stylesheet" href="./app.css?v=37"></head>
 <body>
 <header><div class="hero-inner"><div class="hero-top"><div class="brand"><img class="brand-logo" src="./kingdom-atmosphere-wordmark-gold.webp" alt="Kingdom Atmosphere" width="188" height="65"></div><span class="edition">YOUR PERSONAL PLANNER</span></div><div class="hero-copy"><div class="hero-eyebrow">FAITH × INTENTION × DISCIPLINE</div><h1>A year of <em>purpose.</em></h1><p>Your personal space to plan wisely, take meaningful action, and grow in what matters.</p></div><div class="hero-bottom"><span>ALL YEARS / ONE AGENDA</span><span>PLAN · GROW · SERVE</span></div></div></header>
 <main class="shell">
@@ -36,6 +36,8 @@
 <label class="field" for="weekreview">Weekly review: wins, lessons, and adjustments</label><textarea id="weekreview" data-week="review" placeholder="What worked? What must change next week?"></textarea>
 </div></section>
 <section id="daily" class="pane active">
+<div class="agenda-page-head no-print"><span class="section-label">MY DAILY AGENDA</span><button type="button" class="daily-pdf-share" id="daily-pdf-share" aria-label="Preview and share today as a PDF"><span aria-hidden="true">↗</span> Share PDF</button></div>
+<div class="controls no-print agenda-datebar"><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Date</label><input type="date" id="datepick" aria-label="Selected agenda date"><button id="next" class="btn light" aria-label="Next day">→</button></div>
 <section id="today-home" class="today-home no-print" aria-labelledby="today-home-title">
   <div class="today-home-top">
     <div><span class="section-label">YOUR DAY · AT A GLANCE</span><h2 id="today-home-title">Today, with purpose.</h2><p id="today-home-date">Your day is ready when you are.</p></div>
@@ -67,8 +69,11 @@
     <button id="today-prepare" type="button" class="today-secondary-action">Plan / edit day ↗</button>
   </div>
 </section>
-<div class="agenda-page-head no-print"><span class="section-label">MY DAILY AGENDA</span><button type="button" class="daily-pdf-share" id="daily-pdf-share" aria-label="Preview and share today as a PDF"><span aria-hidden="true">↗</span> Share PDF</button></div>
-<div class="controls no-print agenda-datebar"><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Date</label><input type="date" id="datepick" aria-label="Selected agenda date"><button id="next" class="btn light" aria-label="Next day">→</button></div>
+<section class="daily-teaching-card no-print" id="daily-teaching-card" aria-labelledby="daily-teaching-card-title">
+  <div class="daily-teaching-card-top"><span class="section-label">DAILY TEACHING · GROW IN THE WORD</span><span id="daily-teaching-date"></span></div>
+  <div id="daily-teaching-available" hidden><h3 id="daily-teaching-card-title">Know the God You Trust</h3><p id="daily-teaching-excerpt">Discover the love of the Father and learn to trust Him.</p><button id="daily-teaching-open" type="button">Read today's teaching <span aria-hidden="true">↗</span></button></div>
+  <div id="daily-teaching-missing"><h3 id="daily-teaching-empty-title">A space for today's teaching</h3><p>No teaching has been added for this date yet.</p><button id="daily-teaching-create" type="button">Add a teaching ↗</button></div>
+</section>
 <div class="agenda-book">
 <div class="card agenda-paper">
 <div class="agenda-heading"><div class="section-label">YOUR PERSONAL JOURNAL</div><h2 id="dayheading">Opening today’s page…</h2><p>One day at a time, with intention, faith and room to grow.</p></div>
@@ -124,7 +129,7 @@
 <div class="mobile-quickbar no-print agenda-floating-tools"><div><span class="quick-eyebrow">SAVE A THOUGHT</span><strong>Make room for what matters.</strong></div><div class="quick-actions"><button type="button" id="quick-add" class="quick-primary" aria-haspopup="dialog">＋ Add</button><button type="button" id="open-coach" class="quick-icon" aria-haspopup="dialog" aria-label="Open guided reflection">✧</button></div></div>
 <div class="year-context no-print"><label for="yearpick">Year</label><input type="number" id="yearpick" min="1900" max="2200" value="2027"><button class="mini-btn" type="button" id="jump-today">Go to today</button><span class="today-indicator" id="today-indicator" aria-live="polite">Today</span><small>Plan any year</small></div>
 </section>
-<section id="monthly" class="pane"><div class="card">
+<section id="monthly" class="pane"><div class="teaching-month-note no-print"><span>✦</span> Days with a teaching are marked with a gold book. Tap a date to open its agenda and daily teaching.</div><div class="card">
 <div class="controls no-print"><label class="control-label" for="monthpick">Month</label><select id="monthpick"></select><input type="number" id="calendar-year" min="1900" max="2200" value="2027" aria-label="Calendar year"></div><h2 id="monthheading"></h2><div class="calendar" id="calendar"></div><hr class="rule"><div class="two"><div><label class="field" for="monthfocus">Monthly focus</label><textarea id="monthfocus" data-month="focus"></textarea><label class="field" for="monthgoals">Goals</label><textarea id="monthgoals" data-month="goals"></textarea></div><div><label class="field" for="monthevents">Important dates</label><textarea id="monthevents" data-month="events"></textarea><label class="field" for="monthnotes">Notes / prayer</label><textarea id="monthnotes" data-month="notes"></textarea></div></div></div></section>
 <section id="presets" class="pane">
 <div class="card preset-workspace">
@@ -293,11 +298,22 @@
   </div>
   <p class="pdf-preview-feedback" id="pdf-preview-feedback" role="status" aria-live="polite"></p>
 </dialog>
+<dialog id="daily-teaching-dialog" class="daily-teaching-dialog" aria-labelledby="daily-teaching-dialog-title">
+  <div class="daily-teaching-head"><div><span class="section-label">KINGDOM ATMOSPHERE / DAILY TEACHING</span><h2 id="daily-teaching-dialog-title">Daily teaching</h2><p id="daily-teaching-dialog-date"></p></div><button type="button" id="daily-teaching-close" aria-label="Close teaching">✕</button></div>
+  <div id="daily-teaching-content" class="daily-teaching-content"></div>
+  <form id="daily-teaching-editor" class="daily-teaching-editor" hidden>
+    <label for="daily-teaching-title">Teaching title</label><input id="daily-teaching-title" type="text" maxlength="160" required placeholder="Title of the teaching">
+    <label for="daily-teaching-body">Teaching text</label><textarea id="daily-teaching-body" rows="14" required placeholder="Write the daily teaching, Scriptures, reflection and prayer…"></textarea>
+    <div class="daily-teaching-editor-actions"><button id="daily-teaching-cancel" type="button">Cancel</button><button type="submit" id="daily-teaching-save">Save teaching</button></div>
+  </form>
+  <div class="daily-teaching-footer"><button id="daily-teaching-edit" type="button" hidden>Edit teaching</button><button id="daily-teaching-done" type="button">Done</button></div>
+</dialog>
 <script src="./presets-controller.js"></script>
 <script src="./planning-controller.js"></script>
 <script src="./pdf-export.js"></script>
 <script src="./growth-controller.js?v=27"></script>
 <script src="./family-space.js"></script>
 <script src="./today-home.js"></script>
+<script src="./daily-teachings.js"></script>
 <script src="./journal-controller.js"></script>
 <script src="./app.js"></script></body></html>
