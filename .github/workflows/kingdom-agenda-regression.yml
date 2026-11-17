@@ -31,5 +31,5 @@ jobs:
       - name: Mobile Chromium regression
         env:
           NODE_PATH: /tmp/ka-browser-tests/node_modules
-          AGENDA_TEST_URL: http://127.0.0.1:8765/agenda-2027/
+          AGENDA_TEST_URL: http://localhost:8765/agenda-2027/
         run: node agenda-2027/tests/browser-regression.cjs
