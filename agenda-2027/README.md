@@ -9,6 +9,7 @@ A mobile-first, offline-capable, multi-year Christian journal and personal plann
 - `journal-controller.js` — resilient journal dialogs and immediate local field saves, including iPhone keyboard behavior.
 - `growth-controller.js` — five-domain whole-life growth journal.
 - `presets-controller.js` — reusable activities with categories and dance styles, remembered preferred start/end times, duration selection, same-day overlap checks and quick scheduling.
+- `planning-controller.js` — edit, copy, delete scheduled activities; duplicate days or full Monday–Sunday weeks without deleting source plans. Copies by default preserve existing destination writing and merge unique schedule/task lines.
 - `pdf-export.js` — offline one-tap PDF generation, download and native file sharing.
 - `manifest.webmanifest`, `sw.js`, `icon.svg`, and the original `kingdom-atmosphere-wordmark-gold.webp` — installable/offline experience.
 
@@ -33,12 +34,14 @@ The JSON backup includes all three content stores. PDF is a printable/shareable 
 1. Open the agenda on an iPhone in Safari. Verify the local date and navigate to yesterday and tomorrow.
 2. Open all four journal sections; type with the iOS keyboard, close, reopen and verify persistence.
 3. Save a goal, weekly outcome, daily action and whole-life entry. Change date and return; check data remains.
-4. Save a Dance / Hip-Hop preset with a preferred start time; schedule by duration, then by explicit end time. Check same-day conflicts (including older timed schedule lines), adjacent nonoverlapping slots, cancel-on-conflict, and reload persistence.
-5. Generate and open a Day, Week and Month PDF; test **Share PDF** from iPhone and inspect accented text.
-6. Export JSON backup, import it into a separate test browser or profile, and verify all three content stores restore.
-7. Install the PWA, load while online, go offline and confirm journal, presets and PDF export remain available.
-8. Inspect the console for runtime errors and look for keyboard/safe-area overlap.
-9. Increase the service-worker cache version when HTML, CSS, JS or other precached assets change; wait for GitHub Pages deployment to succeed.
+4. Save a Dance / Hip-Hop preset with a preferred start time; schedule by duration, then by explicit end time. Check overlap and reload persistence. Edit, copy and delete scheduled entries, including older free-text lines; confirm the original preset survives deletion.
+5. Record a timed activity, edit its actual minutes, delete it, then confirm the learned average updates.
+6. Copy one day and one full week ahead; check that original content stays, destination journal notes are preserved, existing schedules merge without duplicates, and weekly notes transfer.
+7. Generate and open a Day, Week and Month PDF; test **Share PDF** from iPhone and inspect accented text.
+8. Export JSON backup, import it into a separate test browser or profile, and verify all three content stores restore.
+9. Install the PWA, load while online, go offline and confirm journal, presets and PDF export remain available.
+10. Inspect the console for runtime errors and look for keyboard/safe-area overlap.
+11. Increase the service-worker cache version when HTML, CSS, JS or other precached assets change; wait for GitHub Pages deployment to succeed.
 
 ## Known constraints
 - Browser storage is local to that browser/app install and is not cloud synced.
