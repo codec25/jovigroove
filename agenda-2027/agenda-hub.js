@@ -144,12 +144,15 @@ function searchRecords(){
  achievements().forEach(a=>{result.push({date:a.date,kind:'achievements',title:a.title,details:a.details||'',achievement:a.id,scope:a.scope})});
  return result;
 }
+function openSearch(){
+ const tab=$('agenda-find-top');
+ if(tab){tab.click();}else{document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active',p.id==='ka-find-dialog'));}
+ requestAnimationFrame(()=>{$('ka-find-input')?.focus({preventScroll:true});renderSearch()});
+}
 function initSearch(){
- const dialog=$('ka-find-dialog');if(!dialog)return;
- const open=()=>{if(!dialog.open)dialog.showModal();$('ka-find-input').focus();renderSearch()};
- ['agenda-find-top','ka-week-find'].forEach(id=>{if($(id))$(id).onclick=open});
- $('ka-find-close').onclick=()=>dialog.close();
- dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
+ const pane=$('ka-find-dialog');if(!pane)return;
+ if($('ka-week-find'))$('ka-week-find').onclick=openSearch;
+ if($('agenda-find-top'))$('agenda-find-top').addEventListener('click',()=>requestAnimationFrame(renderSearch));
  $('ka-find-input').oninput=renderSearch;$('ka-find-kind').onchange=renderSearch;
 }
 function renderSearch(){
@@ -163,7 +166,7 @@ function renderSearch(){
  matches.forEach(e=>{
   const b=document.createElement('button');b.type='button';b.className='ka-find-row';
   b.innerHTML='<span class="ka-find-type">'+esc(t(e.kind==='appointments'?'appointment':e.kind==='tasks'?'task':e.kind==='achievements'?'achievement':'note'))+'</span><span class="ka-find-main"><strong>'+esc(e.title)+'</strong><small>'+esc(e.date)+(e.details?' · '+esc(e.details.slice(0,130)):'')+'</small></span><span aria-hidden="true">↗</span>';
-  b.onclick=()=>{dialog.close();if(e.achievement){const a=achievements().find(x=>x.id===e.achievement);if(a){const nav=document.querySelector('[data-tab="vision"]')||document.querySelector('[data-go="vision"]');nav?.click();editAchievement(a,'year')}return}
+  b.onclick=()=>{if(e.achievement){const a=achievements().find(x=>x.id===e.achievement);if(a){const nav=document.querySelector('[data-tab="vision"]')||document.querySelector('[data-go="vision"]');nav?.click();editAchievement(a,'year')}return}
    dayOpen(e.date);if(e.id&&window.KingdomSmartEntries)window.KingdomSmartEntries.open(e.type,e.id);
   };
   box.appendChild(b);
@@ -174,7 +177,7 @@ function translateUI(){
  document.querySelectorAll('[data-ka-ui]').forEach(el=>{el.textContent=t(map[el.dataset.kaUi]||el.dataset.kaUi)});
  if($('ka-find-input'))$('ka-find-input').placeholder=t('searchPlaceholder');
 }
-function refresh(){translateUI();weekBoard();['week','month','year'].forEach(achievementPanel);if($('ka-find-dialog')?.open)renderSearch();}
+function refresh(){translateUI();weekBoard();['week','month','year'].forEach(achievementPanel);if($('ka-find-dialog')?.classList.contains('active'))renderSearch();}
 function init(){
  if(!$('ka-week-grid'))return;
  initSearch();
@@ -189,6 +192,6 @@ function init(){
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
  refresh();
 }
-window.KingdomAgendaHub={refresh,openSearch:()=>{$('agenda-find-top')?.click()},getAchievements:achievements};
+window.KingdomAgendaHub={refresh,openSearch,getAchievements:achievements};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
