@@ -319,7 +319,7 @@ header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
 .tile-arrow{font-size:16px;color:#bba26f;line-height:1}
 .journal-saving{font-size:11px;color:#78907a;margin:18px 0 4px;display:flex;align-items:center;gap:6px}
 .journal-saving span{color:#3b9866;font-size:9px}
-.agenda-dialog{border:1px solid #e4e8dd;border-radius:22px 22px 0 0;background:#fffefb;color:#183329;box-shadow:0 -15px 55px #071d1630;width:min(100%,650px);max-width:650px;max-height:92dvh;margin:auto auto 0;padding:0;overflow:auto;overscroll-behavior:contain}
+.agenda-dialog{border:1px solid #e4e8dd;border-radius:18px;background:#fffefb;color:#183329;box-shadow:0 18px 55px #071d1630;width:min(95vw,650px);max-width:650px;height:min(78dvh,680px);max-height:85dvh;margin:auto;padding:0;overflow:hidden;overscroll-behavior:contain}
 .agenda-dialog::backdrop{background:#071d168a;backdrop-filter:blur(3px)}
 .agenda-dialog[open]{display:flex;flex-direction:column}
 .journal-dialog-top{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#f9f8f1;padding:23px 23px 17px;border-bottom:1px solid #e9e8df;position:sticky;top:0;z-index:2}
@@ -681,10 +681,10 @@ dialog.growth-dialog.growth-keyboard{
 .today-home-top h2{font:400 clamp(25px,4vw,33px)/1.15 Georgia,serif;margin:5px 0 5px;color:#123e2b}
 .today-home-top p{color:#799080;font-size:12px;margin:0}
 .today-return{font-size:11px;background:#f2f6ee;border:1px solid #dce9dc;color:#2c5d41;padding:8px 10px;border-radius:8px;white-space:nowrap}
-.today-home-empty{padding:25px 15px 22px;text-align:center;background:#f7f8f1;border:1px solid #e9eddf;border-radius:13px;margin:16px 0 14px}
+.today-home-empty{padding:17px 20px;text-align:left;background:#f7f8f1;border:1px solid #e9eddf;border-radius:13px;margin:13px 0 11px}
 .today-empty-mark{font:28px Georgia,serif;color:#ae965f;line-height:1}
 .today-home-empty h3{color:#194533;font:400 25px/1.2 Georgia,serif;letter-spacing:0;text-transform:none;margin:7px 0}
-.today-home-empty p{font-size:13px;line-height:1.6;color:#718276;max-width:390px;margin:7px auto 15px}
+.today-home-empty p{font-size:13px;line-height:1.55;color:#718276;max-width:540px;margin:7px 0 12px}
 .today-primary-action{background:#12412e;border:1px solid #12412e;border-radius:10px;color:#fff;font-weight:700;font-size:13px;min-height:46px;padding:12px 22px}
 .today-primary-action span{color:#e6c97d;padding-left:7px}
 .today-home-ready{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.85fr);gap:10px;margin:16px 0}
@@ -804,3 +804,27 @@ dialog.growth-dialog.growth-keyboard{
  .daily-teaching-footer{padding-left:15px;padding-right:15px}
 }
 @media print{#daily.pane.active{display:block}.daily-teaching-card,.teaching-month-note{display:none!important}}
+
+
+/* The in-place day planner uses the existing daily fields as its only save path. */
+.today-plan-editor{display:grid;grid-template-columns:1fr;gap:8px;border:1px solid #dfebe0;border-radius:13px;padding:17px 19px;background:#fbfdf8;margin:12px 0 14px}
+.today-plan-editor[hidden]{display:none!important}
+.today-plan-editor-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:3px}
+.today-plan-editor-head strong{font:400 22px/1.2 Georgia,serif;color:#1c4932}
+.today-plan-editor-head span{font-size:10px;color:#798d7d}
+.today-plan-editor label{font-size:12px;font-weight:700;color:#43634e;margin:5px 0 0}
+.today-plan-editor input,.today-plan-editor textarea{width:100%;max-width:100%;min-width:0;border:1px solid #d6e2d7;background:#fff;color:#214734;padding:11px 12px;font:16px/1.5 inherit;border-radius:9px}
+.today-plan-editor textarea{min-height:92px;resize:vertical}
+.today-plan-editor-buttons{display:flex;justify-content:flex-end;gap:9px;margin-top:7px}
+.today-plan-editor-buttons button{border-radius:9px;border:1px solid #cedccd;padding:11px 16px;min-height:43px;font-size:12px;font-weight:700;background:white;color:#335a43}
+.today-plan-editor-buttons button[type=submit]{background:#174b33;color:white;border-color:#174b33}
+#today-plan-message{font-size:11px;color:#66826d;margin:0}
+@media(max-width:760px){
+ .today-home-empty{padding:14px 13px;text-align:left}
+ .today-home-empty h3{font-size:21px}
+ .today-home-empty p{margin:5px 0 12px;max-width:none}
+ .today-plan-editor{padding:14px}
+ .today-plan-editor-head strong{font-size:20px}
+ .today-plan-editor-buttons button{flex:1}
+}
+@media print{.today-plan-editor{display:none!important}}
