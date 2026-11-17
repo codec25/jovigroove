@@ -107,7 +107,7 @@ async function main(){
    const scheduled=await page.evaluate(()=>JSON.parse(localStorage.getItem('ka-family-space-v1')).tasks);
    assert.equal(scheduled.find(x=>x.name==='Wash dishes').repeat,'daily');
    assert.equal(scheduled.find(x=>x.name==='Fold clothes').repeat,'weekly');
-   await page.locator('#family-task-list input[aria-label="Complete Wash dishes"]').check();
+   await page.locator('#family-task-list input[aria-label="Complete Wash dishes"]').click();
    const after=await page.evaluate(()=>JSON.parse(localStorage.getItem('ka-family-space-v1')).tasks.find(x=>x.name==='Wash dishes'));
    assert.equal(after.completedCount,1);
    assert.equal(after.done,false);
