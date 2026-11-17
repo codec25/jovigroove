@@ -103,7 +103,7 @@ function undo(){
  // Prevent undo from changing an appointment edited since the last move.
  if(last.newEntries.some(([id,start])=>min(current.find(e=>e.id===id)?.start)!==start)){last=null;status(t('undoFail'),'error');render();return;}
  const old=last.old;last=null;
- update(new Map(old),'undo');status(t('undo'),'good');render();
+ const restored=update(new Map(old),'undo');last=null;if(restored)status(t('undo'),'good');render();
 }
 function place(block,item,start,duplicate){
  const duration=item.end-item.start;
