@@ -80,3 +80,17 @@
  #search .ka-find-row{padding:12px 6px;gap:8px}
  #search .ka-find-type{min-width:0;max-width:80px;font-size:9px}
 }
+
+/* v47 — dedicated Tasks page, streamlined Today */
+.ka-tasks-page{max-width:950px;margin:0 auto 32px}
+.ka-tasks-heading{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding:25px 28px 22px;border:1px solid #e3e9e1;border-radius:18px 18px 0 0;background:#fffefa}
+.ka-tasks-heading h2{font:400 clamp(28px,3vw,36px) Georgia,serif;color:#163a28;margin:6px 0 8px}
+.ka-tasks-heading p{font-size:13px;color:#708071;margin:0}
+.ka-tasks-actions{display:flex;gap:8px;flex-wrap:wrap}
+.ka-tasks-datebar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#fffefa;border:1px solid #e3e9e1;border-top:0;padding:0 28px 20px}
+.ka-tasks-datebar label{font-size:12px;font-weight:700;color:#345b42}
+.ka-tasks-datebar input{width:auto;min-width:160px;max-width:230px}
+#tasks .smart-entry-section{border-radius:0 0 18px 18px;border-top:1px solid #e3e9e1;box-shadow:none;margin:0;padding:20px 28px 26px}
+#tasks .smart-entry-section-head{margin:0 0 12px}
+#tasks .smart-entry-item{padding:15px 10px}
+@media(max-width:600px){.ka-tasks-heading{padding:20px 17px}.ka-tasks-datebar{padding:0 17px 17px}.ka-tasks-actions{width:100%}.ka-tasks-actions button{flex:1}#tasks .smart-entry-section{padding:16px}#tasks .smart-entry-section-head{align-items:flex-start;flex-direction:column;gap:4px}}
