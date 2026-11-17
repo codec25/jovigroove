@@ -68,6 +68,18 @@ async function main(){
    assert.equal(await page.locator('#journal-notes').evaluate(e=>e.open),true);
    await page.locator('#journal-notes .journal-done').click();
  });
+ await test('Simplified desktop navigation retains all workspaces under More',async()=>{
+   await page.setViewportSize({width:1280,height:780});
+   const visible=await page.locator('.toolbar [data-tab]').allTextContents();
+   assert.deepEqual(visible.map(x=>x.trim()),['Today','Week','Calendar','Family Space','Journal']);
+   await page.locator('#open-more-desktop').click();
+   assert.equal(await page.locator('#more-sheet').isVisible(),true);
+   await page.locator('#more-sheet [data-open-tab="vision"]').click();
+   assert.equal(await page.locator('#vision').evaluate(el=>el.classList.contains('active')),true);
+   await page.locator('.toolbar [data-tab="daily"]').click();
+   assert.equal(await page.locator('#daily').evaluate(el=>el.classList.contains('active')),true);
+   await page.setViewportSize({width:390,height:844});
+ });
  await test('Journal opens, saves once and keeps unrelated fields',async()=>{
    await page.locator('#today-journal > summary').click();
    await page.locator('[data-journal-open="faith"]').click();
