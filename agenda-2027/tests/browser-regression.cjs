@@ -121,6 +121,22 @@ async function main(){
    const file=await download;
    assert(file.suggestedFilename().endsWith('.pdf'));
  });
+ await test('PDF preview opens before sharing, supports download and closes cleanly',async()=>{
+   await page.locator('#preview-agenda').click();
+   assert.equal(await page.locator('#pdf-preview-dialog').evaluate(e=>e.open),true);
+   assert.match(await page.locator('#pdf-preview-frame').getAttribute('src'),/^blob:/);
+   assert.equal(await page.locator('#pdf-preview-download').isVisible(),true);
+   assert.equal(await page.locator('#pdf-preview-share').isVisible(),true);
+   await page.locator('#pdf-preview-close').click();
+   assert.equal(await page.locator('#pdf-preview-dialog').evaluate(e=>e.open),false);
+   await page.locator('#share-agenda').click();
+   assert.equal(await page.locator('#pdf-preview-dialog').evaluate(e=>e.open),true);
+   await page.locator('#pdf-preview-close').click();
+   await page.locator('[data-tab="daily"]').evaluate(e=>e.click());
+   await page.locator('#daily-pdf-share').click();
+   assert.equal(await page.locator('#pdf-preview-dialog').evaluate(e=>e.open),true);
+   await page.locator('#pdf-preview-close').click();
+ });
  await test('Offline reload loads cached app and existing entries',async()=>{
    const swState=await page.evaluate(async()=>{
      const regs=('serviceWorker' in navigator)?await navigator.serviceWorker.getRegistrations():[];
