@@ -145,8 +145,8 @@ async function main(){
    });
    console.log('SERVICE WORKER STATE '+JSON.stringify(swState));
    assert(swState.registrations.length>0,'Service worker not registered');
-   assert(swState.caches.includes('ka-agenda-any-year-v29'),'Offline cache not installed');
-   const cached=await page.evaluate(async()=>!!(await (await caches.open('ka-agenda-any-year-v29')).match('./app.js')));
+   assert(swState.caches.includes('ka-agenda-any-year-v30'),'Offline cache not installed');
+   const cached=await page.evaluate(async()=>!!(await (await caches.open('ka-agenda-any-year-v30')).match('./app.js')));
    assert(cached,'Missing cached app.js');
    await context.setOffline(true);
    console.log('OFFLINE: reloading cached document');
