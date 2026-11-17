@@ -1,7 +1,7 @@
 {
-  "name": "Kingdom Atmosphere — 2027 Agenda",
-  "short_name": "KA 2027 Agenda",
-  "description": "Your fillable, offline 2027 faith and life planner",
+  "name": "Kingdom Atmosphere — My Agenda",
+  "short_name": "KA My Agenda",
+  "description": "A year-round faith, purpose and progress planner for any date",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
