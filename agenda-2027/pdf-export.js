@@ -62,6 +62,12 @@ function doc(rows,scope){
  function dayPage(s,d){
   start();dateHeading(s);
   var a=(d.agenda.days||{})[s]||{},growth=(d.growth.days||{})[s]||{};
+  var scripture=window.KingdomAgendaVerses;
+  if(Array.isArray(scripture)&&scripture.length){
+   var t=s.split('-'),idx=Math.floor(Date.UTC(+t[0],+t[1]-1,+t[2])/86400000);
+   var verse=scripture[((idx%scripture.length)+scripture.length)%scripture.length];
+   if(verse&&verse.length>1)field('Daily Scripture - '+verse[0],verse[1]);
+  }
   listFields(a,[['focus','Daily intention'],['oneaction','Most important action'],['priorities','Priorities'],['daynotes','My notes and thoughts'],['reflection','Spiritual reflection'],['prayer','Prayer'],['gratitude','Gratitude'],['review','Evening reflection'],['schedule','Schedule'],['tasks','Tasks'],['discipline','Personal discipline']]);
   var labels={spiritual:'Spiritual growth',emotional:'Emotional growth',relationships:'Relationships',personal:'Personal growth',financial:'Financial stewardship'};
   Object.keys(labels).forEach(function(k){var x=growth[k];if(x&&x.action)field(labels[k]+(x.done?' (completed)':''),x.action+(x.notes?'\nReflection: '+x.notes:''))});
@@ -77,6 +83,17 @@ function doc(rows,scope){
  paragraph('Privately prepared from your saved Kingdom Atmosphere agenda.',9,[.43,.51,.44],true);
  if(scope.days.length){scope.days.forEach(function(s){dayPage(s,data)})}
  else{heading('Your selected period');paragraph('No journal entries have been saved for this period yet.')}
+ if(scope.mode==='month'){
+  heading('Monthly intentions and notes');
+  var mm=scope.reference.slice(0,7);
+  sections(Object.entries((data.agenda.months||{})[mm]||{}),x=>x[0],x=>x[1]);
+ }
+ if(scope.mode==='week'){
+  heading('Weekly intentions and reflection');
+  var wk=monday(scope.reference);
+  sections(Object.entries((data.agenda.weeks||{})[wk]||{}),x=>x[0],x=>x[1]);
+  field('Whole-life weekly growth',((data.growth.weeks||{})[wk]||{}).reflection);
+ }
  if(scope.all){
   heading('Vision, purpose and intentions');
   sections(Object.entries(data.agenda.single||{}),x=>String(x[0]),x=>x[1]);
@@ -117,7 +134,7 @@ function gather(mode,ref){
  return {agenda:agenda,growth:growth,presets:presets,dates:dates};
 }
 function fileName(mode,ref){return 'Kingdom-Atmosphere-Agenda-'+(mode==='all'?'Archive':mode==='month'?ref.slice(0,7):mode==='week'?'Week-'+monday(ref):ref)+'.pdf'}
-function generate(mode,ref){var d=gather(mode,ref);return doc(d,{days:d.dates,all:mode==='all',description:mode==='all'?'Complete saved agenda archive':mode==='day'?'Daily journal: '+ref:mode==='week'?'Weekly journal: '+monday(ref):'Monthly journal: '+ref.slice(0,7)})}
+function generate(mode,ref){var d=gather(mode,ref);return doc(d,{days:d.dates,all:mode==='all',mode:mode,reference:ref,description:mode==='all'?'Complete saved agenda archive':mode==='day'?'Daily journal: '+ref:mode==='week'?'Weekly journal: '+monday(ref):'Monthly journal: '+ref.slice(0,7)})}
 function download(blob,name){
  var url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},20000)
 }
