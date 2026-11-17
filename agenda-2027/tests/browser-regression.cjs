@@ -29,7 +29,7 @@ async function main(){
  const tomorrow=move(today,1);
  await test('Actual local date and initial DOM',async()=>{
    assert.equal(await page.locator('#datepick').inputValue(),today);
-   assert(await page.locator('#dayheading').innerText().then(x=>x.includes(String(Number(today.slice(8))))));
+   assert(await page.locator('#today-home-date').innerText().then(x=>x.includes(String(Number(today.slice(8))))));
    assert.equal(await page.locator('.journal-tile').count(),4);
  });
  await test('Today home stylesheet loads and renders as a real card',async()=>{
