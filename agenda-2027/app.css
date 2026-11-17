@@ -738,3 +738,69 @@ dialog.growth-dialog.growth-keyboard{
 }
 @media(max-width:370px){.today-overview-grid{grid-template-columns:1fr}.today-overview-heading{flex-wrap:nowrap}}
 @media print{.today-home{display:none!important}}
+
+
+/* Direct agenda order: date > today's plan > teaching > practical planning > optional journal. */
+#daily.pane.active{display:flex;flex-direction:column;min-width:0}
+#daily>.agenda-page-head{order:0}
+#daily>.agenda-datebar{order:1}
+#daily>.today-home{order:2}
+#daily>.daily-teaching-card{order:3}
+#daily>.preset-day-shortcut{order:4}
+#daily>.planning-copy{order:5}
+#daily>.agenda-utilities{order:6}
+#daily>.agenda-book{order:7;width:100%;max-width:850px}
+#daily>.mobile-quickbar{order:8}
+#daily>.year-context{order:9}
+#daily>.agenda-dialog{order:10}
+#daily>.agenda-book .agenda-heading h2{font-size:clamp(24px,3vw,30px)}
+#daily>.agenda-book .agenda-paper{padding:20px 24px}
+#daily>.agenda-book .agenda-heading{margin:0 0 13px}
+#daily>.agenda-book .agenda-paper .verse{margin:12px 0 17px;padding:11px}
+.daily-teaching-card{background:#fffcf4;border:1px solid #e9dfc7;border-radius:16px;padding:18px 20px;margin:0 0 15px;color:#173c2d}
+.daily-teaching-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.daily-teaching-card-top>span:last-child{font-size:11px;color:#907c57;text-align:right}
+.daily-teaching-card h3{font:400 24px/1.25 Georgia,serif;color:#173f2b;margin:9px 0 7px}
+.daily-teaching-card p{font-size:13px;color:#657a69;line-height:1.55;margin:0 0 12px}
+.daily-teaching-card button{border:1px solid #1b4b33;border-radius:9px;background:#19462f;color:#fff;padding:10px 15px;min-height:41px;font-weight:700;font-size:12px}
+.daily-teaching-card [hidden]{display:none!important}
+.daily-teaching-dialog{position:fixed;inset:0;margin:auto;width:min(92vw,740px);max-width:740px;max-height:min(91dvh,920px);height:min(91dvh,920px);background:#fffefa;color:#183c2a;border:1px solid #e5dfd3;border-radius:19px;padding:0;overflow:hidden;box-shadow:0 20px 65px #071c1350}
+.daily-teaching-dialog::backdrop{background:#081e15a8;backdrop-filter:blur(3px)}
+.daily-teaching-dialog[open]{display:flex;flex-direction:column}
+.daily-teaching-head{flex:0 0 auto;display:flex;justify-content:space-between;align-items:start;gap:14px;padding:19px 22px 15px;background:#f8f6ed;border-bottom:1px solid #e8e3d7}
+.daily-teaching-head h2{font:400 29px/1.2 Georgia,serif;margin:5px 0 4px;color:#153e29}
+.daily-teaching-head p{margin:0;color:#82907e;font-size:12px}
+#daily-teaching-close{flex:0 0 38px;width:38px;height:38px;border-radius:50%;border:0;background:#e8ece5;color:#365844}
+.daily-teaching-content{flex:1 1 auto;min-height:0;overflow-y:auto;padding:23px 28px 32px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.daily-teaching-content p{color:#385341;font:17px/1.76 Georgia,serif;margin:0 0 19px;white-space:pre-wrap}
+.daily-teaching-content .teaching-action{background:#f5f1e4;border-left:3px solid #bb9b57;padding:14px 17px;border-radius:0 8px 8px 0;font-weight:600}
+.daily-teaching-content .teaching-prayer{font-style:italic;color:#47654d}
+.daily-teaching-editor{flex:1 1 auto;min-height:0;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:9px}
+.daily-teaching-editor[hidden],.daily-teaching-content[hidden]{display:none!important}
+.daily-teaching-editor label{font-size:12px;font-weight:700;color:#43624b}
+.daily-teaching-editor input,.daily-teaching-editor textarea{font-size:16px;border:1px solid #dbe3d8;border-radius:9px;padding:12px;background:#fff;color:#173e2b;width:100%;max-width:100%}
+.daily-teaching-editor textarea{flex:1 1 auto;min-height:180px;line-height:1.55;resize:vertical}
+.daily-teaching-editor-actions{display:flex;justify-content:end;gap:9px}
+.daily-teaching-editor-actions button,.daily-teaching-footer button{border:1px solid #d7dfd5;border-radius:9px;padding:10px 18px;min-height:42px;background:#fff;color:#28543d;font-size:12px;font-weight:700}
+.daily-teaching-editor-actions button[type=submit],#daily-teaching-done{background:#174630;color:white;border-color:#174630}
+.daily-teaching-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 20px max(10px,env(safe-area-inset-bottom));border-top:1px solid #e8e7df;background:#fffefb}
+.daily-teaching-footer [hidden]{display:none!important}
+.teaching-month-note{padding:11px 13px;border:1px solid #ece4cc;border-radius:11px;background:#faf8f0;font-size:12px;color:#6b775e;margin-bottom:13px}
+.teaching-month-note span{color:#b99853}
+.cal-day.has-teaching{position:relative}
+.cal-teaching-mark{position:absolute;right:5px;top:3px;color:#b58d41;font-size:11px;pointer-events:none}
+@media(max-width:760px){
+ #daily>.agenda-book .agenda-paper{padding:16px 12px}
+ .daily-teaching-card{padding:14px 15px}
+ .daily-teaching-card h3{font-size:21px}
+ .daily-teaching-card-top{align-items:start}
+ .daily-teaching-card-top>span:last-child{font-size:10px}
+ .daily-teaching-dialog{inset:0!important;width:100%!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;border:0!important}
+ .daily-teaching-head{padding:16px 16px 12px}
+ .daily-teaching-head h2{font-size:25px}
+ .daily-teaching-content{padding:18px 18px 25px}
+ .daily-teaching-content p{font-size:16px;line-height:1.7}
+ .daily-teaching-editor{padding:16px}
+ .daily-teaching-footer{padding-left:15px;padding-right:15px}
+}
+@media print{#daily.pane.active{display:block}.daily-teaching-card,.teaching-month-note{display:none!important}}
