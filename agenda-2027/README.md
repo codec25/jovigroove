@@ -9,6 +9,7 @@ A mobile-first, offline-capable, multi-year Christian journal and personal plann
 - `journal-controller.js` — **only journal UI controller**: opens/closes four writing dialogs, handles full-screen editing, previews and iPhone keyboard behavior. It does **not** write main agenda data; `app.js` does.
 - `growth-controller.js` — five-domain whole-life growth journal.
 - `today-home.js` — read-only Today overview and one-tap preparation actions routed to the existing journal and quick-add handlers; no second daily data writer.
+  - Today is the sole default daily workspace; the original full journal and advanced planning remain in collapsed `<details>` sections (`#today-journal`, `#today-tools`), not duplicated on screen. Their existing form IDs, dialogs and storage handlers remain unchanged.
 - `daily-teachings.js` — calendar-date teaching reader. Includes the first authored teaching for November 17, 2026, with optional locally authored teachings saved separately as `ka-agenda-daily-teachings-v1`. Teaching markers appear on the month calendar and the selected date's Today screen.
 - `family-space.js` — standalone Family Space: groceries, household responsibilities, family calendar and meaningful moments; separate local-only family storage, manual grocery sharing and family snapshot export/import.
   - Copy / Reuse actions for existing groceries, responsibilities, calendar events and moments prefill the original form, but do not create data until the user saves.
