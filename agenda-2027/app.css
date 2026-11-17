@@ -551,3 +551,23 @@ dialog.growth-dialog.growth-keyboard{
 .journal-history-empty{background:#f8f9f4;border:1px solid #e4e9df;border-radius:11px;padding:16px;color:#718071;font-size:13px}
 @media(max-width:760px){.journal-history-shortcut small{display:none}.journal-history-head{align-items:center}.journal-history-head h2{font-size:23px}.journal-history-filters{flex:1 1 160px}.journal-history-item{padding:12px}}
 @media print{.journal-history-shortcut,.journal-history-tools{display:none!important}}
+
+
+/* PDF preview: one document, one review dialog, same blob used for sharing. */
+.pdf-preview-dialog{position:fixed;inset:0;margin:auto;width:min(96vw,850px);max-width:850px;height:min(94dvh,980px);max-height:94dvh;padding:0;border:1px solid #d9dfd4;border-radius:18px;background:#fffefb;color:#173d2a;box-shadow:0 25px 90px #051a1240;overflow:hidden}
+.pdf-preview-dialog::backdrop{background:#061b13ae;backdrop-filter:blur(3px)}
+.pdf-preview-dialog[open]{display:flex;flex-direction:column}
+.pdf-preview-top{flex:0 0 auto;display:flex;align-items:start;justify-content:space-between;gap:10px;padding:15px 18px 13px;background:#f9f8f2;border-bottom:1px solid #e5e6dc}
+.pdf-preview-top h2{font:400 25px/1.2 Georgia,serif;margin:5px 0;color:#173c29}
+.pdf-preview-top p{font-size:12px;line-height:1.5;color:#687c6b;margin:5px 0 0}
+.pdf-preview-close{border:0;background:#edf1ea;color:#355642;width:39px;height:39px;border-radius:50%;flex:0 0 39px}
+.pdf-preview-content{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:5px;background:#e8ece8;padding:8px;overflow:hidden}
+.pdf-preview-content iframe{flex:1 1 auto;min-height:0;width:100%;border:0;border-radius:6px;background:#fff}
+.pdf-preview-help{flex:0 0 auto;color:#596f61;font-size:11px;text-align:center;line-height:1.35;margin:2px 4px 0}
+.pdf-preview-bottom{flex:0 0 auto;display:flex;align-items:center;justify-content:end;gap:8px;padding:11px 16px max(11px,env(safe-area-inset-bottom));background:#fffefb;border-top:1px solid #e5eadf;flex-wrap:wrap}
+.pdf-preview-bottom button{border-radius:9px;padding:10px 12px;min-height:42px;font-size:12px;font-weight:700}
+.pdf-preview-primary{background:#17432f;border:1px solid #17432f;color:white}
+.pdf-preview-secondary{background:#fff;border:1px solid #d8e1d7;color:#2e573d}
+.pdf-preview-feedback{flex:0 0 auto;min-height:17px;font-size:10px;color:#738675;padding:0 16px 7px;margin:0}
+@media(max-width:760px){.pdf-preview-dialog{inset:0!important;max-height:100dvh!important;height:100dvh!important;width:100%!important;max-width:none!important;border:0;border-radius:0!important}.pdf-preview-top{padding:15px 15px 10px}.pdf-preview-top h2{font-size:22px}.pdf-preview-top p{font-size:11px}.pdf-preview-content{padding:5px;gap:3px}.pdf-preview-help{font-size:10px}.pdf-preview-bottom{gap:6px;padding:10px 11px max(11px,env(safe-area-inset-bottom))}.pdf-preview-bottom button{flex:1 1 auto;font-size:11px;padding:10px 7px;white-space:nowrap}}
+@media print{.pdf-preview-dialog{display:none!important}}
