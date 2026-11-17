@@ -1,0 +1,51 @@
+/* Agenda hub: concise week view, achievement timelines and search */
+.ka-feature-card{background:#fffefa;border:1px solid #e2e8df;border-radius:17px;padding:20px;margin:0 0 15px;box-shadow:0 4px 16px #071d1609;color:#193b2a}
+.ka-feature-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.ka-feature-head h2{font:400 clamp(21px,3vw,27px) Georgia,serif;color:#173b2b;margin:3px 0 2px}
+.ka-kicker{font-size:10px;letter-spacing:.12em;font-weight:750;color:#a47a28}
+.ka-subtitle{font-size:12px;color:#68796c;line-height:1.45;margin:4px 0}
+.ka-outline,.ka-action{border:1px solid #c6d7c8;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#f7faf6;color:#194832}
+.ka-action{background:#123e2d;border-color:#123e2d;color:white}
+.agenda-find-trigger{color:#305447!important;white-space:nowrap;flex:0 0 auto}
+.ka-week-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.ka-day-col{border:1px solid #e0e8df;border-radius:12px;background:#fdfefa;min-height:170px;min-width:0;overflow:hidden}
+.ka-day-col.is-today{border-color:#b48a37;background:#fffaf0}
+.ka-day-head{display:flex;flex-direction:column;gap:2px;align-items:center;justify-content:center;background:#edf3ec;color:#17432f;width:100%;border:0;padding:10px 3px;cursor:pointer}
+.ka-day-head span{font-size:11px;text-transform:capitalize}
+.ka-day-head strong{font-size:19px}
+.ka-day-col.is-today .ka-day-head{background:#214a36;color:#fff}
+.ka-day-items{display:flex;flex-direction:column;gap:6px;padding:7px}
+.ka-day-item{background:#fff;border:1px solid #e8eee8;border-radius:7px;padding:7px 6px;width:100%;text-align:left;min-width:0;color:#254833;cursor:pointer}
+.ka-day-time,.ka-day-name{display:block;font-size:10px;overflow-wrap:anywhere}
+.ka-day-time{color:#997329;font-weight:750;margin-bottom:4px}
+.ka-day-name{line-height:1.35}
+.ka-day-empty{color:#8b978d;font-size:10px;line-height:1.4;margin:7px 2px}
+.ka-day-more{border:0;background:transparent;text-align:left;color:#396548;font-size:10px;cursor:pointer;padding:3px}
+.ka-ach-meta{font-size:12px;color:#697d6c;border-bottom:1px solid #e7ece5;padding-bottom:11px;text-transform:capitalize}
+.ka-ach-list{display:grid;gap:3px;margin-top:10px}
+.ka-ach-row{width:100%;display:flex;align-items:center;gap:12px;background:transparent;text-align:left;border:0;border-bottom:1px solid #edf0eb;padding:10px 4px;cursor:pointer;color:#234633}
+.ka-ach-row:hover,.ka-find-row:hover{background:#f1f6f0}
+.ka-ach-medal{display:grid;place-items:center;width:33px;height:33px;background:#e8f1e8;color:#24563b;border-radius:50%;flex:0 0 auto;font-weight:800}
+.ka-ach-copy,.ka-find-main{display:flex;flex-direction:column;flex:1;min-width:0}
+.ka-ach-copy strong,.ka-find-main strong{font-size:13px;overflow-wrap:anywhere}
+.ka-ach-copy small,.ka-find-main small{font-size:11px;color:#758273;overflow-wrap:anywhere}
+.ka-empty{font-size:12px;color:#829085;padding:12px 4px}
+.ka-find-dialog,.ka-ach-dialog{border:1px solid #dce5db;border-radius:19px;width:min(650px,calc(100vw - 22px));max-height:88dvh;padding:0;background:#fffefa;color:#1b3a2a;box-shadow:0 24px 85px #06171055}
+.ka-find-dialog::backdrop,.ka-ach-dialog::backdrop{background:#071d1680;backdrop-filter:blur(3px)}
+.ka-find-head,.ka-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:19px 22px;background:#103b2b;color:#fff}
+.ka-find-head h2,.ka-modal-head h2{color:white;font:400 27px Georgia,serif;margin:4px 0}
+.ka-find-head button,.ka-modal-head button{background:transparent;border:0;color:white;font-size:21px;cursor:pointer}
+.ka-find-content,.ka-modal-body{padding:18px 22px;overflow-y:auto;max-height:62dvh;display:flex;flex-direction:column;gap:8px}
+.ka-find-content label,.ka-modal-body label{font-size:12px;color:#31583c;font-weight:700}
+.ka-find-content input,.ka-find-content select,.ka-modal-body input,.ka-modal-body textarea{padding:11px;min-height:43px;border-radius:10px;border:1px solid #d5e0d5;background:white;color:#173b29;width:100%;font:inherit}
+.ka-find-filter{display:grid;grid-template-columns:65px 1fr;align-items:center;gap:8px;margin:5px 0}
+.ka-find-results{overflow-y:auto;max-height:45dvh}
+.ka-find-row{display:flex;align-items:center;gap:10px;padding:11px 6px;border:0;border-bottom:1px solid #eaf0e9;background:transparent;color:#1b3d2d;text-align:left;width:100%;cursor:pointer}
+.ka-find-type{font-size:10px;color:#6a5626;border:1px solid #e9dfc2;background:#fff7e5;padding:4px 6px;border-radius:7px;flex:0 0 auto;max-width:95px}
+.ka-modal-footer{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:15px 22px;border-top:1px solid #e7ebe6;flex-wrap:wrap}
+.ka-delete{margin-right:auto;color:#a33c31;border:1px solid #e5c5bc;border-radius:9px;background:transparent;padding:10px 12px;cursor:pointer}
+.ka-delete[hidden]{display:none}
+#ka-ach-error{font-size:12px;color:#a03826}
+@media(max-width:890px){.ka-week-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.ka-day-col{min-height:130px}}
+@media(max-width:550px){.ka-feature-card{padding:14px}.ka-week-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ka-day-col{min-height:135px}.ka-day-items{padding:6px}.ka-find-content,.ka-modal-body{padding:14px;max-height:65dvh}.ka-find-head,.ka-modal-head{padding:15px}.ka-modal-footer{padding:12px}.ka-feature-head h2{font-size:23px}}
+@media print{.ka-feature-card,.ka-find-dialog,.ka-ach-dialog,.agenda-find-trigger{display:none!important}}
