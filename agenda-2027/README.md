@@ -32,6 +32,10 @@ The JSON backup includes all three content stores. PDF is a printable/shareable 
 - Use local dates (`YYYY-MM-DD`), not UTC conversions, for agenda-day selection.
 - Avoid introducing additional CSS overrides without first checking existing selectors.
 
+## Regression tests
+
+Run `node agenda-2027/tests/regression.cjs` from the repository root before deployment. The 11 dependency-free checks verify controller syntax, unique IDs, script references, ownership of journal/PDF handlers, date-change synchronization, main daily-save preservation, and offline cache coverage. These checks are not a browser simulator; iPhone keyboard, Safari share-sheet, and offline installation still require real-device testing.
+
 ## Release checklist
 1. Open the agenda on an iPhone in Safari. Verify the local date and navigate to yesterday and tomorrow.
 2. Open all four journal sections; type with the iOS keyboard, close, reopen and verify persistence.
