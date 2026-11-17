@@ -138,18 +138,22 @@ function generate(mode,ref){var d=gather(mode,ref);return doc(d,{days:d.dates,al
 function download(blob,name){
  var url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},20000)
 }
+async function sharePDF(mode,ref,notify){
+ var pdf=generate(mode,ref),name=fileName(mode,ref);
+ if(typeof File!=='undefined'&&navigator.share){
+  var file=new File([pdf],name,{type:'application/pdf'});
+  if(!navigator.canShare||navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Kingdom Atmosphere Agenda'});notify('Share sheet opened.');return}
+ }
+ download(pdf,name);notify('PDF downloaded. Open it in Files to share.');
+}
 function setup(){
  var dl=document.getElementById('print-agenda'),share=document.getElementById('share-agenda'),status=document.getElementById('pdf-status');
  if(!dl||!share)return;
  function settings(){var p=document.getElementById('datepick'),picker=document.getElementById('print-range');return {mode:picker?picker.value:'day',date:p&&p.value||isoLocal(new Date())}}
  function notify(message){if(status)status.textContent=message}
  dl.addEventListener('click',function(){try{var s=settings(),pdf=generate(s.mode,s.date);download(pdf,fileName(s.mode,s.date));notify('PDF generated. Check your Downloads or Files.')}catch(e){notify('PDF error: '+e.message);console.error(e)}});
- share.addEventListener('click',async function(){
-  try{var s=settings(),pdf=generate(s.mode,s.date),name=fileName(s.mode,s.date);
-   if(typeof File!=='undefined'&&navigator.share){var file=new File([pdf],name,{type:'application/pdf'});if(!navigator.canShare||navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Kingdom Atmosphere Agenda'});notify('Share sheet opened.');return}}
-   download(pdf,name);notify('PDF downloaded. Open it in Files to share.');
-  }catch(e){if(e.name==='AbortError')return;notify('Sharing unavailable. Use Download PDF.');console.error(e)}
- });
+ var direct=document.getElementById('daily-pdf-share');if(direct)direct.addEventListener('click',async function(){try{await sharePDF('day',settings().date,notify)}catch(e){if(e.name==='AbortError')return;notify('Unable to share PDF; try Download PDF in Settings.');console.error(e)}});
+ share.addEventListener('click',async function(){try{var s=settings();await sharePDF(s.mode,s.date,notify)}catch(e){if(e.name==='AbortError')return;notify('Sharing unavailable. Use Download PDF.');console.error(e)}});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 window.KingdomPDF={generate:generate,download:download,filename:fileName};
