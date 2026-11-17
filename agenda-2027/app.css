@@ -762,6 +762,8 @@ dialog.growth-dialog.growth-keyboard{
 .today-disclosure-chevron{font-size:21px;color:#829480;transition:transform .18s}
 .today-workspace-disclosure[open] .today-disclosure-chevron{transform:rotate(180deg)}
 .today-workspace-disclosure[open]>summary{border-bottom:1px solid #ebeee5}
+/* Closed panels must not affect page height, even if inherited component rules specify display. */
+#today-journal:not([open]) > .agenda-book,#today-tools:not([open]) > .today-tools-inner{display:none}
 #today-journal .agenda-book{width:100%;max-width:none;margin:0}
 #today-journal .agenda-paper{border:0;border-radius:0;box-shadow:none;margin:0;padding:17px 21px}
 #today-journal .agenda-heading{margin:0 0 12px}
