@@ -3,6 +3,9 @@
 'use strict';
 var AGENDA_KEY='ka-2027-agenda-v1', GROWTH_KEY='ka-whole-life-growth-v1', PRESETS_KEY='ka-presets-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key)||'{}')||{}}catch(e){return {}}}
+var PDF_FR={"PERSONAL AGENDA":"AGENDA PERSONNEL","Faith  |  Life  |  Purpose  |  Growth":"Foi  |  Vie  |  Mission  |  Croissance","My personal agenda":"Mon agenda personnel","Privately prepared from your saved Kingdom Atmosphere agenda.":"Document personnel créé à partir des données enregistrées de votre agenda Kingdom Atmosphere.","Your selected period":"Période sélectionnée","No journal entries have been saved for this period yet.":"Aucune entrée de journal enregistrée pour cette période.","Monthly intentions and notes":"Intentions et notes du mois","Weekly intentions and reflection":"Intentions et réflexion de la semaine","Whole-life weekly growth":"Croissance personnelle de la semaine","Vision, purpose and intentions":"Vision, mission et intentions","Annual goals":"Objectifs annuels","Weekly outcomes":"Résultats hebdomadaires","Linked daily actions":"Actions quotidiennes associées","Family dates":"Dates familiales","Gift planner":"Planificateur de cadeaux","Activity presets":"Modèles d’activités","Reminders":"Rappels","Recorded activity time":"Temps d’activité enregistré","Daily Scripture":"Passage biblique du jour","Daily intention":"Intention du jour","Most important action":"Action prioritaire","Priorities":"Priorités","My notes and thoughts":"Mes notes et mes pensées","Spiritual reflection":"Réflexion spirituelle","Prayer":"Prière","Gratitude":"Reconnaissance","Evening reflection":"Réflexion du soir","Schedule":"Horaire","Tasks":"Tâches","Personal discipline":"Habitude personnelle","Spiritual growth":"Croissance spirituelle","Emotional growth":"Croissance émotionnelle","Relationships":"Relations","Personal growth":"Développement personnel","Financial stewardship":"Gestion financière","A fresh day, with room to grow and reflect.":"Une nouvelle journée pour grandir et réfléchir.","Reflection: ":"Réflexion : "," (completed)":" (terminé)"," / Completed":" / Terminé"," / In progress":" / En cours","Monthly notes: ":"Notes du mois : ","Weekly notes: ":"Notes de la semaine : ","Gift":"Cadeau","Occasion":"Occasion","Budget: ":"Budget : "};
+function pdfLanguage(){return window.KA_locale&&window.KA_locale()==='fr'}
+function pt(s){if(!pdfLanguage())return s;var t=String(s);return Object.keys(PDF_FR).reduce(function(a,k){return a.split(k).join(PDF_FR[k])},t)}
 function pad(n){return String(n).padStart(2,'0')}
 function isoLocal(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
 function parseDay(s){return new Date(s+'T12:00:00')}
@@ -30,9 +33,9 @@ function doc(rows,scope){
   ops=[];y=H-71;pageNumber++;
   rect(0,H-15,W,15,[.045,.12,.086]);rect(left,H-61,37,2,[.73,.54,.18]);
   baseline('KINGDOM ATMOSPHERE',left,H-46,13,true,[.055,.20,.13]);
-  baseline('PERSONAL AGENDA',W-159,H-46,8,false,[.50,.46,.33]);
+  baseline(pt('PERSONAL AGENDA'),W-159,H-46,8,false,[.50,.46,.33]);
   line(left,46,W-right,46,[.85,.85,.82]);
-  baseline('Faith  |  Life  |  Purpose  |  Growth',left,30,8,false,[.4,.5,.43]);
+  baseline(pt('Faith  |  Life  |  Purpose  |  Growth'),left,30,8,false,[.4,.5,.43]);
   baseline(String(pageNumber),W-right-12,30,9,true,[.42,.48,.42]);
  }
  function room(amount){if(y-amount<66)start()}
@@ -53,10 +56,10 @@ function doc(rows,scope){
     if(cur)lines.push(cur);
   });return lines;
  }
- function paragraph(text,size,color,italic){var lines=wrap(text,size||10.5,false);for(var str of lines){room(16);if(str)baseline(str,left,y,size||10.5,false,color||[.17,.23,.18],italic);y-=15}y-=4}
- function heading(text){room(37);y-=8;baseline(text,left,y,15,true,[.09,.26,.17]);y-=10;line(left,y,W-right,y,[.77,.69,.48]);y-=18}
- function title(text){room(53);y-=7;baseline(text,left,y,21,true,[.09,.26,.17]);y-=29}
- function field(label,value){if(value===null||value===undefined||String(value).trim()==='')return;room(40);baseline(label.toUpperCase(),left,y,9,true,[.57,.43,.19]);y-=17;paragraph(value,10.5)}
+ function paragraph(text,size,color,italic){var lines=wrap(pt(text),size||10.5,false);for(var str of lines){room(16);if(str)baseline(str,left,y,size||10.5,false,color||[.17,.23,.18],italic);y-=15}y-=4}
+ function heading(text){room(37);y-=8;baseline(pt(text),left,y,15,true,[.09,.26,.17]);y-=10;line(left,y,W-right,y,[.77,.69,.48]);y-=18}
+ function title(text){room(53);y-=7;baseline(pt(text),left,y,21,true,[.09,.26,.17]);y-=29}
+ function field(label,value){if(value===null||value===undefined||String(value).trim()==='')return;room(40);baseline(pt(label).toUpperCase(),left,y,9,true,[.57,.43,.19]);y-=17;paragraph(value,10.5)}
  function dateHeading(s){var d=parseDay(s),str=d.toLocaleDateString((window.KA_locale&&window.KA_locale()==='fr')?'fr-CA':'en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});title(str)}
  function listFields(obj,fields){fields.forEach(function(x){field(x[1],obj&&obj[x[0]])})}
  function dayPage(s,d){
