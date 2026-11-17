@@ -16,6 +16,8 @@ async function main(){
  const browser=await chromium.launch({headless:true,executablePath,args:['--no-sandbox','--disable-dev-shm-usage']});
  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,timezoneId:'America/Toronto',acceptDownloads:true});
  const page=await context.newPage();
+ page.setDefaultTimeout(9000);
+ page.on('dialog',dialog=>dialog.accept());
  const exceptions=[],failures=[];
  page.on('pageerror',e=>exceptions.push(String(e.stack||e)));
  page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)failures.push(r.status()+' '+r.url())});
@@ -75,7 +77,7 @@ async function main(){
    await page.locator('#preset-time').fill('09:00');
    await page.locator('#preset-minutes').fill('45');
    await page.locator('#preset-date').fill(today);
-   page.once('dialog',d=>d.accept());
+   
    await page.locator('#preset-apply').click();
    const saved=await page.evaluate(d=>JSON.parse(localStorage.getItem('ka-2027-agenda-v1')).days[d].schedule,today);
    assert(saved.includes('Hip-Hop freestyle')&&saved.includes('09:00'));
@@ -90,7 +92,7 @@ async function main(){
    await page.locator('#plan-source-date').fill(today);
    await page.locator('#plan-target-date').fill(tomorrow);
    await page.locator('#plan-copy-scope').selectOption('day');
-   page.once('dialog',d=>d.accept());
+   
    await page.locator('#plan-copy-apply').click();
    const both=await page.evaluate(({a,b})=>{const days=JSON.parse(localStorage.getItem('ka-2027-agenda-v1')).days;return [days[a],days[b]]},{a:today,b:tomorrow});
    assert(both[0].schedule.includes('Hip-Hop technique'));
