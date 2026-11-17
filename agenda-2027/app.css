@@ -432,3 +432,17 @@ body.journal-fallback-active::before{content:"";position:fixed;inset:0;z-index:9
 .preset-day-shortcut strong{font-size:13px;display:block;color:#264a36}.preset-day-shortcut small{color:#748575;font-size:11px;display:block}.preset-day-shortcut button{border:0;background:#1b4933;color:white;border-radius:8px;padding:10px 12px;font-size:12px;white-space:nowrap}
 .preset-export{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.preset-export label{font-size:12px}.preset-export select{width:auto;flex:1 1 150px}
 .daily-pdf-share{display:inline-flex;align-items:center;gap:6px;background:#f7f7ef;color:#365a42;border:1px solid #dfe7da;border-radius:99px;padding:8px 12px;font:650 11px/1.2 system-ui,sans-serif;letter-spacing:0;text-transform:none;white-space:nowrap}.daily-pdf-share span{font-size:15px;color:#a18142}.daily-pdf-share:active{background:#e5eddf}@media print{.daily-pdf-share{display:none!important}}
+
+
+/* Compact preset scheduling and conflict cues (same-day). */
+.preset-scheduling{margin-top:12px;padding:13px;border:1px solid #e3e8de;border-radius:12px;background:#f8f9f4}
+.preset-scheduling .preset-date-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;background:transparent;border:0;padding:0;align-items:end}
+.preset-scheduling .preset-date-row>div{min-width:0}
+.preset-scheduling .preset-date-row label{display:block;margin:0 0 6px;color:#42634b;font-size:11px;font-weight:700}
+.preset-scheduling .preset-date-row input,.preset-scheduling .preset-date-row select{width:100%;max-width:none;min-height:44px;background:#fff;border:1px solid #d9e3d9;color:#254934;border-radius:9px;padding:8px;font-size:14px}
+.preset-scheduling .preset-date-row select:focus,.preset-scheduling .preset-date-row input:focus{outline:2px solid #d9ba75;outline-offset:1px}
+.preset-time-summary{font-size:12px;color:#2b513a;font-weight:700;padding:11px 1px 0}
+.preset-conflict{margin-top:11px;padding:12px;border:1px solid #d9b77f;border-radius:10px;background:#fff5e4;color:#775322;font-size:12px;line-height:1.6}
+.preset-conflict.invalid{background:#fff1f0;border-color:#e3b0a8;color:#8b453b}
+.preset-conflict[hidden]{display:none!important}
+@media(max-width:760px){.preset-scheduling{padding:11px}.preset-scheduling .preset-date-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.preset-scheduling .preset-date-row input,.preset-scheduling .preset-date-row select{font-size:16px}}
