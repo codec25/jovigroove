@@ -127,6 +127,74 @@ header .hero-copy p{font-size:12px;max-width:330px}
 }
 @media print{header,.hero-inner,.toolbar,.daily-strip,.install-tip{display:none!important}.card{box-shadow:none!important;border:0!important}body{background:white!important}}
 
+
+/* Compact interactive premium PWA — v4 */
+body{overflow-x:hidden}
+.hero-copy{padding:22px 0 17px}.hero-copy p{margin:4px 0}
+.hero-bottom{padding-top:11px}
+.toolbar{position:relative;top:auto}
+.mobile-quickbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 13px;padding:3px 0}
+.mobile-quickbar>div:first-child{display:flex;flex-direction:column;gap:3px}
+.mobile-quickbar strong{font-family:Georgia,serif;font-weight:400;font-size:22px;letter-spacing:-.02em}
+.quick-eyebrow{font-size:10px;letter-spacing:.14em;font-weight:700;color:#9f813e}
+.quick-actions{display:flex;align-items:center;gap:7px}
+.quick-primary,.quick-icon{border:1px solid #1b4b37;background:#1b4b37;color:white;border-radius:11px;min-height:42px;padding:0 16px;font-size:13px;font-weight:700}
+.quick-icon{width:43px;padding:0;background:#fff;border-color:#d7e1d8;color:#274a37;font-size:23px}
+.energy-control{border:1px solid #e6eadf;background:#f8f9f3;border-radius:11px;padding:14px 14px 10px;margin:17px 0 6px}
+.energy-title{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;font-weight:650;color:#3c5b44}
+.energy-title output{font-size:11px;color:#846a36;font-weight:600}
+.energy-control input[type=range]{width:100%;accent-color:#286044;min-height:30px;margin:7px 0}
+.energy-labels{display:flex;justify-content:space-between;color:#839387;font-size:10px}
+.section-subtitle{margin:-9px 0 10px;color:#728276;font-size:12px}
+.bottom-nav{display:none}
+.overlay[hidden],.sheet[hidden]{display:none!important}
+.overlay{position:fixed;inset:0;z-index:90;background:#04160faa;backdrop-filter:blur(3px)}
+.sheet{position:fixed;z-index:91;bottom:0;left:0;right:0;max-height:89dvh;overflow-y:auto;overscroll-behavior:contain;background:#fffefb;border-radius:23px 23px 0 0;box-shadow:0 -12px 40px #03140e38;padding:12px 22px max(25px,env(safe-area-inset-bottom));max-width:570px;margin:auto}
+.sheet-handle{width:34px;height:4px;background:#d4ded5;border-radius:50px;margin:0 auto 17px}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.sheet-head h2{font:400 26px/1.2 Georgia,serif;margin:3px 0}
+.close-sheet{border:0;background:#f1f4ee;color:#28533d;border-radius:50%;width:36px;height:36px;font-size:17px}
+.sheet label.field{margin:12px 0 6px}
+.sheet select{width:100%;min-height:44px;border:1px solid #dfe5de;border-radius:9px;background:#fdfdf9;padding:8px}
+.sheet textarea{width:100%;min-height:95px}
+.sheet-submit{width:100%;padding:12px;border:0;border-radius:10px;background:#163d2e;color:white;font-size:13px;font-weight:700;margin-top:13px}
+.coach-stream{display:flex;flex-direction:column;gap:10px;max-height:32dvh;overflow:auto;padding:8px 2px 13px}
+.coach-bubble{padding:13px 15px;border-radius:14px;max-width:91%;font-size:13px;line-height:1.6;white-space:pre-wrap}
+.coach-bubble.bot{align-self:flex-start;background:#f2f4ed;color:#254032;border-bottom-left-radius:3px}
+.coach-bubble.me{align-self:flex-end;background:#17412f;color:white;border-bottom-right-radius:3px}
+.coach-prompts{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
+.coach-prompts button{white-space:nowrap;border:1px solid #dce4da;background:#fff;padding:9px 12px;border-radius:100px;color:#24543c;font-size:11px}
+.more-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.more-grid button{text-align:left;border:1px solid #e4e9e1;background:#fbfcf8;border-radius:13px;padding:17px 14px;display:flex;flex-direction:column;gap:5px;color:#224633;font-size:20px}
+.more-grid strong{font-size:13px;color:#163d2e}.more-grid small{font-size:11px;color:#6c8173}
+body.sheet-open{overflow:hidden}
+@media(max-width:760px){
+.hero-inner{padding:14px 18px 13px}
+.hero-top{padding-bottom:9px}.hero-copy{padding:14px 0 9px}
+.hero-eyebrow{font-size:8px}
+header h1{font-size:30px;margin:5px 0}
+header .hero-copy p{font-size:11px;line-height:1.45;max-width:290px}
+.hero-bottom{padding-top:9px;font-size:8px}
+.shell{padding:10px 13px calc(104px + env(safe-area-inset-bottom))}
+.toolbar{display:none}
+.mobile-quickbar strong{font-size:20px}
+.card{padding:17px 15px;margin-bottom:12px}
+.card h2{font-size:23px}
+.card label.field{margin-top:13px}
+.verse{margin:10px 0;padding:12px}
+.verse p{font-size:15px}
+.controls{grid-template-columns:41px minmax(0,1fr) 41px}
+.controls [data-print]{display:none}
+.daily-strip{margin-bottom:9px}
+.bottom-nav{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;bottom:0;left:0;right:0;padding:8px 6px calc(8px + env(safe-area-inset-bottom));background:#fffefcf5;border-top:1px solid #e4e9e3;backdrop-filter:blur(18px);z-index:25;box-shadow:0 -5px 24px #15281b0a}
+.bottom-nav button{border:0;background:transparent;color:#76867a;font-size:10px;display:flex;align-items:center;flex-direction:column;gap:3px;min-height:49px;justify-content:center;border-radius:9px}
+.bottom-nav button span{font-size:20px;line-height:1}
+.bottom-nav button.on{color:#12422c;background:#eaf1e8;font-weight:750}
+.sheet{padding:12px 17px max(22px,env(safe-area-inset-bottom));border-radius:21px 21px 0 0}
+.reflection-card{border-top:2px solid #d3b874}
+}
+@media print{.bottom-nav,.mobile-quickbar,.energy-control,.overlay,.sheet{display:none!important}}
+
 </style></head>
 <body>
 <header><div class="hero-inner"><div class="hero-top"><div class="brand"><span class="brand-mark" aria-hidden="true">✦</span><span>KINGDOM <small>ATMOSPHERE</small></span></div><span class="edition">THE 2027 EDITION</span></div><div class="hero-copy"><div class="hero-eyebrow">FAITH × INTENTION × DISCIPLINE</div><h1>A year of <em>purpose.</em></h1><p>Your personal space to plan wisely, take meaningful action, and grow in what matters.</p></div><div class="hero-bottom"><span>2027 / YOUR PERSONAL AGENDA</span><span>PLAN · GROW · SERVE</span></div></div></header>
@@ -158,10 +226,14 @@ header .hero-copy p{font-size:12px;max-width:330px}
 <label class="field" for="weekreview">Weekly review: wins, lessons, and adjustments</label><textarea id="weekreview" data-week="review" placeholder="What worked? What must change next week?"></textarea>
 </div></section>
 <section id="daily" class="pane active">
+<div class="mobile-quickbar no-print">
+<div><span class="quick-eyebrow">YOUR DAILY COMMAND CENTER</span><strong>Make today count.</strong></div>
+<div class="quick-actions"><button type="button" id="quick-add" class="quick-primary" aria-haspopup="dialog">＋ Add</button><button type="button" id="open-coach" class="quick-icon" aria-haspopup="dialog" aria-label="Open guided planning assistant">✧</button></div>
+</div>
 <div class="controls no-print"><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Choose day</label><input type="date" id="datepick" min="2027-01-01" max="2027-12-31" value="2027-01-01"><button id="next" class="btn light" aria-label="Next day">→</button><button class="btn" data-print="daily">Print this day</button></div>
 <div class="daily-strip no-print"><span class="pill"><span aria-hidden="true">◆</span> PURPOSE → ACTION → GROWTH</span><span id="daily-progress" aria-live="polite">0 of 5 essentials filled</span></div><div class="layout">
-<div><div class="card"><div class="section-label">01 / YOUR DAY</div><h2 id="dayheading">Friday, January 1, 2027</h2><div class="verse"><p id="versetext"></p><small id="verseref"></small></div><label class="field" for="focus">Today's focus</label><input id="focus" type="text" data-day="focus" placeholder="What matters most today?"><label class="field" for="oneaction">One action I must finish today</label><input id="oneaction" type="text" data-day="oneaction" placeholder="The most important step toward my vision."><label class="field" for="schedule">Schedule / appointments</label><textarea id="schedule" data-day="schedule" placeholder="9:00 — ..."></textarea><label class="field" for="priorities">Top 3 priorities</label><textarea id="priorities" data-day="priorities" placeholder="1.&#10;2.&#10;3."></textarea><label class="field" for="tasks">Tasks</label><textarea id="tasks" data-day="tasks" placeholder="Things to do..."></textarea><label class="field" for="discipline">Discipline practiced today</label><input id="discipline" type="text" data-day="discipline" placeholder="A consistent action—not just motivation."></div></div>
-<div><div class="card"><div class="section-label">02 / INNER GROWTH</div><h2>Faith & reflection</h2><label class="field" for="reflection">Reflection</label><textarea id="reflection" data-day="reflection" placeholder="What is this Scripture teaching me?"></textarea><label class="field" for="prayer">Prayer</label><textarea id="prayer" data-day="prayer" placeholder="A prayer for today..."></textarea><label class="field" for="gratitude">Gratitude</label><textarea id="gratitude" data-day="gratitude" class="short" placeholder="Three things I'm thankful for..."></textarea><label class="field" for="review">Evening review: what moved forward?</label><textarea id="review" data-day="review" class="short" placeholder="What did I accomplish? What will I improve tomorrow?"></textarea><label class="field" for="daynotes">Additional notes</label><textarea id="daynotes" data-day="daynotes" placeholder="Notes, ideas, reminders..."></textarea></div></div>
+<div><div class="card"><div class="section-label">01 / YOUR DAY</div><h2 id="dayheading">Friday, January 1, 2027</h2><div class="verse"><p id="versetext"></p><small id="verseref"></small></div><label class="field" for="focus">Today's focus</label><input id="focus" type="text" data-day="focus" placeholder="What matters most today?"><label class="field" for="oneaction">One action I must finish today</label><input id="oneaction" type="text" data-day="oneaction" placeholder="The most important step toward my vision."><div class="energy-control no-print"><div class="energy-title"><label for="energy">Today's energy &amp; capacity</label><output id="energy-output" for="energy">3 / 5 · Steady</output></div><input id="energy" type="range" min="1" max="5" step="1" value="3" aria-label="Today's energy level"><div class="energy-labels"><span>Rest &amp; recover</span><span>Strong &amp; focused</span></div></div><label class="field" for="schedule">Schedule / appointments</label><textarea id="schedule" data-day="schedule" placeholder="9:00 — ..."></textarea><label class="field" for="priorities">Top 3 priorities</label><textarea id="priorities" data-day="priorities" placeholder="1.&#10;2.&#10;3."></textarea><label class="field" for="tasks">Tasks</label><textarea id="tasks" data-day="tasks" placeholder="Things to do..."></textarea><label class="field" for="discipline">Discipline practiced today</label><input id="discipline" type="text" data-day="discipline" placeholder="A consistent action—not just motivation."></div></div>
+<div><div class="card reflection-card"><div class="section-label">02 / INNER GROWTH</div><h2>Faith & reflection</h2><p class="section-subtitle">A focused moment for reflection, prayer and perspective.</p><label class="field" for="reflection">Reflection</label><textarea id="reflection" data-day="reflection" placeholder="What is this Scripture teaching me?"></textarea><label class="field" for="prayer">Prayer</label><textarea id="prayer" data-day="prayer" placeholder="A prayer for today..."></textarea><label class="field" for="gratitude">Gratitude</label><textarea id="gratitude" data-day="gratitude" class="short" placeholder="Three things I'm thankful for..."></textarea><label class="field" for="review">Evening review: what moved forward?</label><textarea id="review" data-day="review" class="short" placeholder="What did I accomplish? What will I improve tomorrow?"></textarea><label class="field" for="daynotes">Additional notes</label><textarea id="daynotes" data-day="daynotes" placeholder="Notes, ideas, reminders..."></textarea></div></div>
 </div></section>
 <section id="monthly" class="pane"><div class="card">
 <div class="controls no-print"><label class="control-label" for="monthpick">Month</label><select id="monthpick"></select><button class="btn" data-print="monthly">Print this month</button></div><h2 id="monthheading"></h2><div class="calendar" id="calendar"></div><hr class="rule"><div class="two"><div><label class="field" for="monthfocus">Monthly focus</label><textarea id="monthfocus" data-month="focus"></textarea><label class="field" for="monthgoals">Goals</label><textarea id="monthgoals" data-month="goals"></textarea></div><div><label class="field" for="monthevents">Important dates</label><textarea id="monthevents" data-month="events"></textarea><label class="field" for="monthnotes">Notes / prayer</label><textarea id="monthnotes" data-month="notes"></textarea></div></div></div></section>
@@ -169,6 +241,20 @@ header .hero-copy p{font-size:12px;max-width:330px}
 <section id="gifts" class="pane"><div class="card"><h2>Christmas gift planner</h2><p class="hint">Track gift ideas, budgets and purchases. This is a private planning list, not an online store.</p><div id="giftlist"></div><button id="addgift" class="btn light no-print">+ Add gift idea</button><hr class="rule"><p class="stat"><b>Total planned budget:</b> <span id="budget">CA$0.00</span></p><label class="field" for="christmasnotes">Holiday notes and shopping reminders</label><textarea id="christmasnotes" data-single="christmasnotes"></textarea></div></section>
 <section id="notes" class="pane"><div class="card"><h2>My 2027 notes & intentions</h2><label class="field" for="annualgoals">Goals for the year</label><textarea id="annualgoals" data-single="annualgoals" style="min-height:170px"></textarea><label class="field" for="faithgoals">Faith and personal growth</label><textarea id="faithgoals" data-single="faithgoals" style="min-height:150px"></textarea><label class="field" for="journal">General notes / journal</label><textarea id="journal" data-single="journal" style="min-height:220px"></textarea></div></section>
 <section id="settings" class="pane"><div class="card"><h2>Save, restore & print</h2><p>Entries save automatically in your browser. For permanent backup or moving to another device, export your data regularly.</p><p class="hint">Vision → Weekly results → Daily action → Review. This framework draws on broad themes of purposeful living, goal setting, personal development, discipline and stewardship; the prompts are original.</p><div class="controls no-print"><button class="btn" id="export">Download backup (.json)</button><label class="btn light" for="import" style="cursor:pointer">Import backup</label><input id="import" type="file" accept=".json,application/json" hidden></div><hr class="rule"><h3>PDF printing</h3><p>On a phone or computer, open the desired Daily, Monthly, Family, Gifts, or Notes tab and choose your browser's <b>Print → Save as PDF</b>. For print-on-demand book interiors, export and review all pages using a dedicated publishing workflow; individual printed pages are not a complete KDP-ready book.</p><p class="hint">Daily verse texts use short passages from the public-domain King James Version, selected from a curated rotating set. This edition does not yet include 365 different verses.</p><button id="clear" class="btn light no-print">Erase local entries</button></div></section>
+<nav class="bottom-nav no-print" aria-label="Main navigation"><button type="button" data-go="daily" class="on"><span>◉</span>Today</button><button type="button" data-go="weekly"><span>▦</span>Week</button><button type="button" data-go="vision"><span>◎</span>Vision</button><button type="button" data-go="monthly"><span>▤</span>Calendar</button><button type="button" id="open-more"><span>☷</span>More</button></nav>
+<div id="overlay" class="overlay no-print" hidden></div>
+<section id="quick-sheet" class="sheet no-print" role="dialog" aria-modal="true" aria-labelledby="quick-title" hidden>
+<div class="sheet-handle" aria-hidden="true"></div><div class="sheet-head"><div><span class="quick-eyebrow">CAPTURE A THOUGHT</span><h2 id="quick-title">Quick add</h2></div><button class="close-sheet" type="button" aria-label="Close">✕</button></div>
+<label class="field" for="quick-kind">Add to</label><select id="quick-kind"><option value="tasks">Today's tasks</option><option value="oneaction">Most important action</option><option value="schedule">Schedule / appointments</option><option value="daynotes">Daily notes</option><option value="prayer">Prayer</option><option value="gratitude">Gratitude</option></select>
+<label class="field" for="quick-text">What's on your mind?</label><textarea id="quick-text" rows="3" placeholder="Write a thought, task, prayer or reminder…"></textarea><button id="quick-save" type="button" class="sheet-submit">Save to today's page</button>
+</section>
+<section id="coach-sheet" class="sheet coach-sheet no-print" role="dialog" aria-modal="true" aria-labelledby="coach-title" hidden>
+<div class="sheet-handle" aria-hidden="true"></div><div class="sheet-head"><div><span class="quick-eyebrow">PURPOSEFUL PLANNING</span><h2 id="coach-title">Your reflection guide</h2></div><button class="close-sheet" type="button" aria-label="Close">✕</button></div>
+<div class="coach-stream" id="coach-stream" aria-live="polite"><div class="coach-bubble bot">Welcome. We can clarify your biggest priority, improve your routine, or reflect on your day. Choose where to begin.</div></div>
+<div class="coach-prompts"><button type="button" data-guide="focus">Find my priority</button><button type="button" data-guide="discipline">Build discipline</button><button type="button" data-guide="review">Review my day</button></div>
+<label class="field" for="coach-response">My response</label><textarea id="coach-response" rows="2" placeholder="Answer the reflection prompt…"></textarea><button type="button" class="sheet-submit" id="coach-save">Save reflection to my day</button><p class="hint">Guided offline prompts—not live AI chat. Your answers stay in this browser.</p>
+</section>
+<section id="more-sheet" class="sheet more-sheet no-print" role="dialog" aria-modal="true" aria-labelledby="more-title" hidden><div class="sheet-handle" aria-hidden="true"></div><div class="sheet-head"><div><span class="quick-eyebrow">YOUR WORKSPACES</span><h2 id="more-title">Explore</h2></div><button class="close-sheet" type="button" aria-label="Close">✕</button></div><div class="more-grid"><button type="button" data-open-tab="family">♡ <strong>Family dates</strong><small>Birthdays &amp; celebrations</small></button><button type="button" data-open-tab="gifts">♧ <strong>Gift planner</strong><small>Christmas &amp; budgets</small></button><button type="button" data-open-tab="notes">▤ <strong>Journal</strong><small>Goals &amp; free writing</small></button><button type="button" data-open-tab="settings">⚙ <strong>Settings</strong><small>Backups &amp; print</small></button></div></section>
 <p class="footer">© Kingdom Atmosphere · Independent browser-based agenda preview. Private entries remain on this device unless you explicitly export them. Keep backups; clearing browser data may delete entries.</p></main>
 <script>
 (function(){
@@ -241,6 +327,48 @@ function progress(){var entry=data.days[selected]||{};var fields=['focus','oneac
 document.querySelectorAll('[data-day]').forEach(function(el){el.addEventListener('input',progress)});
 var origSetDay=setDay;setDay=function(s){origSetDay(s);progress()};
 loadWeek('2027-01-01');progress();
+
+
+/* Premium interactions: drawer, swipe, quick capture, guided offline conversation */
+(function(){
+var overlay=$('overlay'),sheets=['quick-sheet','coach-sheet','more-sheet'],activeSheet=null,restoreFocus=null;
+function closeSheet(){sheets.forEach(function(id){$(id).hidden=true});overlay.hidden=true;document.body.classList.remove('sheet-open');activeSheet=null;if(restoreFocus&&typeof restoreFocus.focus==='function')restoreFocus.focus()}
+function openSheet(id,trigger){restoreFocus=trigger||document.activeElement;closeSheet();restoreFocus=trigger||document.activeElement;activeSheet=$(id);activeSheet.hidden=false;overlay.hidden=false;document.body.classList.add('sheet-open');var focus=activeSheet.querySelector('textarea,button');if(focus)focus.focus()}
+$('quick-add').onclick=function(){openSheet('quick-sheet',this)};
+$('open-coach').onclick=function(){openSheet('coach-sheet',this)};
+$('open-more').onclick=function(){openSheet('more-sheet',this)};
+overlay.onclick=closeSheet;
+document.querySelectorAll('.close-sheet').forEach(function(x){x.onclick=closeSheet});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&activeSheet){e.preventDefault();closeSheet()}if(e.key==='Tab'&&activeSheet){var focusable=Array.from(activeSheet.querySelectorAll('button,input,select,textarea')).filter(function(x){return !x.disabled&&x.offsetParent!==null});if(focusable.length){var first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}}});
+function syncNav(id){document.querySelectorAll('.bottom-nav [data-go]').forEach(function(b){b.classList.toggle('on',b.dataset.go===id)});$('open-more').classList.toggle('on',['family','gifts','notes','settings'].includes(id))}
+document.querySelectorAll('[data-go]').forEach(function(b){b.addEventListener('click',function(){showTab(b.dataset.go);syncNav(b.dataset.go)})});
+document.querySelectorAll('[data-open-tab]').forEach(function(b){b.addEventListener('click',function(){var target=b.dataset.openTab;closeSheet();showTab(target);syncNav(target)})});
+document.querySelectorAll('.toolbar [data-tab]').forEach(function(b){b.addEventListener('click',function(){syncNav(b.dataset.tab)})});
+var prevShow=showTab;showTab=function(id){prevShow(id);syncNav(id)};
+$('quick-save').onclick=function(){
+var key=$('quick-kind').value,value=$('quick-text').value.trim();if(!value){$('quick-text').focus();return}
+data.days[selected]=data.days[selected]||{};
+if(['tasks','schedule','daynotes','prayer','gratitude'].includes(key)){data.days[selected][key]=[data.days[selected][key],value].filter(Boolean).join('\n')}
+else data.days[selected][key]=value;
+save();setDay(selected);$('quick-text').value='';closeSheet();
+};
+var energies=['','Recovery','Gentle','Steady','Focused','Energized'];
+function loadEnergy(){var value=Number((data.days[selected]||{}).energy)||3;$('energy').value=value;$('energy-output').textContent=value+' / 5 · '+energies[value]}
+$('energy').oninput=function(){var value=Number(this.value);data.days[selected]=data.days[selected]||{};data.days[selected].energy=value;save();loadEnergy()};
+var baseSetDay=setDay;setDay=function(s){baseSetDay(s);loadEnergy()};
+loadEnergy();
+var guides={
+focus:{field:'oneaction',question:'If you could complete just one meaningful action today, which would move your most important goal forward? Make it specific enough to finish.'},
+discipline:{field:'discipline',question:'What small action can you practice consistently today, even if you do not feel motivated? Choose a realistic discipline.'},
+review:{field:'review',question:'What did you complete today? What did you learn, and what will you change tomorrow?'}
+};var currentGuide='focus';
+function bubble(text,kind){var x=document.createElement('div');x.className='coach-bubble '+kind;x.textContent=text;$('coach-stream').appendChild(x);$('coach-stream').scrollTop=$('coach-stream').scrollHeight}
+document.querySelectorAll('[data-guide]').forEach(function(b){b.onclick=function(){currentGuide=b.dataset.guide;bubble(guides[currentGuide].question,'bot');$('coach-response').value='';$('coach-response').focus()}});
+$('coach-save').onclick=function(){var txt=$('coach-response').value.trim();if(!txt){$('coach-response').focus();return}var field=guides[currentGuide].field;data.days[selected]=data.days[selected]||{};data.days[selected][field]=txt;save();setDay(selected);bubble(txt,'me');bubble('Saved to your '+(field==='oneaction'?'most important action':field)+' for '+isoDate(selected).toLocaleDateString('en-CA',{month:'short',day:'numeric'})+'. Progress happens through deliberate steps.','bot');$('coach-response').value=''};
+var touchX=0,touchY=0;
+$('daily').addEventListener('touchstart',function(e){if(activeSheet||e.touches.length!==1)return;var t=e.touches[0];touchX=t.clientX;touchY=t.clientY},{passive:true});
+$('daily').addEventListener('touchend',function(e){if(activeSheet||!touchX||e.changedTouches.length!==1)return;var target=e.target;if(target.closest('input,textarea,select,button')){touchX=0;return}var t=e.changedTouches[0],dx=t.clientX-touchX,dy=t.clientY-touchY;touchX=0;if(Math.abs(dx)>85&&Math.abs(dy)<60){var d=isoDate(selected);d.setDate(d.getDate()+(dx<0?1:-1));var iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');setDay(iso)}},{passive:true});
+})();
 
 if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost'))navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(e){console.warn('Offline installation unavailable',e)});
 var installPrompt;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();installPrompt=e;var b=document.getElementById('install-btn');if(b)b.style.display='inline-block'});document.getElementById('install-btn').addEventListener('click',function(){if(installPrompt){installPrompt.prompt();installPrompt=null;this.style.display='none'}});
