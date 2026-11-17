@@ -32,7 +32,7 @@ function estimate(){var f=form(),avg=f.name?historyAverage(f.name):null;$('prese
 function render(){var d=db(),lib=$('preset-library'),rec=$('preset-recent');lib.replaceChildren();rec.replaceChildren();var all=d.presets.slice().sort(function(a,b){return (b.used||0)-(a.used||0)});
 if(!all.length)lib.appendChild(el('p','No saved presets yet. Save an activity, or use a suggestion from your session history below.'));
 all.forEach(function(p){var row=el('article'),desc=el('div');desc.className='preset-main';desc.appendChild(el('strong',p.name));desc.appendChild(el('small',p.category+' · '+p.style+' · '+p.minutes+' min'+(p.used?' · used '+p.used+' times':'')));row.appendChild(desc);
-var use=el('button','Select');use.type='button';use.onclick=function(){setForm(p);$('preset-date').value=agendaDate();$('preset-name').focus()};row.appendChild(use);
+var use=el('button','Select');use.type='button';use.onclick=function(){setForm(p);$('preset-date').value=agendaDate();checkConflicts();$('preset-name').focus()};row.appendChild(use);
 var remove=el('button','Delete');remove.type='button';remove.onclick=function(){if(!confirm('Delete saved preset "'+p.name+'"? Your scheduled agenda entries remain.'))return;d.presets=d.presets.filter(function(x){return x.id!==p.id});save(KEY,d);if(active&&active.id===p.id)setForm(null);render()};row.appendChild(remove);lib.appendChild(row)});
 d.recent.slice(-5).reverse().forEach(function(x){var row=el('article'),part=el('div');part.className='preset-main';part.appendChild(el('strong',x.name));part.appendChild(el('small',x.category+' · '+x.style+' · '+x.minutes+' min · '+x.date));row.appendChild(part);var b=el('button','Repeat');b.onclick=function(){setForm(x);$('preset-date').value=agendaDate();checkConflicts()};row.appendChild(b);rec.appendChild(row)});
 if(!d.recent.length){var seen=new Set(),sessions=(read(AGENDA).sessions||[]).slice().reverse(),found=0;
@@ -68,7 +68,7 @@ return null;
 function findConflicts(date,start,end){
 var d=db(),matches=[],already=new Set();
 (d.bookings||[]).forEach(function(x){
-if(x.date!==date)return;var from=toMinutes(x.start),until=toMinutes(x.end);if(!Number.isFinite(from)||!Number.isFinite(until)||!(start<until&&end>from))return;
+if(x.date!==date)return;var entry=(read(AGENDA).days||{})[date]||{};if(x.label&&String(entry.schedule||'').split('\n').indexOf(x.label)===-1)return;var from=toMinutes(x.start),until=toMinutes(x.end);if(!Number.isFinite(from)||!Number.isFinite(until)||!(start<until&&end>from))return;
 matches.push({name:x.name||'Activity',time:x.start+'–'+x.end});if(x.label)already.add(x.label.trim())
 });
 var agenda=read(AGENDA),entry=(agenda.days||{})[date]||{};
@@ -122,7 +122,7 @@ $('preset-minutes').addEventListener('input',checkConflicts);
 $('preset-time-mode').addEventListener('change',function(){syncClockMode();checkConflicts()});
 $('preset-end').addEventListener('change',function(){var range=getInterval();if(range)$('preset-minutes').value=range.end-range.start;checkConflicts()});
 syncClockMode();checkConflicts();
-/* PDF buttons are handled only by pdf-export.js; retain legacy print helpers as inactive fallback. */
+/* PDF export is owned by pdf-export.js. */
 document.addEventListener('change',function(e){if(e.target.id==='datepick'&&$('preset-date')){$('preset-date').value=agendaDate();checkConflicts()}},true);
 render();
 }
