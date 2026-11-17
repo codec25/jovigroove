@@ -110,6 +110,48 @@ function renderGroceries(){
  for(const x of recent)suggestions.appendChild(btn('＋ '+x.name,()=>{add('groceries',{name:x.name,qty:x.qty||'',done:false});rememberGrocery(x.name,x.qty||'');save()},'family-suggestion'));
  if(!recent.length)suggestions.appendChild(make('span','family-empty','Items you add often will appear here.'));
 }
+
+/* Built-in household chore library. Uses exactly the existing tasks[] store. */
+const CHORE_LIBRARY=[
+ ['kitchen','Wash dishes','daily'],['kitchen','Load dishwasher','daily'],['kitchen','Unload dishwasher','daily'],
+ ['kitchen','Wipe kitchen counters','daily'],['kitchen','Clean stovetop','weekly'],['kitchen','Clean fridge','weekly'],
+ ['kitchen','Sweep kitchen floor','daily'],['kitchen','Mop kitchen floor','weekly'],['kitchen','Take out kitchen trash','weekly'],
+ ['cleaning','Vacuum living room','weekly'],['cleaning','Dust furniture','weekly'],['cleaning','Mop floors','weekly'],
+ ['cleaning','Clean windows','weekly'],['cleaning','Tidy shared spaces','daily'],['cleaning','Empty trash bins','weekly'],
+ ['laundry','Sort laundry','weekly'],['laundry','Wash clothes','weekly'],['laundry','Fold clothes','weekly'],
+ ['laundry','Put away clean clothes','weekly'],['laundry','Wash bedding','weekly'],['laundry','Wash towels','weekly'],
+ ['bathroom','Clean bathroom sink','weekly'],['bathroom','Clean toilet','weekly'],['bathroom','Clean shower or bathtub','weekly'],
+ ['bathroom','Wipe bathroom mirror','weekly'],['bathroom','Restock toilet paper','weekly'],
+ ['bedroom','Make beds','daily'],['bedroom','Tidy bedroom','daily'],['bedroom','Change bed sheets','weekly'],
+ ['bedroom','Organize closet','weekly'],
+ ['outdoor','Water plants','daily'],['outdoor','Sweep entrance','weekly'],['outdoor','Take recycling out','weekly'],
+ ['outdoor','Mow lawn','weekly'],['outdoor','Shovel snow','none'],
+ ['family','Prepare family meal','daily'],['family','Set dining table','daily'],['family','Clear dining table','daily'],
+ ['family','Make grocery list','weekly'],['family','Plan family meals','weekly'],['family','Feed pets','daily']
+].map(([category,name,frequency])=>({category,name,frequency}));
+function renderChoreCatalog(){
+ const container=$('family-chore-choices');if(!container)return;container.replaceChildren();
+ const category=$('family-chore-category').value,query=$('family-chore-search').value.trim().toLocaleLowerCase();
+ const matches=CHORE_LIBRARY.filter(x=>(category==='all'||x.category===category)&&(!query||x.name.toLocaleLowerCase().includes(query)));
+ for(const chore of matches){
+  const b=btn('＋ '+chore.name,()=>addChore(chore),'family-chore-chip');
+  b.setAttribute('aria-label','Add '+chore.name+' to family responsibilities');container.appendChild(b)
+ }
+ if(!matches.length)container.appendChild(make('p','family-empty','No matching chores. You can write a custom responsibility below.'));
+}
+function addChore(chore){
+ const exists=active('tasks').find(x=>x.name.toLocaleLowerCase()===chore.name.toLocaleLowerCase()&&!x.done);
+ if(exists){
+  $('family-chore-feedback').textContent=chore.name+' is already on your list. Edit its assignment or date below.';
+  return;
+ }
+ const date=$('family-task-date').value||localDay(),assignee=$('family-task-assignee').value.trim();
+ // The selected task's repeat setting takes priority; otherwise use the template suggestion.
+ const repeat=$('family-task-repeat').value!=='none'?'weekly':chore.frequency==='weekly'?'weekly':'none';
+ add('tasks',{name:chore.name,assignee,date,repeat,category:chore.category,done:false,completedCount:0});
+ $('family-chore-feedback').textContent='Added '+chore.name+'.'+(repeat==='weekly'?' Repeats weekly.':'')+' Assign or edit it below.';
+}
+
 function taskSubmit(e){
  e.preventDefault();const name=$('family-task-name').value.trim();if(!name)return;
  const changes={name,assignee:$('family-task-assignee').value.trim(),date:$('family-task-date').value,repeat:$('family-task-repeat').value};
@@ -233,6 +275,9 @@ function init(){
  document.querySelectorAll('[data-family-tab]').forEach(b=>b.addEventListener('click',()=>{cancelEdit();showTab(b.dataset.familyTab)}));
  $('family-grocery-form').addEventListener('submit',grocerySubmit);
  $('family-task-form').addEventListener('submit',taskSubmit);
+ $('family-chore-category').addEventListener('change',renderChoreCatalog);
+ $('family-chore-search').addEventListener('input',renderChoreCatalog);
+ renderChoreCatalog();
  $('family-event-form').addEventListener('submit',eventSubmit);
  $('family-moment-form').addEventListener('submit',momentSubmit);
  $('family-clear-bought').addEventListener('click',()=>{
