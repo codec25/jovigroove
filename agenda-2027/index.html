@@ -69,7 +69,14 @@
 <dialog class="agenda-dialog" id="journal-evening" aria-labelledby="journal-title-evening"><div class="journal-dialog-top"><div><span class="section-label">04 / REFLECT &amp; GROW</span><h2 id="journal-title-evening">Evening reflection</h2></div><div class="journal-header-actions"><button type="button" class="journal-expand" aria-pressed="false" aria-label="Expand writing space">⤢</button><button type="button" class="journal-close" aria-label="Close evening reflection">✕</button></div></div><div class="journal-dialog-body"><p class="journal-writing-help">What did I learn, accomplish, or need to change? Carry the lesson, not the burden, into tomorrow.</p>
 <label class="field" for="review">My reflection</label><textarea id="review" data-day="review" class="agenda-journal" placeholder="What moved forward? What matters tomorrow?"></textarea>
 </div><div class="journal-dialog-footer"><span class="journal-save-status">Saved locally</span><button class="journal-done" type="button">Done</button></div></dialog>
-<div class="preset-day-shortcut no-print"><div><strong>Plan a familiar activity</strong><small>Dance practice, study, workouts, finances and more</small></div><button type="button" id="preset-open-day">＋ Add preset</button></div><div class="agenda-utilities no-print">
+<div class="preset-day-shortcut no-print"><div><strong>Plan a familiar activity</strong><small>Dance practice, study, workouts, finances and more</small></div><button type="button" id="preset-open-day">＋ Add preset</button></div>
+<details class="planning-copy no-print" id="planning-copy"><summary><span><strong>Plan ahead · Copy day or week</strong><small>Duplicate your schedule and tasks into future dates</small></span><span aria-hidden="true">＋</span></summary>
+<div class="planning-copy-inner">
+<div class="planning-form-grid"><div><label for="plan-source-date">Copy from</label><input id="plan-source-date" type="date"></div><div><label for="plan-target-date">Copy to</label><input id="plan-target-date" type="date"></div></div>
+<div class="planning-form-grid"><div><label for="plan-copy-scope">Copy</label><select id="plan-copy-scope"><option value="day">One day</option><option value="week">Whole week (Mon–Sun)</option></select></div><div><label for="plan-copy-mode">Include</label><select id="plan-copy-mode"><option value="plan">Schedule, tasks &amp; priorities only</option><option value="all">Entire day including journal notes</option></select></div></div>
+<p id="plan-copy-info" class="hint">Your original day and week remain unchanged.</p>
+<button id="plan-copy-apply" type="button" class="btn">Copy into selected date</button>
+</div></details><div class="agenda-utilities no-print">
 <details class="agenda-details"><summary><span><strong>Daily schedule &amp; practical tasks</strong><small>Appointments, to-dos and daily discipline</small></span><span aria-hidden="true">＋</span></summary><div class="agenda-details-inner">
 <label class="field" for="schedule">Schedule / appointments</label><textarea id="schedule" data-day="schedule" placeholder="Appointments and time commitments…"></textarea>
 <label class="field" for="tasks">Things I need to do</label><textarea id="tasks" data-day="tasks" placeholder="Tasks and errands…"></textarea>
@@ -103,6 +110,10 @@
 <div class="preset-time-summary" id="preset-time-summary" aria-live="polite">09:00 – 09:45 · 45 minutes</div>
 <div class="preset-conflict" id="preset-conflict" role="status" aria-live="polite" hidden></div>
 <p class="hint">The agenda checks overlapping time blocks before adding an activity. Existing untimed notes are kept unchanged.</p>
+</div>
+<h3>Activities on this date</h3><p class="hint">Edit, delete or copy any scheduled activity. Older schedule entries are supported too.</p><div id="scheduled-activity-list" class="preset-list"></div>
+<div class="planning-editor" id="planning-editor" hidden>
+<div class="section-label">EDIT ACTIVITY</div><label for="edit-activity-name">Activity</label><input id="edit-activity-name" type="text"><div class="planning-form-grid"><div><label for="edit-activity-date">Date</label><input id="edit-activity-date" type="date"></div><div><label for="edit-activity-start">Starts</label><input id="edit-activity-start" type="time"></div><div><label for="edit-activity-end">Ends</label><input id="edit-activity-end" type="time"></div></div><p class="hint" id="edit-activity-warning" aria-live="polite"></p><div class="preset-actions"><button type="button" class="btn" id="edit-activity-save">Save changes</button><button type="button" class="btn light" id="edit-activity-cancel">Cancel</button></div>
 </div>
 <h3>My reusable activities</h3><div id="preset-library" class="preset-list"></div>
 <h3>Recently used</h3><div id="preset-recent" class="preset-list"></div>
