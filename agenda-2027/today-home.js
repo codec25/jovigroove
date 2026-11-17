@@ -93,6 +93,10 @@ function init(){
  $('today-prepare').addEventListener('click',planOpen);
  $('today-plan-cancel').addEventListener('click',planClose);
  $('today-plan-editor').addEventListener('submit',savePlan);
+ $('today-open-journal').addEventListener('click',()=>{
+  // Native writing dialogs live outside the collapsed journal details; one tap can open Notes.
+  const notes=document.querySelector('[data-journal-open="notes"]');if(notes)notes.click();
+ });
  $('today-add-task').addEventListener('click',()=>quick('tasks'));
  $('today-add-appointment').addEventListener('click',()=>quick('schedule'));
  $('today-home-return').addEventListener('click',toToday);
