@@ -30,12 +30,19 @@ function form(){return {id:active&&active.id||'',name:$('preset-name').value.tri
 function setForm(p){active=p||null;$('preset-category').value=p&&p.category||'Dance';styleSelect();$('preset-style').value=p&&p.style||GROUPS[$('preset-category').value][0];$('preset-name').value=p&&p.name||'';$('preset-minutes').value=p&&p.minutes||45;estimate()}
 function estimate(){var f=form(),avg=f.name?historyAverage(f.name):null;$('preset-estimate').textContent=avg?'Your last sessions average '+avg+' minutes. Tap the duration to use it, or choose another time.':'Choose a duration, or complete tracked sessions to learn your typical timing.';$('preset-estimate').dataset.estimate=avg||''}
 function render(){var d=db(),lib=$('preset-library'),rec=$('preset-recent');lib.replaceChildren();rec.replaceChildren();var all=d.presets.slice().sort(function(a,b){return (b.used||0)-(a.used||0)});
-if(!all.length)lib.appendChild(el('p','No saved activities yet. Save your first preset above.'));
+if(!all.length)lib.appendChild(el('p','No saved presets yet. Save an activity, or use a suggestion from your session history below.'));
 all.forEach(function(p){var row=el('article'),desc=el('div');desc.className='preset-main';desc.appendChild(el('strong',p.name));desc.appendChild(el('small',p.category+' · '+p.style+' · '+p.minutes+' min'+(p.used?' · used '+p.used+' times':'')));row.appendChild(desc);
 var use=el('button','Select');use.type='button';use.onclick=function(){setForm(p);$('preset-date').value=agendaDate();$('preset-name').focus()};row.appendChild(use);
 var remove=el('button','Delete');remove.type='button';remove.onclick=function(){if(!confirm('Delete saved preset "'+p.name+'"? Your scheduled agenda entries remain.'))return;d.presets=d.presets.filter(function(x){return x.id!==p.id});save(KEY,d);if(active&&active.id===p.id)setForm(null);render()};row.appendChild(remove);lib.appendChild(row)});
 d.recent.slice(-5).reverse().forEach(function(x){var row=el('article'),part=el('div');part.className='preset-main';part.appendChild(el('strong',x.name));part.appendChild(el('small',x.category+' · '+x.style+' · '+x.minutes+' min · '+x.date));row.appendChild(part);var b=el('button','Repeat');b.onclick=function(){setForm(x);$('preset-date').value=agendaDate();$('preset-time').value=x.time||'09:00'};row.appendChild(b);rec.appendChild(row)});
-if(!d.recent.length)rec.appendChild(el('p','Used activities will appear here for one-tap repetition.'));
+if(!d.recent.length){var seen=new Set(),sessions=(read(AGENDA).sessions||[]).slice().reverse(),found=0;
+sessions.forEach(function(x){if(!x.name||seen.has(x.name.toLowerCase())||found>=8)return;seen.add(x.name.toLowerCase());found++;
+var row=el('article'),part=el('div');part.className='preset-main';part.appendChild(el('strong',x.name));part.appendChild(el('small','Previously tracked · '+Math.round(Number(x.minutes)||30)+' min'));row.appendChild(part);
+var b=el('button','Use');b.onclick=function(){var title=x.name.toLowerCase(),isDance=/dance|hip.?hop|popping|locking|freestyle|house|breaking|choreo/.test(title),isMusic=/drum|djembe|piano|guitar|music/.test(title),isFitness=/fitness|calisthenics|workout|exercise|stretch/.test(title);
+var category=isDance?'Dance':isMusic?'Music':isFitness?'Fitness':'Personal',style=isDance?(/hip.?hop/.test(title)?'Hip-Hop':/popping/.test(title)?'Popping':/locking/.test(title)?'Locking':/house/.test(title)?'House':'Freestyle'):category==='Music'?'Practice':category==='Fitness'?'Strength':'Learning';
+setForm({name:x.name,category:category,style:style,minutes:historyAverage(x.name)||Math.max(5,Math.round(Number(x.minutes)||30))});$('preset-date').value=agendaDate()};row.appendChild(b);rec.appendChild(row)
+});
+if(!found)rec.appendChild(el('p','Used activities and completed sessions will appear here for one-tap repetition.'));}
 }
 function savePreset(){var f=form();if(!f.name){$('preset-name').focus();return null}var d=db(),old=d.presets.find(function(p){return p.id===f.id});if(old){Object.assign(old,f)}else{f.id=uid();f.used=0;d.presets.push(f)}if(!save(KEY,d))return null;active=f;render();return f}
 function addToAgenda(){
@@ -46,6 +53,7 @@ var a=read(AGENDA);a.days=a.days||{};a.days[date]=a.days[date]||{};a.days[date].
 if(!save(AGENDA,a))return;
 var d=db(),p=d.presets.find(function(x){return x.id===f.id});if(p){p.used=(p.used||0)+1;p.minutes=f.minutes;p.lastUsed=date}
 d.recent.push({name:f.name,category:f.category,style:f.style,minutes:f.minutes,date:date,time:time});d.recent=d.recent.slice(-35);save(KEY,d);render();
+document.dispatchEvent(new CustomEvent('kingdom:presetScheduled',{detail:{date:date,schedule:a.days[date].schedule}}));
 if(date===agendaDate()&&$('schedule'))$('schedule').value=a.days[date].schedule;
 alert('Added to '+date+' at '+time+'. You can repeat it from Presets anytime.');
 }
