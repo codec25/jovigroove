@@ -10,18 +10,39 @@ var CATEGORIES=[
 {id:'financial',label:'Financial',mark:'$',desc:'Practice wisdom, generosity and stewardship with money.',prompt:'Healthy financial habits are built one intentional decision at a time.',suggestions:['Review today’s spending and record my expenses','Set aside a small amount toward savings','Check my weekly budget before buying anything','Identify one unnecessary expense I can reduce']}
 ];
 var active='personal',dialog=null,lastTrigger=null;
+/* Keep an actually usable dialog height, independent of iOS dialog sizing rules. */
 function adjustGrowthViewport(){
  if(!dialog||!dialog.open)return;
- var viewport=window.visualViewport,full=window.innerHeight||document.documentElement.clientHeight;
- var visible=viewport?viewport.height:full,keyboard=!!viewport&&visible<full-125;
+ var v=window.visualViewport;
+ var full=Math.max(320,window.innerHeight||document.documentElement.clientHeight||650);
+ var visible=v&&v.height?v.height:full;
+ var focused=document.activeElement&&dialog.contains(document.activeElement)&&/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName||'');
+ var keyboard=!!focused&&!!v&&visible<full-125;
+ var available=keyboard?visible:full;
+ var desired=Math.max(280,Math.floor(available*(keyboard?1:.88)));
+ var offset=keyboard&&v?Math.max(0,Math.round(v.offsetTop||0)):0;
  dialog.classList.toggle('growth-keyboard',keyboard);
- if(keyboard){
-  dialog.style.setProperty('--growth-height',Math.max(240,Math.round(visible))+'px');
-  dialog.style.setProperty('--growth-top',Math.max(0,Math.round(viewport.offsetTop))+'px');
- }else{
-  dialog.style.removeProperty('--growth-height');
-  dialog.style.removeProperty('--growth-top');
+ dialog.style.setProperty('display','flex','important');
+ dialog.style.setProperty('position','fixed','important');
+ dialog.style.setProperty('height',desired+'px','important');
+ dialog.style.setProperty('min-height',desired+'px','important');
+ dialog.style.setProperty('max-height',desired+'px','important');
+ dialog.style.setProperty('top',keyboard?offset+'px':'auto','important');
+ dialog.style.setProperty('bottom',keyboard?'auto':'0px','important');
+ dialog.style.setProperty('left','0px','important');
+ dialog.style.setProperty('right','0px','important');
+ dialog.style.setProperty('margin','0 auto','important');
+ // An iOS in-app browser may still compress a dialog after showModal().
+ var current=dialog.getBoundingClientRect();
+ if(!keyboard&&current.height<desired*.8){
+  dialog.style.setProperty('min-block-size',desired+'px','important');
+  dialog.style.setProperty('block-size',desired+'px','important');
  }
+}
+function clearGrowthViewport(){
+ if(!dialog)return;
+ dialog.classList.remove('growth-keyboard');
+ ['display','position','height','min-height','max-height','top','bottom','left','right','margin','min-block-size','block-size'].forEach(function(prop){dialog.style.removeProperty(prop)});
 }
 function keepGrowthFieldVisible(target){
  if(!dialog||!dialog.open||!target||!dialog.contains(target))return;
@@ -75,16 +96,16 @@ function open(trigger){
 dialog=$('growth-dialog');lastTrigger=trigger;active='personal';render();
 if(typeof dialog.showModal==='function'&&!dialog.open){try{dialog.showModal()}catch(e){dialog.setAttribute('open','')}}
 else dialog.setAttribute('open','');
-requestAnimationFrame(adjustGrowthViewport);
+adjustGrowthViewport();requestAnimationFrame(adjustGrowthViewport);setTimeout(adjustGrowthViewport,100);
 }
-function close(){if(!dialog)return;if(document.activeElement&&dialog.contains(document.activeElement))document.activeElement.blur();if(typeof dialog.close==='function'&&dialog.open)dialog.close();else dialog.removeAttribute('open');dialog.classList.remove('growth-keyboard');dialog.style.removeProperty('--growth-height');dialog.style.removeProperty('--growth-top');if(lastTrigger&&lastTrigger.isConnected)lastTrigger.focus({preventScroll:true});renderPreview()}
+function close(){if(!dialog)return;if(document.activeElement&&dialog.contains(document.activeElement))document.activeElement.blur();if(typeof dialog.close==='function'&&dialog.open)dialog.close();else dialog.removeAttribute('open');clearGrowthViewport();if(lastTrigger&&lastTrigger.isConnected)lastTrigger.focus({preventScroll:true});renderPreview()}
 function init(){
 var btn=$('growth-open'),modal=$('growth-dialog');if(!btn||!modal)return;
 var nav=$('growth-category-nav');CATEGORIES.forEach(function(cat){var b=document.createElement('button');b.type='button';b.dataset.category=cat.id;b.textContent=cat.label;b.setAttribute('role','tab');b.onclick=function(){active=cat.id;render()};nav.appendChild(b)});
 btn.onclick=function(){open(btn)};$('growth-close').onclick=close;$('growth-done-button').onclick=close;
 modal.addEventListener('focusin',function(e){adjustGrowthViewport();setTimeout(function(){adjustGrowthViewport();keepGrowthFieldVisible(e.target)},150)});
 modal.addEventListener('focusout',function(){setTimeout(adjustGrowthViewport,120)});
-modal.addEventListener('close',function(){modal.classList.remove('growth-keyboard');modal.style.removeProperty('--growth-height');modal.style.removeProperty('--growth-top')});
+modal.addEventListener('close',clearGrowthViewport);
 if(window.visualViewport){
  window.visualViewport.addEventListener('resize',function(){adjustGrowthViewport();keepGrowthFieldVisible(document.activeElement)});
  window.visualViewport.addEventListener('scroll',adjustGrowthViewport);
