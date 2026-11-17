@@ -109,14 +109,19 @@ async function main(){
    assert(file.suggestedFilename().endsWith('.pdf'));
  });
  await test('Offline reload loads cached app and existing entries',async()=>{
-   await page.evaluate(async()=>{
-     if(!('serviceWorker' in navigator))throw Error('Service worker unavailable');
-     await navigator.serviceWorker.ready;
-     const cache=await caches.open('ka-agenda-any-year-v28');
-     if(!(await cache.match('./app.js')))throw Error('Missing cached app.js');
+   const swState=await page.evaluate(async()=>{
+     const regs=('serviceWorker' in navigator)?await navigator.serviceWorker.getRegistrations():[];
+     const keys=await caches.keys();
+     return {registrations:regs.map(x=>({scope:x.scope,active:!!x.active,waiting:!!x.waiting,installing:!!x.installing})),controlled:!!navigator.serviceWorker.controller,caches:keys};
    });
+   console.log('SERVICE WORKER STATE '+JSON.stringify(swState));
+   assert(swState.registrations.length>0,'Service worker not registered');
+   assert(swState.caches.includes('ka-agenda-any-year-v28'),'Offline cache not installed');
+   const cached=await page.evaluate(async()=>!!(await (await caches.open('ka-agenda-any-year-v28')).match('./app.js')));
+   assert(cached,'Missing cached app.js');
    await context.setOffline(true);
-   await page.reload({waitUntil:'load',timeout:15000});
+   console.log('OFFLINE: reloading cached document');
+   await page.reload({waitUntil:'domcontentloaded',timeout:12000});
    const value=await page.evaluate(d=>JSON.parse(localStorage.getItem('ka-2027-agenda-v1')).days[d].daynotes,today);
    assert.equal(value,'Browser regression note');
    await context.setOffline(false);
