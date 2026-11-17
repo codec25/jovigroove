@@ -2,14 +2,14 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Kingdom Atmosphere | My Agenda</title>
 <meta name="theme-color" content="#071d16"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="KA Agenda"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="./app.css?v=41"><link rel="stylesheet" href="./smart-entries.css?v=42"><link rel="stylesheet" href="./language.css?v=43"><link rel="stylesheet" href="./agenda-hub.css?v=46"></head>
+<link rel="stylesheet" href="./app.css?v=41"><link rel="stylesheet" href="./smart-entries.css?v=42"><link rel="stylesheet" href="./language.css?v=43"><link rel="stylesheet" href="./agenda-hub.css?v=47"></head>
 <body>
 <header><div class="hero-inner"><div class="hero-top"><div class="brand"><img class="brand-logo" src="./kingdom-atmosphere-wordmark-gold.webp" alt="Kingdom Atmosphere" width="188" height="65"></div><span class="edition">YOUR PERSONAL PLANNER</span></div></div></header>
 <main class="shell">
 <div class="toolbar no-print" role="navigation" aria-label="Main sections">
 <button data-tab="daily" class="active">Today</button>
 <button data-tab="weekly">Week</button>
-<button data-tab="monthly">Calendar</button><button type="button" id="agenda-find-top" data-tab="search" class="agenda-find-trigger">⌕ Search</button>
+<button data-tab="monthly">Calendar</button><button data-tab="tasks">Tasks</button><button type="button" id="agenda-find-top" data-tab="search" class="agenda-find-trigger">⌕ Search</button>
 <button data-tab="family-space">Family Space</button>
 <button data-tab="notes">Journal</button>
 <button type="button" id="open-more-desktop" aria-haspopup="dialog" aria-controls="more-sheet">More <span aria-hidden="true">⌄</span></button>
@@ -39,6 +39,13 @@
 <label class="field" for="weeklearning">Personal growth & learning</label><textarea id="weeklearning" data-week="learning" class="short" placeholder="What will I learn or practice?"></textarea>
 <label class="field" for="weekservice">Who will benefit from my work?</label><textarea id="weekservice" data-week="service" class="short" placeholder="Name the people and the contribution."></textarea>
 <label class="field" for="weekreview">Weekly review: wins, lessons, and adjustments</label><textarea id="weekreview" data-week="review" placeholder="What worked? What must change next week?"></textarea>
+</div></section>
+<section id="tasks" class="pane">
+<div class="ka-tasks-page">
+  <div class="ka-tasks-heading"><div><span class="section-label">YOUR PLANNED ACTIVITIES</span><h2>Tasks & appointments</h2><p>Manage scheduled activities without crowding your daily dashboard.</p></div>
+  <div class="ka-tasks-actions"><button type="button" id="tasks-new-task" class="btn">＋ Add task</button><button type="button" id="tasks-new-appointment" class="btn light">＋ Appointment</button></div></div>
+  <div class="ka-tasks-datebar"><label for="tasks-date">Show entries for</label><input type="date" id="tasks-date"><button type="button" id="tasks-go-today" class="btn light">Today</button></div>
+  <section id="smart-entry-section" class="smart-entry-section"><div class="smart-entry-section-head"><strong>My planned entries</strong><small>Tap an entry to edit its details</small></div><div id="smart-entry-list"></div></section>
 </div></section>
 <section id="daily" class="pane active">
 <div class="controls no-print agenda-datebar"><span class="datebar-caption">YOUR DAY</span><button id="prev" class="btn light" aria-label="Previous day">←</button><label class="control-label" for="datepick">Date</label><input type="date" id="datepick" aria-label="Selected agenda date"><button id="next" class="btn light" aria-label="Next day">→</button><button type="button" class="daily-pdf-share" id="daily-pdf-share" aria-label="Preview and share today as a PDF"><span aria-hidden="true">↗</span> Share PDF</button></div>
@@ -336,4 +343,4 @@
 <script src="./today-home.js"></script>
 <script src="./daily-teachings.js?v=44"></script>
 <script src="./journal-controller.js"></script>
-<script src="./app.js"></script><script src="./smart-entries.js?v=42"></script><script src="./language.js?v=44"></script><script src="./agenda-hub.js?v=46"></script></body></html>
+<script src="./app.js"></script><script src="./smart-entries.js?v=47"></script><script src="./language.js?v=44"></script><script src="./agenda-hub.js?v=46"></script></body></html>
